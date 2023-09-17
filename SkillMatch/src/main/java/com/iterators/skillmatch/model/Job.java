@@ -1,4 +1,4 @@
-package com.example.skillmatch;
+package com.iterators.skillmatch.model;
 
 import java.util.List;
 import java.util.Date;

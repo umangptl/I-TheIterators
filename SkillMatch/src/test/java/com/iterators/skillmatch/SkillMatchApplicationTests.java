@@ -1,4 +1,4 @@
-package com.example.skillmatch;
+package com.iterators.skillmatch;
 
 import org.junit.jupiter.api.Test;
 import org.springframework.boot.test.context.SpringBootTest;
