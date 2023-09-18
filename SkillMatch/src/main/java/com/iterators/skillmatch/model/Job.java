@@ -1,34 +1,41 @@
 package com.iterators.skillmatch.model;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.iterators.skillmatch.model.enums.Documents;
+import com.iterators.skillmatch.model.enums.Skills;
+import jakarta.validation.constraints.NotNull;
+import lombok.AllArgsConstructor;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.Setter;
+import org.springframework.data.annotation.Id;
+import org.springframework.data.mongodb.core.mapping.Document;
+
+import java.time.Instant;
 import java.util.List;
 import java.util.Date;
 
+@NoArgsConstructor
+@AllArgsConstructor
+@Getter
+@Setter
+@Document("jobs")
 public class Job {
-
+    @Id
     private String jobId;
-    private String tag;
+    @NotNull
     private String title;
-    private Date datePosted;
+    private Date datePosted = Date.from(Instant.now());
     private Date deadline;
+    @NotNull
     private String description;
-    private List<String> skillsRequired;
+    @NotNull
+    private List<Skills> skillsRequired;
     private double salary;
+    @NotNull
     private String location;
     private String requiredQualifications;
     private String hiringTeamInfo;
-    private List<String> requiredDocuments;
-
-    // Constructors, getters, and setters for the above attributes
-
-    public void create() {
-        // Logic to create a job listing
-    }
-
-    public void edit() {
-        // Logic to edit a job listing
-    }
-
-    public void delete() {
-        // Logic to delete a job listing
-    }
+    private List<Documents> requiredDocuments;
+    private String tag;
 }
