@@ -1,20 +1,22 @@
 package com.iterators.skillmatch.model;
 
+import com.iterators.skillmatch.model.enums.ApplicationStatus;
+import lombok.AllArgsConstructor;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.Setter;
+import org.springframework.data.annotation.Id;
+import org.springframework.data.mongodb.core.mapping.Document;
+
+@Setter
+@Getter
+@NoArgsConstructor
+@AllArgsConstructor
+@Document("application")
 public class Application {
-    private String referenceNumber;
-
-    //pending,rejected,shortlisted,withdrawn
-    private String status;
-    private Job job;
-    private User user;
-
-    // Constructors, getters, and setters for the above attributes
-
-    public void track() {
-        // Logic to track the application's status
-    }
-
-    public void withdraw() {
-        // Logic to withdraw the application
-    }
+    @Id
+    private String applicationId;
+    private ApplicationStatus status;
+    private String jobId;
+    private String applicantId;
 }
