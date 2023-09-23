@@ -1,5 +1,6 @@
 package com.iterators.skillmatch.model;
 
+<<<<<<< HEAD
 import com.iterators.skillmatch.model.enums.ApplicationStatus;
 import lombok.AllArgsConstructor;
 import lombok.Getter;

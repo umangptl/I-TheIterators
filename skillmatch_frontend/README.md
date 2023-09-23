@@ -1,5 +1,5 @@
 ## Important
-Run `npm install` since node_modules is not being pushed to repository.
+Run `npm ci` since node_modules is not being pushed to repository.
 
 ## Available Scripts
 
