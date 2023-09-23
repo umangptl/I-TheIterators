@@ -1,4 +1,4 @@
-package com.example.skillmatch;
+package com.iterators.skillmatch.model;
 
 public class Admin {
 
