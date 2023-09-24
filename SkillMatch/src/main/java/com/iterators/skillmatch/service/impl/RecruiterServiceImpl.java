@@ -65,4 +65,5 @@ public class RecruiterServiceImpl implements RecruiterService {
             throw new GlobalException(exception.getMessage(), exception);
         }
     }
+
 }
