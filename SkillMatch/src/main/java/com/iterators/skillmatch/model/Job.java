@@ -1,6 +1,5 @@
 package com.iterators.skillmatch.model;
 
-import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.iterators.skillmatch.model.enums.Documents;
 import com.iterators.skillmatch.model.enums.Skills;
 import jakarta.validation.constraints.NotNull;
