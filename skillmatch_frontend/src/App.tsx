@@ -13,10 +13,13 @@ function App() {
     const [token, setToken] = useState(); // user token
     return (
         <div>
-            <div>
-                <a href="/jobs">jobs</a>
-            </div>
             <Router>
+                <nav className="flex items-center justify-between flex-wrap">
+                    <Link className="bg-blue" to="/">
+                        Home
+                    </Link>
+                    <Link to="/jobs">Jobs</Link>
+                </nav>
                 <Routes>
                     <Route path="/" element={<Dashboard />} />
                     <Route path="/jobs" element={<AllJobs />} />
