@@ -16,7 +16,8 @@ public enum Department {
     GLOBAL("Global Recruitment"),
     CONTRACT("Contract and Temporary Staffing"),
     DIVERSITY("Diversity and Inclusion"),
-    TALENT_ACQ("Talent Acquisition");
+    TALENT_ACQ("Talent Acquisition"),
+    EXEC_ADMIN("Executive Administration"); // admin role tage if needed
 
     private final String department;
 

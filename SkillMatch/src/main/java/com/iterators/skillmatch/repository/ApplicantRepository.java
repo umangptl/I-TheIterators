@@ -1,7 +1,6 @@
 package com.iterators.skillmatch.repository;
 
 import com.iterators.skillmatch.model.Applicant;
-import jakarta.validation.constraints.NotNull;
 import org.springframework.data.mongodb.repository.MongoRepository;
 
 import java.util.List;
