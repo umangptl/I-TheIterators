@@ -13,11 +13,11 @@ import java.util.ArrayList;
 import java.util.List;
 
 @Service
-public class ApplicantImpl implements ApplicantService {
+public class ApplicantServiceImpl implements ApplicantService {
 
     @Autowired
     ApplicantRepository applicantRepository;
-    Logger logger = LoggerFactory.getLogger(ApplicantImpl.class);
+    Logger logger = LoggerFactory.getLogger(ApplicantServiceImpl.class);
 
     @Override
     public void addApplicant(Applicant applicant) throws GlobalException {
