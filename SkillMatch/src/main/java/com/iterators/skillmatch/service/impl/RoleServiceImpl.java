@@ -17,7 +17,7 @@ import java.util.List;
 public class RoleServiceImpl implements RoleService {
 
     @Autowired
-     RoleRepository roleRepository;
+    RoleRepository roleRepository;
     Logger logger = LoggerFactory.getLogger(RecruiterServiceImpl.class);
 
     @Override
@@ -53,8 +53,7 @@ public class RoleServiceImpl implements RoleService {
                 roleAssignment.setRole(role);
                 roleAssignment.setDepartment(department);
                 roleRepository.save(roleAssignment);
-            }
-            else{
+            } else {
                 logger.info("Role assignment not found for email: " + email);
             }
         } catch (Exception exception) {
@@ -81,5 +80,22 @@ public class RoleServiceImpl implements RoleService {
     public List<Role> getAllRoles() {
         return roleRepository.findAll();
     }
+
+    @Override
+    public Role getRole(String email) throws GlobalException {
+        try {
+            Role roleAssignment = roleRepository.findByEmail(email);
+
+            if (roleAssignment != null) {
+                return roleAssignment;
+            } else {
+                logger.info("You dont have Access" + email);
+                return null;
+            }
+        } catch (Exception exception) {
+            throw new GlobalException("You dont have Role Access", exception);
+        }
+    }
+
 
 }
