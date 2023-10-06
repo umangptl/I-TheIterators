@@ -2,7 +2,6 @@ package com.iterators.skillmatch.service;
 
 import com.iterators.skillmatch.exception.GlobalException;
 import com.iterators.skillmatch.model.Applicant;
-import com.iterators.skillmatch.model.Job;
 
 import java.util.List;
 
