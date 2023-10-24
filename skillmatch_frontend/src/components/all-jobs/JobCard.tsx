@@ -11,49 +11,56 @@ import { Link } from "react-router-dom";
 
 const ActionButton = styled(Button)<ButtonProps>(({ theme }) => ({
   borderRadius: 0,
+  marginLeft: "8px",
+  marginBottom: "8px",
 }));
 ActionButton.defaultProps = {
   variant: "contained",
   color: "secondary",
-  component: Link,
   size: "small",
 };
 
 export interface Job {
+  jobId: string;
   title: string;
-  type: string;
-  department: string;
-  location: string;
-  experience: string;
-  applicantNo: number;
-  creationDate: string;
-  lastApplicationDate: string;
+  datePosted: string;
+  deadline: string;
   description: string;
+  skillsRequired: string[];
+  location: string;
+  requiredQualifications: string;
+  hiringTeamInfo: string;
+  requiredDocuments: string;
+  tag: string;
+  experience: string;
+  //applicantNo: number;
+  type: string;
+  //department: string;
 }
 
 interface Props {
-  details: Job;
+  job: Job;
   onEdit: (title: string) => void;
   onDelete: (title: string) => void;
 }
 
-const JobCard = ({ details, onEdit, onDelete }: Props) => {
+const JobCard = ({ job, onEdit, onDelete }: Props) => {
   return (
     <Card elevation={6} sx={{ mb: "15px" }}>
       <CardContent>
-        <Typography variant="h5">{details.title}</Typography>
+        <Typography variant="h5">{job.title}</Typography>
         <Typography>
-          {details.type} - {details.location}
+          {job.type} - {job.location}
         </Typography>
-        <Typography variant="body2">{details.description}</Typography>
+        <Typography variant="body2">{job.description}</Typography>
         <Typography></Typography>
       </CardContent>
       <CardActions>
-        <ActionButton to="/job-detail">View details</ActionButton>
-        <ActionButton onClick={() => onEdit(details.title)}>
+        <ActionButton href="/job">View job</ActionButton>
+        <ActionButton onClick={() => onEdit(job.title)}>
           Edit posting
         </ActionButton>
-        <ActionButton onClick={() => onDelete(details.title)}>
+        <ActionButton onClick={() => onDelete(job.title)}>
           Delete posting
         </ActionButton>
       </CardActions>

@@ -6,7 +6,6 @@ import {
   Toolbar,
   Typography,
 } from "@mui/material";
-import { Link } from "react-router-dom";
 import { styled } from "@mui/material/styles";
 
 const NavButton = styled(Button)<ButtonProps>(({ theme }) => ({
@@ -42,20 +41,19 @@ const NavBar = () => {
               }}
             >
               {pages.map((page) => (
-                <NavButton key={page.path} component={Link} to={page.path}>
+                <NavButton key={page.path} href={page.path}>
                   {page.title}
                 </NavButton>
               ))}
             </Box>
           </Box>
           <Box sx={{ flexGrow: 1, textAlign: "right" }}>
-            <NavButton key="/logout" component={Link} to="/logout">
+            <NavButton key="/logout" href="/logout">
               Log Out
             </NavButton>
           </Box>
         </Toolbar>
       </AppBar>
-      <Box sx={{ height: "80px" }}></Box>
     </>
   );
 };
