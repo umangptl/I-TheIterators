@@ -11,5 +11,8 @@ public enum Skills {
     PHP,
     HTML,
     JAVASCRIPT,
-    CSS
+    CSS,
+    REACT,
+    TYPESCRIPT
+
 }
