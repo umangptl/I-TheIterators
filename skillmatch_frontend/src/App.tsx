@@ -25,6 +25,7 @@ function App() {
           <Route path="/jobs" element={<AllJobs />} />
           <Route path="/login" element={<Login />} />
           <Route path="/job" element={<Dashboard />} />
+          {/* <Route path="/new-job" element={<JobLists />} /> */}
         </Routes>
       </Router>
     </div>

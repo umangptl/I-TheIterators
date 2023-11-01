@@ -7,7 +7,7 @@ import {
   Typography,
   styled,
 } from "@mui/material";
-import { Link } from "react-router-dom";
+import { Job } from "../../hooks/useJobs";
 
 const ActionButton = styled(Button)<ButtonProps>(({ theme }) => ({
   borderRadius: 0,
@@ -19,24 +19,6 @@ ActionButton.defaultProps = {
   color: "secondary",
   size: "small",
 };
-
-export interface Job {
-  jobId: string;
-  title: string;
-  datePosted: string;
-  deadline: string;
-  description: string;
-  skillsRequired: string[];
-  location: string;
-  requiredQualifications: string;
-  hiringTeamInfo: string;
-  requiredDocuments: string;
-  tag: string;
-  experience: string;
-  //applicantNo: number;
-  type: string;
-  //department: string;
-}
 
 interface Props {
   job: Job;

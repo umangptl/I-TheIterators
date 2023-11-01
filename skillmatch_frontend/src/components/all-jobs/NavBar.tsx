@@ -26,7 +26,7 @@ const pages = [
 const NavBar = () => {
   return (
     <>
-      <AppBar>
+      <AppBar sx={{ zIndex: 1400 }}>
         <Toolbar>
           <Box sx={{ flexGrow: 1 }}>
             <Typography sx={{ mx: 4 }}>LOGO</Typography>
