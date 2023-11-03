@@ -55,6 +55,7 @@ const NavBar = () => {
     <>
       <AppBar sx={{ zIndex: 1400 }}>
         <Toolbar sx={{ display: { xs: "none", sm: "flex" } }}>
+
           <Box sx={{ flexGrow: 1 }}>
             <Typography sx={{ mx: 4 }}>LOGO</Typography>
           </Box>
