@@ -26,7 +26,7 @@ const SelectFilter = ({ label, options, onSelect }: Props) => {
         value=""
         onChange={(event) => onSelect(event.target.value as string)}
       >
-        <MenuItem value={""}>- Choose One -</MenuItem>
+        <MenuItem value={"all"}>- Choose One -</MenuItem>
         {options.map((option) => (
           <MenuItem key={option} value={option}>
             {option}

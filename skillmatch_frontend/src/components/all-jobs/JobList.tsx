@@ -1,11 +1,19 @@
 import { useState } from "react";
 import JobCard from "./JobCard";
 
-import { Alert, AlertTitle, Box, Drawer, Typography } from "@mui/material";
+import {
+  Alert,
+  AlertTitle,
+  Box,
+  Drawer,
+  IconButton,
+  Typography,
+} from "@mui/material";
 import useJobs from "../../hooks/useJobs";
 import SelectFilter from "./SelectFilter";
 import TextFilter from "./TextFilter";
 import MultiSelectFilter from "./MultiSelectFilter";
+import FilterAltIcon from "@mui/icons-material/FilterAlt";
 
 const drawerWidth = 240;
 
@@ -29,17 +37,19 @@ const AllJobs = () => {
       )
     : filteredJobs;
 
-  const [typeFilter, setTypeFilter] = useState("");
+  const [typeFilter, setTypeFilter] = useState("all");
   const typeOptions = [...new Set(jobs.map((job) => job.type))];
-  filteredJobs = typeFilter
-    ? filteredJobs.filter((job) => job.type === typeFilter)
-    : filteredJobs;
+  filteredJobs =
+    typeFilter !== "all"
+      ? filteredJobs.filter((job) => job.type === typeFilter)
+      : filteredJobs;
 
-  const [experienceFilter, setExperienceFilter] = useState("");
+  const [experienceFilter, setExperienceFilter] = useState("all");
   const experienceOptions = ["1 year", "2 years", "3+ years"];
-  filteredJobs = experienceFilter
-    ? filteredJobs.filter((job) => job.description === experienceFilter)
-    : filteredJobs;
+  filteredJobs =
+    experienceFilter !== "all"
+      ? filteredJobs.filter((job) => job.description === experienceFilter)
+      : filteredJobs;
 
   const [skillsFilter, setSkillsFilter] = useState<string[]>([]);
   const skillsOptions = [
@@ -58,6 +68,10 @@ const AllJobs = () => {
   const handleDelete = (title: string) => setAlert(true);
 
   const [mobileOpen, setMobileOpen] = useState(false);
+
+  const handleDrawerToggle = () => {
+    setMobileOpen(!mobileOpen);
+  };
 
   const filterDrawer = (
     <Box sx={{ p: 3 }}>
@@ -112,6 +126,7 @@ const AllJobs = () => {
               "& .MuiDrawer-paper": {
                 boxSizing: "border-box",
                 width: drawerWidth,
+                pt: 8,
               },
             }}
           >
@@ -135,6 +150,16 @@ const AllJobs = () => {
         <Box
           sx={{ p: 3, pt: 8, width: { sm: `calc(100% - ${drawerWidth}px)` } }}
         >
+          <IconButton
+            color="inherit"
+            aria-label="open drawer"
+            edge="start"
+            onClick={handleDrawerToggle}
+            sx={{ display: { xs: "flex", sm: "none" }, alignItems: "center" }}
+          >
+            <FilterAltIcon />
+            <Typography>Filter jobs</Typography>
+          </IconButton>
           {error && <Typography>{error}</Typography>}
           {alert && (
             <Alert
