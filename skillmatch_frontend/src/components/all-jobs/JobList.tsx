@@ -148,7 +148,7 @@ const AllJobs = () => {
           </Drawer>
         </Box>
         <Box
-          sx={{ p: 3, pt: 8, width: { sm: `calc(100% - ${drawerWidth}px)` } }}
+          sx={{ p: 3, pt: 0, width: { sm: `calc(100% - ${drawerWidth}px)` } }}
         >
           <IconButton
             color="inherit"

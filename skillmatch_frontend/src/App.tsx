@@ -24,7 +24,7 @@ function App() {
           <Route path="/" element={<Dashboard />} />
           <Route path="/jobs" element={<AllJobs />} />
           <Route path="/login" element={<Login />} />
-          <Route path="/job" element={<Dashboard />} />
+          <Route path="/job/:jobId" element={<JobPosting />} />
           {/* <Route path="/new-job" element={<JobLists />} /> */}
         </Routes>
       </Router>

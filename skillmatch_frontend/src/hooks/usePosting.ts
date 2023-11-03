@@ -20,16 +20,16 @@ export interface Job {
     //department: string;
   }
   
-const useJobs = () => {
-    const [jobs, setJobs] = useState<Job[]>([]);
+const usePosting = (jobId: string) => {
+    const [job, setJob] = useState<Job>();
     const [error, setError] = useState("");
 
     useEffect(() => {
       const controller = new AbortController();
 
       apiClient
-        .get("/job", {signal: controller.signal})
-        .then((res) => setJobs(res.data))
+        .get("/job/" + jobId, {signal: controller.signal})
+        .then((res) => setJob(res.data))
         .catch((err) => {
             if (err instanceof CanceledError) return;
             setError(err.message)
@@ -38,7 +38,7 @@ const useJobs = () => {
         return () => controller.abort();
     }, []);
 
-    return { jobs, error };
+    return { job, error };
 }
 
-export default useJobs;
+export default usePosting;

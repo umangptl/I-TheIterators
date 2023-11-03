@@ -18,7 +18,6 @@ const drawerWidth = 240;
 const NavButton = styled(Button)<ButtonProps>(({ theme }) => ({
   width: 140,
   borderRadius: 100,
-  marginTop: 15,
 }));
 NavButton.defaultProps = {
   variant: "contained",
@@ -39,7 +38,13 @@ const NavBar = () => {
   };
 
   const menuDrawer = (
-    <Box display={"flex"} flexDirection={"column"} alignItems={"center"}>
+    <Box
+      display={"flex"}
+      flexDirection={"column"}
+      alignItems={"center"}
+      gap={"15px"}
+      p={"10px"}
+    >
       {pages.map((page) => (
         <NavButton key={page.path} href={page.path}>
           {page.title}
@@ -55,7 +60,6 @@ const NavBar = () => {
     <>
       <AppBar sx={{ zIndex: 1400 }}>
         <Toolbar sx={{ display: { xs: "none", sm: "flex" } }}>
-
           <Box sx={{ flexGrow: 1 }}>
             <Typography sx={{ mx: 4 }}>LOGO</Typography>
           </Box>
@@ -91,8 +95,12 @@ const NavBar = () => {
           >
             <MenuIcon />
           </IconButton>
+          <Box sx={{ flexGrow: 1 }}>
+            <Typography sx={{ mx: 4 }}>LOGO</Typography>
+          </Box>
         </Toolbar>
       </AppBar>
+      <Box marginBottom={7}></Box>
       <Box sx={{ width: { sm: drawerWidth } }}>
         <Drawer
           variant="temporary"

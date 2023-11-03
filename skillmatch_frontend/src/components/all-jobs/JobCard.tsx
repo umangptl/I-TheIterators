@@ -28,7 +28,7 @@ interface Props {
 
 const JobCard = ({ job, onEdit, onDelete }: Props) => {
   return (
-    <Card elevation={6} sx={{ mb: "15px" }}>
+    <Card elevation={4} sx={{ mb: "15px" }}>
       <CardContent>
         <Typography variant="h5">{job.title}</Typography>
         <Typography>
@@ -38,7 +38,7 @@ const JobCard = ({ job, onEdit, onDelete }: Props) => {
         <Typography></Typography>
       </CardContent>
       <CardActions>
-        <ActionButton href="/job">View job</ActionButton>
+        <ActionButton href={"/job/" + job.jobId}>View job</ActionButton>
         <ActionButton onClick={() => onEdit(job.title)}>
           Edit posting
         </ActionButton>

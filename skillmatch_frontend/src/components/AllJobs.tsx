@@ -1,6 +1,5 @@
-import NavBar from "./all-jobs/NavBar";
+import NavBar from "./common/NavBar";
 import JobList from "./all-jobs/JobList";
-import JobLists from "./all-jobs/JobLists";
 
 const AllJobs = () => {
   return (
