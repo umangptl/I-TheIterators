@@ -15,4 +15,6 @@ public interface RecruiterService {
     void updateRecruiter(Recruiter recruiter) throws GlobalException;
 
     void deleteRecruiter(String id) throws GlobalException;
+
+    void processOAuthPostLogin(String email, String firstName, String lastName) throws GlobalException;
 }

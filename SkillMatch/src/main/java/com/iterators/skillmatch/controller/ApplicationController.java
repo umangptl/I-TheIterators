@@ -5,6 +5,8 @@ import com.iterators.skillmatch.model.Application;
 import com.iterators.skillmatch.model.enums.ApplicationStatus;
 import com.iterators.skillmatch.service.ApplicationService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.access.annotation.Secured;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -17,6 +19,7 @@ public class ApplicationController {
     ApplicationService applicationService;
 
     @GetMapping("/{applicationId}")
+    @PreAuthorize("hasRole('ROLE_VIEWER')")
     public Application getApplicationById(@PathVariable String applicationId) throws GlobalException {
         return applicationService.viewApplication(applicationId);
     }

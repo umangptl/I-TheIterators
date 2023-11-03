@@ -5,6 +5,8 @@ import com.iterators.skillmatch.model.Job;
 import com.iterators.skillmatch.service.JobService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.format.annotation.DateTimeFormat;
+import org.springframework.security.access.annotation.Secured;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.Date;
@@ -18,6 +20,7 @@ public class JobController {
     JobService jobService;
 
     @GetMapping
+    @PreAuthorize("hasRole('ROLE_ADMIN')")
     public List<Job> getAllJobs() throws GlobalException {
         return jobService.getAllJob();
     }

@@ -2,6 +2,7 @@ package com.iterators.skillmatch.service.impl;
 
 import com.iterators.skillmatch.exception.GlobalException;
 import com.iterators.skillmatch.model.Recruiter;
+import com.iterators.skillmatch.model.enums.Provider;
 import com.iterators.skillmatch.repository.RecruiterRepository;
 import com.iterators.skillmatch.service.RecruiterService;
 import org.slf4j.Logger;
@@ -63,6 +64,20 @@ public class RecruiterServiceImpl implements RecruiterService {
         } catch (Exception exception) {
             logger.error("Error deleting recruiter with id: {}", id);
             throw new GlobalException(exception.getMessage(), exception);
+        }
+    }
+
+    @Override
+    public void processOAuthPostLogin(String username, String firstName, String lastName) throws GlobalException {
+        Recruiter existUser = this.getRecruiterByEmail(username);
+
+        if (existUser == null) {
+            Recruiter newUser = new Recruiter();
+            newUser.setEmail(username);
+            newUser.setFirstName(firstName);
+            newUser.setLastName(lastName);
+            newUser.setProvider(Provider.GOOGLE);
+            this.addRecruiter(newUser);
         }
     }
 

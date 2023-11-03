@@ -1,6 +1,7 @@
 package com.iterators.skillmatch.model;
 
 import com.iterators.skillmatch.model.enums.Department;
+import com.iterators.skillmatch.model.enums.Provider;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -27,4 +28,5 @@ public class Recruiter {
     private String lastName;
     @Field("department")
     private Department department;
+    private Provider provider;
 }

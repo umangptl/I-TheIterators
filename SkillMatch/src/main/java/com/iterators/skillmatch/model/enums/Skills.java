@@ -10,6 +10,8 @@ public enum Skills {
     SWIFT,
     PHP,
     HTML,
+    TYPESCRIPT,
     JAVASCRIPT,
-    CSS
+    CSS,
+    REACT
 }
