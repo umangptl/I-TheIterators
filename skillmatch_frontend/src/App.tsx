@@ -10,24 +10,25 @@ import Login from "./components/Login";
 import EditPosting from "./components/EditPosting";
 
 function App() {
-    const [token, setToken] = useState(); // user token
-    return (
-        <div>
-            <Router>
-                <nav className="flex items-center justify-between flex-wrap">
-                    <Link className="bg-blue" to="/">
-                        Home
-                    </Link>
-                    <Link to="/jobs">Jobs</Link>
-                </nav>
-                <Routes>
-                    <Route path="/" element={<Dashboard />} />
-                    <Route path="/jobs" element={<AllJobs />} />
-                    <Route path="/login" element={<Login />} />
-                </Routes>
-            </Router>
-        </div>
-    );
+  const [token, setToken] = useState(); // user token
+  return (
+    <div>
+      <Router>
+        <nav className="flex items-center justify-between flex-wrap">
+          <Link className="bg-blue" to="/">
+            Home
+          </Link>
+          <Link to="/jobs">Jobs</Link>
+        </nav>
+        <Routes>
+          <Route path="/" element={<Dashboard />} />
+          <Route path="/jobs" element={<AllJobs />} />
+          <Route path="/login" element={<Login />} />
+          <Route path="/job" element={<Dashboard />} />
+        </Routes>
+      </Router>
+    </div>
+  );
 }
 
 export default App;

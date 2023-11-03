@@ -13,5 +13,6 @@ public enum Skills {
     TYPESCRIPT,
     JAVASCRIPT,
     CSS,
-    REACT
+    REACT,
+    TYPESCRIPT
 }
