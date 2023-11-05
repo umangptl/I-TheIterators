@@ -8,17 +8,7 @@ import {
   styled,
 } from "@mui/material";
 import { Job } from "../../hooks/useJobs";
-
-const ActionButton = styled(Button)<ButtonProps>(({ theme }) => ({
-  borderRadius: 0,
-  marginLeft: "8px",
-  marginBottom: "8px",
-}));
-ActionButton.defaultProps = {
-  variant: "contained",
-  color: "secondary",
-  size: "small",
-};
+import ActionButton from "../common/ActionButton";
 
 interface Props {
   job: Job;
@@ -39,10 +29,10 @@ const JobCard = ({ job, onEdit, onDelete }: Props) => {
       </CardContent>
       <CardActions>
         <ActionButton href={"/job/" + job.jobId}>View job</ActionButton>
-        <ActionButton onClick={() => onEdit(job.title)}>
+        <ActionButton onClick={() => onEdit(job.jobId)}>
           Edit posting
         </ActionButton>
-        <ActionButton onClick={() => onDelete(job.title)}>
+        <ActionButton onClick={() => onDelete(job.jobId)}>
           Delete posting
         </ActionButton>
       </CardActions>

@@ -14,11 +14,15 @@ import SelectFilter from "./SelectFilter";
 import TextFilter from "./TextFilter";
 import MultiSelectFilter from "./MultiSelectFilter";
 import FilterAltIcon from "@mui/icons-material/FilterAlt";
+// import deleteJob from "../../hooks/deleteJob";
+import apiClient from "../../services/api-client";
 
 const drawerWidth = 240;
 
 const AllJobs = () => {
-  const { jobs, error } = useJobs();
+  // const [Error, setError] = useState("");
+  const { jobs, setJobs, error } = useJobs();
+  // setError(error);
   const [alert, setAlert] = useState(false);
 
   let filteredJobs = jobs;
@@ -65,7 +69,17 @@ const AllJobs = () => {
       : filteredJobs;
 
   const handleEdit = (title: string) => setAlert(true);
-  const handleDelete = (title: string) => setAlert(true);
+
+  const handleDelete = (jobId: string) => {
+    const originalJobs = jobs;
+    console.log(jobs[0].jobId);
+    console.log(jobId);
+    setJobs(jobs.filter((job) => job.jobId !== jobId));
+
+    apiClient.delete("/job/" + jobId).catch((err) => {
+      setJobs(originalJobs);
+    });
+  };
 
   const [mobileOpen, setMobileOpen] = useState(false);
 

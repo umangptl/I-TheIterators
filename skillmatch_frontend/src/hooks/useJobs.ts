@@ -38,7 +38,7 @@ const useJobs = () => {
         return () => controller.abort();
     }, []);
 
-    return { jobs, error };
+    return { jobs, setJobs, error };
 }
 
 export default useJobs;

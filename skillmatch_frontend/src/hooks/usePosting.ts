@@ -21,7 +21,7 @@ export interface Job {
   }
   
 const usePosting = (jobId: string) => {
-    const [job, setJob] = useState<Job>();
+    const [job, setJob] = useState<Job | null>(null);
     const [error, setError] = useState("");
 
     useEffect(() => {

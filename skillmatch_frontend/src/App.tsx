@@ -8,6 +8,7 @@ import JobApplication from "./components/JobApplication";
 import JobPosting from "./components/JobPosting";
 import Login from "./components/Login";
 import EditPosting from "./components/EditPosting";
+import CreatePosting from "./components/CreatePosting";
 
 function App() {
   const [token, setToken] = useState(); // user token
@@ -25,7 +26,7 @@ function App() {
           <Route path="/jobs" element={<AllJobs />} />
           <Route path="/login" element={<Login />} />
           <Route path="/job/:jobId" element={<JobPosting />} />
-          {/* <Route path="/new-job" element={<JobLists />} /> */}
+          <Route path="/new-job" element={<CreatePosting />} />
         </Routes>
       </Router>
     </div>

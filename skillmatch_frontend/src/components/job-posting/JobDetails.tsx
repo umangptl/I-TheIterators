@@ -1,57 +1,108 @@
-import React from "react";
+import React, { useState } from "react";
 
 import Grid from "@mui/material/Unstable_Grid2";
 import usePosting from "../../hooks/usePosting";
 import { Job } from "../../hooks/usePosting";
 import { useParams } from "react-router";
 import { styled } from "@mui/material/styles";
-import { Container, Paper, Typography } from "@mui/material";
+import { Alert, AlertTitle, Container, Paper, Typography } from "@mui/material";
 import useApplicationsByJob from "../../hooks/useApplicationsByJob";
+import ActionButton from "../common/ActionButton";
 
 const JobDetails = () => {
   const { jobId } = useParams();
   const { job } = usePosting(jobId as string);
   const { applications } = useApplicationsByJob(jobId as string);
 
-  const Item = styled(Paper)(({ theme }) => ({
-    ...theme.typography.body2,
-    padding: theme.spacing(1),
-    textAlign: "center",
-    color: theme.palette.text.secondary,
-  }));
+  const [alert, setAlert] = useState(false);
+
+  const handleEdit = (title: string) => setAlert(true);
+  const handleDelete = (title: string) => setAlert(true);
+  const handleShowApplications = (title: string) => setAlert(true);
+
+  let postingDate: string;
+  if (typeof job?.datePosted === "string") {
+    const date = new Date(job?.datePosted);
+    console.log(date);
+    postingDate = new Intl.DateTimeFormat("en-US", {
+      year: "numeric",
+      month: "2-digit",
+      day: "2-digit",
+    }).format(date);
+    console.log(postingDate);
+  } else {
+    postingDate = "00/00/0000";
+    console.log(postingDate);
+  }
+
+  let deadlineDate: string;
+  if (typeof job?.datePosted === "string") {
+    const date = new Date(job?.deadline);
+    console.log(date);
+    deadlineDate = new Intl.DateTimeFormat("en-US", {
+      year: "numeric",
+      month: "2-digit",
+      day: "2-digit",
+    }).format(date);
+    console.log(deadlineDate);
+  } else {
+    deadlineDate = "00/00/0000";
+    console.log(deadlineDate);
+  }
 
   return (
-    <>
-      <Container>
-        <Grid container spacing={2}>
-          <Grid xs={5}>
-            <Typography variant="h5">{job?.title}</Typography>
-            <Typography variant="h5">{job?.type}</Typography>
-            <Typography variant="h6">{job?.location}</Typography>
-            {/* <Typography variant="h6">{job?.department}</Typography> */}
-            <Typography variant="h6">{job?.experience}</Typography>
-          </Grid>
-          <Grid xs={7} textAlign={"right"}>
-            <Typography variant="h5">APPLICATIONS</Typography>
-            <Typography variant="h6">
-              {applications?.length} applicants
-            </Typography>
-            <Typography variant="h6">
-              Posting date: {job?.datePosted}
-            </Typography>
-            <Typography variant="h6">Deadline date: {job?.deadline}</Typography>
-            {/* <Typography variant="h6">{job?.department}</Typography> */}
-            <Typography variant="h6">{job?.experience}</Typography>
-          </Grid>
-          <Grid xs={12}>
-            <Typography variant="body1">{job?.description}</Typography>
-          </Grid>
-          <Grid xs={12}>
-            <Item>xs=8</Item>
-          </Grid>
+    <Container maxWidth="md">
+      <Grid container spacing={2}>
+        <Grid xs={5}>
+          <Typography variant="h4">{job?.title}</Typography>
+          <Typography variant="h6">{job?.type}</Typography>
+          <Typography variant="h6">{job?.location}</Typography>
+          {/* <Typography variant="h6">{job?.department}</Typography> */}
+          <Typography variant="h6">{job?.experience}</Typography>
         </Grid>
-      </Container>
-    </>
+        <Grid xs={7} textAlign={"right"}>
+          <Typography variant="h4">Applications</Typography>
+          <Typography variant="h6">
+            {applications?.length} applicants
+          </Typography>
+          <Typography variant="h6">Posting date: {postingDate}</Typography>
+          <Typography variant="h6">Deadline date: {deadlineDate}</Typography>
+          {/* <Typography variant="h6">{job?.department}</Typography> */}
+          <Typography variant="h6">{job?.experience}</Typography>
+        </Grid>
+        <Grid xs={7}>
+          <ActionButton
+            onClick={() => handleEdit(job?.title as string)}
+            sx={{ ml: 0 }}
+          >
+            Edit posting
+          </ActionButton>
+          <ActionButton onClick={() => handleDelete(job?.title as string)}>
+            Delete posting
+          </ActionButton>
+        </Grid>
+        <Grid xs={5} textAlign={"right"}>
+          <ActionButton
+            onClick={() => handleShowApplications(job?.title as string)}
+          >
+            View Applications
+          </ActionButton>
+        </Grid>
+        <Grid xs={12}>
+          {alert && (
+            <Alert
+              severity="warning"
+              sx={{ position: "sticky", top: 80, zIndex: "1" }}
+              onClose={() => setAlert(false)}
+            >
+              <AlertTitle>Warning</AlertTitle>
+              Not implemented yet!
+            </Alert>
+          )}
+          <Typography variant="body1">{job?.description}</Typography>
+        </Grid>
+      </Grid>
+    </Container>
   );
 };
 
