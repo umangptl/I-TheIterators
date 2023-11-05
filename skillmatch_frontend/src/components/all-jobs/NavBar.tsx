@@ -7,6 +7,7 @@ import {
   Typography,
 } from "@mui/material";
 import { styled } from "@mui/material/styles";
+import axios from "axios";
 
 const NavButton = styled(Button)<ButtonProps>(({ theme }) => ({
   width: 140,
@@ -22,6 +23,13 @@ const pages = [
   { path: "/new-job", title: "New Posting" },
   { path: "/jobs", title: "All Postings" },
 ];
+
+const handleLogout = () => {
+  axios
+      .get("http://localhost:8081/v1/oauth/logout", { withCredentials: true })
+      .then((res) => window.location.href = '/login')
+      .catch((err) => console.log(err));
+};
 
 const NavBar = () => {
   return (
@@ -48,7 +56,7 @@ const NavBar = () => {
             </Box>
           </Box>
           <Box sx={{ flexGrow: 1, textAlign: "right" }}>
-            <NavButton key="/logout" href="/logout">
+            <NavButton key="/logout" onClick={handleLogout}>
               Log Out
             </NavButton>
           </Box>
