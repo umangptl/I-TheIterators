@@ -1,20 +1,48 @@
 import {
   Autocomplete,
   Container,
-  FormControl,
   Grid,
-  InputLabel,
   MenuItem,
   Select,
   TextField,
   Typography,
 } from "@mui/material";
 import NavBar from "./common/NavBar";
-import JobDetails from "./job-posting/JobDetails";
 import { useState } from "react";
+import { NumericFormat, NumericFormatProps } from "react-number-format";
+import React from "react";
 
 const grid_xs_1 = 5;
 const grid_xs_2 = 7;
+
+interface CustomProps {
+  onChange: (event: { target: { name: string; value: string } }) => void;
+  name: string;
+}
+
+const NumericFormatCustom = React.forwardRef<NumericFormatProps, CustomProps>(
+  function NumericFormatCustom(props, ref) {
+    const { onChange, ...other } = props;
+
+    return (
+      <NumericFormat
+        {...other}
+        getInputRef={ref}
+        onValueChange={(values) => {
+          onChange({
+            target: {
+              name: props.name,
+              value: values.value,
+            },
+          });
+        }}
+        thousandSeparator
+        valueIsNumericString
+        prefix="$"
+      />
+    );
+  }
+);
 
 const CreatePosting = () => {
   const [title, setTitle] = useState("");
@@ -36,7 +64,7 @@ const CreatePosting = () => {
   return (
     <>
       <NavBar />
-      <Container maxWidth="md">
+      <Container maxWidth="sm">
         <Grid container rowGap={2} alignItems="center">
           <Grid xs={grid_xs_1}>
             <Typography variant="h6">Job Title</Typography>
@@ -144,12 +172,47 @@ const CreatePosting = () => {
               filterSelectedOptions
               fullWidth
               renderInput={(params) => (
-                <TextField {...params} label="label" placeholder="Skill" />
+                <TextField {...params} placeholder="Skill" />
               )}
               onChange={(event, value) => {
                 setSkillsRequired(value);
               }}
             ></Autocomplete>
+          </Grid>
+          <Grid xs={grid_xs_1}>
+            <Typography variant="h6">Required Documents</Typography>
+          </Grid>
+          <Grid xs={grid_xs_2}>
+            <Autocomplete
+              multiple
+              limitTags={3}
+              options={["RESUME", "CV"]}
+              filterSelectedOptions
+              fullWidth
+              renderInput={(params) => (
+                <TextField {...params} placeholder="Document" />
+              )}
+              onChange={(event, value) => {
+                setRequiredDocuments(value);
+              }}
+            ></Autocomplete>
+          </Grid>
+          <Grid xs={grid_xs_1}>
+            <Typography variant="h6">Salary</Typography>
+          </Grid>
+          <Grid xs={grid_xs_2}>
+            <TextField
+              placeholder="Enter salary"
+              onChange={(e) => setSalary(e.target.value)}
+              value={salary}
+              fullWidth
+              required
+              name="numberformat"
+              id="formatted-numberformat-input"
+              InputProps={{
+                inputComponent: NumericFormatCustom as any,
+              }}
+            ></TextField>
           </Grid>
           <Grid xs={grid_xs_1}>
             <Typography variant="h6">Application deadline</Typography>
@@ -160,6 +223,21 @@ const CreatePosting = () => {
               placeholder="Enter location"
               onChange={(e) => setDeadline(e.target.value)}
               value={deadline}
+              fullWidth
+              required
+            ></TextField>
+          </Grid>
+          <Grid xs={grid_xs_1}>
+            <Typography variant="h6">Description</Typography>
+          </Grid>
+          <Grid xs={grid_xs_2}>
+            <TextField
+              multiline
+              minRows={10}
+              type="text"
+              placeholder="Enter description"
+              onChange={(e) => setDescription(e.target.value)}
+              value={description}
               fullWidth
               required
             ></TextField>
