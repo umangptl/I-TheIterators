@@ -1,7 +1,13 @@
 import React from "react";
-
+import { useEffect } from "react";
+import { useNavigate } from "react-router-dom";
 // Alan
-export default function Dashboard() {
+const Dashboard: React.FC<{ isLogin: boolean }> = ({ isLogin }) => {
+    const navigate = useNavigate();
+
+    useEffect(() => {
+        if (!isLogin) navigate('/login');
+      }, []);
     return (
         <div>
             <h1>Dashboard</h1>
@@ -9,3 +15,4 @@ export default function Dashboard() {
         </div>
     );
 }
+export default Dashboard;

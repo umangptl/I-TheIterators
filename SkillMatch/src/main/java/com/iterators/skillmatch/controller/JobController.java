@@ -20,7 +20,6 @@ public class JobController {
     JobService jobService;
 
     @GetMapping
-    @PreAuthorize("hasRole('ROLE_ADMIN')")
     public List<Job> getAllJobs() throws GlobalException {
         return jobService.getAllJob();
     }
