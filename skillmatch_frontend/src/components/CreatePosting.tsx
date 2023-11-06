@@ -1,5 +1,8 @@
 import {
+  Alert,
+  AlertTitle,
   Autocomplete,
+  Button,
   Container,
   Grid,
   MenuItem,
@@ -11,6 +14,8 @@ import NavBar from "./common/NavBar";
 import { useState } from "react";
 import { NumericFormat, NumericFormatProps } from "react-number-format";
 import React from "react";
+import { Job } from "../hooks/useJobs";
+import apiClient from "../services/api-client";
 
 const grid_xs_1 = 5;
 const grid_xs_2 = 7;
@@ -47,7 +52,6 @@ const NumericFormatCustom = React.forwardRef<NumericFormatProps, CustomProps>(
 const CreatePosting = () => {
   const [title, setTitle] = useState("");
   const [type, setType] = useState("");
-  const [datePosted, setDatePosted] = useState("");
   const [deadline, setDeadline] = useState("");
   const [description, setDescription] = useState("");
   const [skillsRequired, setSkillsRequired] = useState<string[]>([]);
@@ -57,192 +61,226 @@ const CreatePosting = () => {
   const [requiredQualifications, setRequiredQualifications] = useState("");
   const [tag, setTag] = useState("");
   const [requiredDocuments, setRequiredDocuments] = useState<string[]>([]);
-  const _class = "com.iterators.skillmatch.model.Job";
+  // const _class = "com.iterators.skillmatch.model.Job";
 
-  //   console.log(skillsRequired);
+  const [alert, setAlert] = useState(false);
+
+  const handleSubmit = (event: React.FormEvent<HTMLFormElement>) => {
+    event.preventDefault();
+
+    const now = new Date();
+    const datePosted = now.toString;
+
+    const newJob = {
+      title: title,
+      datePosted: datePosted,
+      deadline: deadline,
+      description: description,
+      skillsRequired: skillsRequired,
+      location: location,
+      requiredQualifications: requiredQualifications,
+      requiredDocuments: requiredDocuments,
+      tag: tag,
+      experience: experience,
+      type: type,
+    };
+
+    apiClient
+      .post("/job", newJob)
+      .then(() => setAlert(true))
+      .catch((err) => {});
+  };
 
   return (
     <>
       <NavBar />
       <Container maxWidth="sm">
-        <Grid container rowGap={2} alignItems="center">
-          <Grid xs={grid_xs_1}>
-            <Typography variant="h6">Job Title</Typography>
+        {alert && (
+          <Alert
+            severity="warning"
+            sx={{ position: "sticky", top: 80, zIndex: "1" }}
+            onClose={() => setAlert(false)}
+          >
+            <AlertTitle>Warning</AlertTitle>
+            Not implemented yet!
+          </Alert>
+        )}
+        <form onSubmit={handleSubmit}>
+          <Grid container rowGap={2} alignItems="center">
+            <Grid xs={grid_xs_1}>
+              <Typography variant="h6">Job Title</Typography>
+            </Grid>
+            <Grid xs={grid_xs_2}>
+              <TextField
+                type="text"
+                placeholder="Enter job title"
+                onChange={(e) => setTitle(e.target.value)}
+                value={title}
+                fullWidth
+                required
+              ></TextField>
+            </Grid>
+            <Grid xs={grid_xs_1}>
+              <Typography variant="h6">Job Type</Typography>
+            </Grid>
+            <Grid xs={grid_xs_2}>
+              <Select
+                value={type}
+                onChange={(e) => setType(e.target.value as string)}
+                fullWidth
+                required
+                displayEmpty
+              >
+                <MenuItem value="" disabled>
+                  - Choose One -
+                </MenuItem>
+                <MenuItem value="Full-time">Full-time</MenuItem>
+                <MenuItem value="Part-time">Part-time</MenuItem>
+              </Select>
+            </Grid>
+            <Grid xs={grid_xs_1}>
+              <Typography variant="h6">Tag</Typography>
+            </Grid>
+            <Grid xs={grid_xs_2}>
+              <TextField
+                type="text"
+                placeholder="Enter tag"
+                onChange={(e) => setTag(e.target.value)}
+                value={tag}
+                fullWidth
+                required
+              ></TextField>
+            </Grid>
+            <Grid xs={grid_xs_1}>
+              <Typography variant="h6">Location</Typography>
+            </Grid>
+            <Grid xs={grid_xs_2}>
+              <TextField
+                type="text"
+                placeholder="Enter location"
+                onChange={(e) => setLocation(e.target.value)}
+                value={location}
+                fullWidth
+                required
+              ></TextField>
+            </Grid>
+            <Grid xs={grid_xs_1}>
+              <Typography variant="h6">Experience</Typography>
+            </Grid>
+            <Grid xs={grid_xs_2}>
+              <Select
+                value={experience}
+                onChange={(e) => setExperience(e.target.value as string)}
+                fullWidth
+                required
+                displayEmpty
+              >
+                <MenuItem value="" disabled>
+                  - Choose One -
+                </MenuItem>
+                <MenuItem value="1 year">1 year</MenuItem>
+                <MenuItem value="2 years">2 years</MenuItem>
+                <MenuItem value="3+ years">3+ years</MenuItem>
+              </Select>
+            </Grid>
+            <Grid xs={grid_xs_1}>
+              <Typography variant="h6">Skills</Typography>
+            </Grid>
+            <Grid xs={grid_xs_2}>
+              <Autocomplete
+                multiple
+                limitTags={3}
+                options={[
+                  "CPP",
+                  "JAVA",
+                  "PYTHON",
+                  "MYSQL",
+                  "NOSQL",
+                  "RUBY",
+                  "SWIFT",
+                  "PHP",
+                  "HTML",
+                ]}
+                filterSelectedOptions
+                fullWidth
+                renderInput={(params) => (
+                  <TextField {...params} placeholder="Skill" />
+                )}
+                onChange={(event, value) => {
+                  setSkillsRequired(value);
+                }}
+              ></Autocomplete>
+            </Grid>
+            <Grid xs={grid_xs_1}>
+              <Typography variant="h6">Required Documents</Typography>
+            </Grid>
+            <Grid xs={grid_xs_2}>
+              <Autocomplete
+                multiple
+                limitTags={3}
+                options={["RESUME", "COVER_LETTER"]}
+                filterSelectedOptions
+                fullWidth
+                renderInput={(params) => (
+                  <TextField {...params} placeholder="Document" />
+                )}
+                onChange={(event, value) => {
+                  setRequiredDocuments(value);
+                }}
+              ></Autocomplete>
+            </Grid>
+            <Grid xs={grid_xs_1}>
+              <Typography variant="h6">Salary</Typography>
+            </Grid>
+            <Grid xs={grid_xs_2}>
+              <TextField
+                placeholder="Enter salary"
+                onChange={(e) => setSalary(e.target.value)}
+                value={salary}
+                fullWidth
+                required
+                name="numberformat"
+                id="formatted-numberformat-input"
+                InputProps={{
+                  inputComponent: NumericFormatCustom as any,
+                }}
+              ></TextField>
+            </Grid>
+            <Grid xs={grid_xs_1}>
+              <Typography variant="h6">Application deadline</Typography>
+            </Grid>
+            <Grid xs={grid_xs_2}>
+              <TextField
+                type="date"
+                placeholder="Enter location"
+                onChange={(e) => setDeadline(e.target.value)}
+                value={deadline}
+                fullWidth
+                required
+              ></TextField>
+            </Grid>
+            <Grid xs={grid_xs_1}>
+              <Typography variant="h6">Description</Typography>
+            </Grid>
+            <Grid xs={grid_xs_2}>
+              <TextField
+                multiline
+                minRows={10}
+                type="text"
+                placeholder="Enter description"
+                onChange={(e) => setDescription(e.target.value)}
+                value={description}
+                fullWidth
+                required
+              ></TextField>
+            </Grid>
           </Grid>
-          <Grid xs={grid_xs_2}>
-            <TextField
-              type="text"
-              placeholder="Enter job title"
-              onChange={(e) => setTitle(e.target.value)}
-              value={title}
-              fullWidth
-              required
-            ></TextField>
+          <Grid xs={12} textAlign="center" p={5}>
+            <Button type="submit" variant="contained">
+              Create new job posting
+            </Button>
           </Grid>
-          <Grid xs={grid_xs_1}>
-            <Typography variant="h6">Job Type</Typography>
-          </Grid>
-          <Grid xs={grid_xs_2}>
-            <Select
-              value={type}
-              onChange={(e) => setType(e.target.value as string)}
-              fullWidth
-              required
-              displayEmpty
-            >
-              <MenuItem value="" disabled>
-                - Choose One -
-              </MenuItem>
-              <MenuItem value="Full-time">Full-time</MenuItem>
-              <MenuItem value="Part-time">Part-time</MenuItem>
-            </Select>
-          </Grid>
-          <Grid xs={grid_xs_1}>
-            <Typography variant="h6">Tag</Typography>
-          </Grid>
-          <Grid xs={grid_xs_2}>
-            <TextField
-              type="text"
-              placeholder="Enter tag"
-              onChange={(e) => setTag(e.target.value)}
-              value={tag}
-              fullWidth
-              required
-            ></TextField>
-          </Grid>
-          <Grid xs={grid_xs_1}>
-            <Typography variant="h6">Location</Typography>
-          </Grid>
-          <Grid xs={grid_xs_2}>
-            <TextField
-              type="text"
-              placeholder="Enter location"
-              onChange={(e) => setLocation(e.target.value)}
-              value={location}
-              fullWidth
-              required
-            ></TextField>
-          </Grid>
-          <Grid xs={grid_xs_1}>
-            <Typography variant="h6">Experience</Typography>
-          </Grid>
-          <Grid xs={grid_xs_2}>
-            <Select
-              value={experience}
-              onChange={(e) => setExperience(e.target.value as string)}
-              fullWidth
-              required
-              displayEmpty
-            >
-              <MenuItem value="" disabled>
-                - Choose One -
-              </MenuItem>
-              <MenuItem value="1 year">1 year</MenuItem>
-              <MenuItem value="2 years">1 years</MenuItem>
-              <MenuItem value="3+ years">3+ years</MenuItem>
-            </Select>
-          </Grid>
-          <Grid xs={grid_xs_1}>
-            <Typography variant="h6">Experience</Typography>
-          </Grid>
-          <Grid xs={grid_xs_2}>
-            <Select
-              value={experience}
-              onChange={(e) => setExperience(e.target.value as string)}
-              fullWidth
-              required
-              displayEmpty
-            >
-              <MenuItem value="" disabled>
-                - Choose One -
-              </MenuItem>
-              <MenuItem value="1 year">1 year</MenuItem>
-              <MenuItem value="2 years">1 years</MenuItem>
-              <MenuItem value="3+ years">3+ years</MenuItem>
-            </Select>
-          </Grid>
-          <Grid xs={grid_xs_1}>
-            <Typography variant="h6">Skills</Typography>
-          </Grid>
-          <Grid xs={grid_xs_2}>
-            <Autocomplete
-              multiple
-              limitTags={3}
-              options={["a", "b", "c", "d", "e"]}
-              filterSelectedOptions
-              fullWidth
-              renderInput={(params) => (
-                <TextField {...params} placeholder="Skill" />
-              )}
-              onChange={(event, value) => {
-                setSkillsRequired(value);
-              }}
-            ></Autocomplete>
-          </Grid>
-          <Grid xs={grid_xs_1}>
-            <Typography variant="h6">Required Documents</Typography>
-          </Grid>
-          <Grid xs={grid_xs_2}>
-            <Autocomplete
-              multiple
-              limitTags={3}
-              options={["RESUME", "CV"]}
-              filterSelectedOptions
-              fullWidth
-              renderInput={(params) => (
-                <TextField {...params} placeholder="Document" />
-              )}
-              onChange={(event, value) => {
-                setRequiredDocuments(value);
-              }}
-            ></Autocomplete>
-          </Grid>
-          <Grid xs={grid_xs_1}>
-            <Typography variant="h6">Salary</Typography>
-          </Grid>
-          <Grid xs={grid_xs_2}>
-            <TextField
-              placeholder="Enter salary"
-              onChange={(e) => setSalary(e.target.value)}
-              value={salary}
-              fullWidth
-              required
-              name="numberformat"
-              id="formatted-numberformat-input"
-              InputProps={{
-                inputComponent: NumericFormatCustom as any,
-              }}
-            ></TextField>
-          </Grid>
-          <Grid xs={grid_xs_1}>
-            <Typography variant="h6">Application deadline</Typography>
-          </Grid>
-          <Grid xs={grid_xs_2}>
-            <TextField
-              type="date"
-              placeholder="Enter location"
-              onChange={(e) => setDeadline(e.target.value)}
-              value={deadline}
-              fullWidth
-              required
-            ></TextField>
-          </Grid>
-          <Grid xs={grid_xs_1}>
-            <Typography variant="h6">Description</Typography>
-          </Grid>
-          <Grid xs={grid_xs_2}>
-            <TextField
-              multiline
-              minRows={10}
-              type="text"
-              placeholder="Enter description"
-              onChange={(e) => setDescription(e.target.value)}
-              value={description}
-              fullWidth
-              required
-            ></TextField>
-          </Grid>
-        </Grid>
+        </form>
       </Container>
     </>
   );
