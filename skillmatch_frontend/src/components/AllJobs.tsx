@@ -8,17 +8,20 @@ import { Alert, AlertTitle, Box, Container } from "@mui/material";
 import { setMaxIdleHTTPParsers } from "http";
 import { blue } from "@mui/material/colors";
 import zIndex from "@mui/material/styles/zIndex";
+import { useNavigate } from "react-router-dom";
 
-const AllJobs = () => {
+const AllJobs: React.FC<{ isLogin: boolean }> = ({ isLogin }) => {
+  const navigate = useNavigate();
   const [jobs, setJobs] = useState<Job[]>([]);
   const [alert, setAlert] = useState(false);
 
   useEffect(() => {
+    if (!isLogin) navigate('/login');
     axios
-      .get("http://localhost:8081/job")
+      .get("http://localhost:8081/job", { withCredentials: true })
       .then((res) => setJobs(res.data))
       .catch((err) => console.log(err));
-  }, []);
+  }, [isLogin]);
 
   const handleEdit = (title: string) => setAlert(true);
   const handleDelete = (title: string) => setAlert(true);
