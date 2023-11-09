@@ -8,10 +8,8 @@ import { useLoginContext } from "../hooks/useLoginContext";
 const AllJobs = () => {
   const { isLogin, setIsLogin } = useLoginContext();
   const navigate = useNavigate();
-  console.log(isLogin);
 
   useEffect(() => {
-    console.log(isLogin);
     if (!isLogin) navigate("/login");
   }, [isLogin, navigate]);
 

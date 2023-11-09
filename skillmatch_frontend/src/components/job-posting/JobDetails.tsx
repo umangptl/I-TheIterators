@@ -24,31 +24,25 @@ const JobDetails = () => {
   let postingDate: string;
   if (typeof job?.datePosted !== "undefined") {
     const date = new Date(job.datePosted);
-    console.log(date);
     postingDate = new Intl.DateTimeFormat("en-US", {
       year: "numeric",
       month: "2-digit",
       day: "2-digit",
     }).format(date);
-    console.log(postingDate);
   } else {
     postingDate = "00/00/0000";
-    console.log(postingDate);
   }
 
   let deadlineDate: string;
   if (typeof job?.datePosted !== "undefined") {
     const date = new Date(job.deadline);
-    console.log(date);
     deadlineDate = new Intl.DateTimeFormat("en-US", {
       year: "numeric",
       month: "2-digit",
       day: "2-digit",
     }).format(date);
-    console.log(deadlineDate);
   } else {
     deadlineDate = "00/00/0000";
-    console.log(deadlineDate);
   }
 
   return (
