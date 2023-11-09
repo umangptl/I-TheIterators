@@ -76,9 +76,11 @@ const AllJobs = () => {
     console.log(jobId);
     setJobs(jobs.filter((job) => job.jobId !== jobId));
 
-    apiClient.delete("/job/" + jobId).catch((err) => {
-      setJobs(originalJobs);
-    });
+    apiClient
+      .delete("/job/" + jobId, { withCredentials: true })
+      .catch((err) => {
+        setJobs(originalJobs);
+      });
   };
 
   const [mobileOpen, setMobileOpen] = useState(false);

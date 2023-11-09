@@ -1,24 +1,7 @@
 import { useEffect, useState } from "react";
 import apiClient from "../services/api-client";
 import { CanceledError } from "axios";
-
-export interface Job {
-    jobId: string;
-    title: string;
-    datePosted: string;
-    deadline: string;
-    description: string;
-    skillsRequired: string[];
-    location: string;
-    requiredQualifications: string;
-    hiringTeamInfo: string;
-    requiredDocuments: string;
-    tag: string;
-    experience: string;
-    //applicantNo: number;
-    type: string;
-    //department: string;
-  }
+import { Job } from "./useJobs";
   
 const usePosting = (jobId: string) => {
     const [job, setJob] = useState<Job | null>(null);

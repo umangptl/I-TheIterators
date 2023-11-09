@@ -2,10 +2,8 @@ import React, { useState } from "react";
 
 import Grid from "@mui/material/Unstable_Grid2";
 import usePosting from "../../hooks/usePosting";
-import { Job } from "../../hooks/usePosting";
 import { useParams } from "react-router";
-import { styled } from "@mui/material/styles";
-import { Alert, AlertTitle, Container, Paper, Typography } from "@mui/material";
+import { Alert, AlertTitle, Container, Typography } from "@mui/material";
 import useApplicationsByJob from "../../hooks/useApplicationsByJob";
 import ActionButton from "../common/ActionButton";
 
@@ -13,16 +11,19 @@ const JobDetails = () => {
   const { jobId } = useParams();
   const { job } = usePosting(jobId as string);
   const { applications } = useApplicationsByJob(jobId as string);
-
   const [alert, setAlert] = useState(false);
+
+  if (job === null) {
+    return <></>;
+  }
 
   const handleEdit = (title: string) => setAlert(true);
   const handleDelete = (title: string) => setAlert(true);
   const handleShowApplications = (title: string) => setAlert(true);
 
   let postingDate: string;
-  if (typeof job?.datePosted === "string") {
-    const date = new Date(job?.datePosted);
+  if (typeof job?.datePosted !== "undefined") {
+    const date = new Date(job.datePosted);
     console.log(date);
     postingDate = new Intl.DateTimeFormat("en-US", {
       year: "numeric",
@@ -36,8 +37,8 @@ const JobDetails = () => {
   }
 
   let deadlineDate: string;
-  if (typeof job?.datePosted === "string") {
-    const date = new Date(job?.deadline);
+  if (typeof job?.datePosted !== "undefined") {
+    const date = new Date(job.deadline);
     console.log(date);
     deadlineDate = new Intl.DateTimeFormat("en-US", {
       year: "numeric",

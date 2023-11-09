@@ -8,9 +8,11 @@ import Login from "./components/Login";
 import CreatePosting from "./components/CreatePosting";
 import JobPosting from "./components/JobPosting";
 import axios from "axios";
+import { LoginContext } from "./hooks/useLoginContext";
 
 function App() {
   const [isLogin, setIsLogin] = useState(false);
+  const loginContextValue = { isLogin: isLogin, setIsLogin: setIsLogin };
 
   useEffect(() => {
     const initLogin = async () => {
@@ -24,28 +26,25 @@ function App() {
     initLogin();
   }, []);
   return (
-    <div>
-      <Router>
-        <nav className="flex items-center justify-between flex-wrap">
-          <Link className="bg-blue" to="/" state={{ isLogin: isLogin }}>
-            Home
-          </Link>
-          <Link to="/jobs" state={{ isLogin: isLogin }}>
-            Jobs
-          </Link>
-        </nav>
-        <Routes>
-          <Route path="/" element={<Dashboard isLogin={isLogin} />} />
-          <Route path="/jobs" element={<AllJobs isLogin={isLogin} />} />
-          <Route
-            path="/login"
-            element={<Login isLogin={isLogin} setIsLogin={setIsLogin} />}
-          />
-          <Route path="/job/:jobId" element={<JobPosting />} />
-          <Route path="/new-job" element={<CreatePosting />} />
-        </Routes>
-      </Router>
-    </div>
+    <>
+      <LoginContext.Provider value={loginContextValue}>
+        <Router>
+          <nav className="flex items-center justify-between flex-wrap">
+            <Link className="bg-blue" to="/">
+              Home
+            </Link>
+            <Link to="/jobs">Jobs</Link>
+          </nav>
+          <Routes>
+            <Route path="/" element={<Dashboard />} />
+            <Route path="/jobs" element={<AllJobs />} />
+            <Route path="/login" element={<Login />} />
+            <Route path="/job/:jobId" element={<JobPosting />} />
+            <Route path="/new-job" element={<CreatePosting />} />
+          </Routes>
+        </Router>
+      </LoginContext.Provider>
+    </>
   );
 }
 

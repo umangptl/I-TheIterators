@@ -13,17 +13,9 @@ import { useState } from "react";
 
 import MenuIcon from "@mui/icons-material/Menu";
 import axios from "axios";
+import { Link, NavLink } from "react-router-dom";
 
 const drawerWidth = 240;
-
-const NavButton = styled(Button)<ButtonProps>(({ theme }) => ({
-  width: 140,
-  borderRadius: 100,
-}));
-NavButton.defaultProps = {
-  variant: "contained",
-  color: "secondary",
-};
 
 const pages = [
   { path: "/", title: "Dashboard" },
@@ -54,13 +46,32 @@ const NavBar = () => {
       p={"10px"}
     >
       {pages.map((page) => (
-        <NavButton key={page.path} href={page.path}>
+        <Button
+          key={page.path}
+          component={Link}
+          to={page.path}
+          variant="contained"
+          color="secondary"
+          sx={{
+            width: 140,
+            borderRadius: 100,
+          }}
+        >
           {page.title}
-        </NavButton>
+        </Button>
       ))}
-      <NavButton key="/logout" onClick={handleLogout}>
+      <Button
+        key="/logout"
+        onClick={handleLogout}
+        variant="contained"
+        color="secondary"
+        sx={{
+          width: 140,
+          borderRadius: 100,
+        }}
+      >
         Log Out
-      </NavButton>
+      </Button>
     </Box>
   );
 
@@ -81,16 +92,35 @@ const NavBar = () => {
               }}
             >
               {pages.map((page) => (
-                <NavButton key={page.path} href={page.path}>
+                <Button
+                  key={page.path}
+                  component={Link}
+                  to={page.path}
+                  variant="contained"
+                  color="secondary"
+                  sx={{
+                    width: 140,
+                    borderRadius: 100,
+                  }}
+                >
                   {page.title}
-                </NavButton>
+                </Button>
               ))}
             </Box>
           </Box>
           <Box sx={{ flexGrow: 1, textAlign: "right" }}>
-            <NavButton key="/logout" onClick={handleLogout}>
+            <Button
+              key="/logout"
+              onClick={handleLogout}
+              variant="contained"
+              color="secondary"
+              sx={{
+                width: 140,
+                borderRadius: 100,
+              }}
+            >
               Log Out
-            </NavButton>
+            </Button>
           </Box>
         </Toolbar>
         <Toolbar sx={{ display: { sm: "none" } }}>

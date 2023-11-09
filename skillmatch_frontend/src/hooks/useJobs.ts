@@ -5,8 +5,8 @@ import { CanceledError } from "axios";
 export interface Job {
     jobId: string;
     title: string;
-    datePosted: string;
-    deadline: string;
+    datePosted: Date;
+    deadline: Date;
     description: string;
     skillsRequired: string[];
     location: string;
@@ -15,6 +15,7 @@ export interface Job {
     requiredDocuments: string;
     tag: string;
     experience: string;
+    salary: DoubleRange;
     //applicantNo: number;
     type: string;
     //department: string;
@@ -28,7 +29,7 @@ const useJobs = () => {
       const controller = new AbortController();
 
       apiClient
-        .get("/job", {withCredentials: true, signal: controller.signal})
+        .get("/job", { signal: controller.signal})
         .then((res) => setJobs(res.data))
         .catch((err) => {
             if (err instanceof CanceledError) return;
