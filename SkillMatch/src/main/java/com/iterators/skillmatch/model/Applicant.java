@@ -1,6 +1,6 @@
 package com.iterators.skillmatch.model;
 
-import com.iterators.skillmatch.model.enums.Documents;
+import com.iterators.skillmatch.model.enums.Provider;
 import jakarta.validation.constraints.NotNull;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
@@ -10,8 +10,6 @@ import org.springframework.data.annotation.Id;
 import org.springframework.data.mongodb.core.index.Indexed;
 import org.springframework.data.mongodb.core.mapping.Document;
 import org.springframework.data.mongodb.core.mapping.Field;
-
-import java.util.List;
 
 @NoArgsConstructor
 @AllArgsConstructor
@@ -45,5 +43,7 @@ public class Applicant {
     private String Resume;
 
     private String CoverLetter;
+
+    private Provider provider;
 
 }

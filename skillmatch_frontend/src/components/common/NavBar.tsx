@@ -12,6 +12,7 @@ import { styled } from "@mui/material/styles";
 import { useState } from "react";
 
 import MenuIcon from "@mui/icons-material/Menu";
+import axios from "axios";
 
 const drawerWidth = 240;
 
@@ -29,6 +30,13 @@ const pages = [
   { path: "/new-job", title: "New Posting" },
   { path: "/jobs", title: "All Postings" },
 ];
+
+const handleLogout = () => {
+  axios
+    .get("http://localhost:8081/v1/oauth/logout", { withCredentials: true })
+    .then((res) => (window.location.href = "/login"))
+    .catch((err) => console.log(err));
+};
 
 const NavBar = () => {
   const [mobileOpen, setMobileOpen] = useState(false);
@@ -50,7 +58,7 @@ const NavBar = () => {
           {page.title}
         </NavButton>
       ))}
-      <NavButton key="/logout" href="/logout">
+      <NavButton key="/logout" onClick={handleLogout}>
         Log Out
       </NavButton>
     </Box>
@@ -80,7 +88,7 @@ const NavBar = () => {
             </Box>
           </Box>
           <Box sx={{ flexGrow: 1, textAlign: "right" }}>
-            <NavButton key="/logout" href="/logout">
+            <NavButton key="/logout" onClick={handleLogout}>
               Log Out
             </NavButton>
           </Box>

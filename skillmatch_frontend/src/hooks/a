@@ -20,25 +20,17 @@ export interface Job {
     //department: string;
   }
   
-const useJobs = () => {
-    const [jobs, setJobs] = useState<Job[]>([]);
+const deleteJob = (jobId: string) => {
     const [error, setError] = useState("");
-
-    useEffect(() => {
-      const controller = new AbortController();
-
+  
       apiClient
-        .get("/job", {withCredentials: true, signal: controller.signal})
-        .then((res) => setJobs(res.data))
+        .delete("/job/" + jobId)
         .catch((err) => {
-            if (err instanceof CanceledError) return;
             setError(err.message)
+            return {success: false, error}
         });
 
-        return () => controller.abort();
-    }, []);
-
-    return { jobs, setJobs, error };
+    return { success: true, error };
 }
 
-export default useJobs;
+export default deleteJob;

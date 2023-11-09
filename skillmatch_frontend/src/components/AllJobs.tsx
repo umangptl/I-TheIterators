@@ -1,7 +1,16 @@
-import NavBar from "./common/NavBar";
-import JobList from "./all-jobs/JobList";
+import { useEffect } from "react";
 
-const AllJobs = () => {
+import { useNavigate } from "react-router-dom";
+import JobList from "./all-jobs/JobList";
+import NavBar from "./common/NavBar";
+
+const AllJobs: React.FC<{ isLogin: boolean }> = ({ isLogin }) => {
+  const navigate = useNavigate();
+
+  useEffect(() => {
+    if (!isLogin) navigate("/login");
+  }, []);
+
   return (
     <>
       <NavBar />
