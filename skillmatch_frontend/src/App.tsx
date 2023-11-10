@@ -9,6 +9,8 @@ import CreatePosting from "./components/CreatePosting";
 import JobPosting from "./components/JobPosting";
 import axios from "axios";
 import { LoginContext } from "./hooks/useLoginContext";
+import EditPosting from "./components/EditPosting";
+import ScrollToTop from "./components/common/ScrollToTop";
 
 function App() {
   const [isLogin, setIsLogin] = useState(false);
@@ -29,6 +31,7 @@ function App() {
     <>
       <LoginContext.Provider value={loginContextValue}>
         <Router>
+          <ScrollToTop />
           <nav className="flex items-center justify-between flex-wrap">
             <Link className="bg-blue" to="/">
               Home
@@ -41,6 +44,7 @@ function App() {
             <Route path="/login" element={<Login />} />
             <Route path="/job/:jobId" element={<JobPosting />} />
             <Route path="/new-job" element={<CreatePosting />} />
+            <Route path="/edit-job/:jobId" element={<EditPosting />} />
           </Routes>
         </Router>
       </LoginContext.Provider>

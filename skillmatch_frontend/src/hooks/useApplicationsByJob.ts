@@ -29,7 +29,7 @@ const useApplicationsByJob = (jobId: string) => {
         return () => controller.abort();
     }, []);
 
-    return { applications, error };
+    return { applications, setApplications, error };
 }
 
 export default useApplicationsByJob;

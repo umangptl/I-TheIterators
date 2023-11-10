@@ -6,12 +6,12 @@ import NavBar from "./common/NavBar";
 import { useLoginContext } from "../hooks/useLoginContext";
 
 const AllJobs = () => {
-  const { isLogin, setIsLogin } = useLoginContext();
-  const navigate = useNavigate();
+  // const { isLogin, setIsLogin } = useLoginContext();
+  // const navigate = useNavigate();
 
-  useEffect(() => {
-    if (!isLogin) navigate("/login");
-  }, [isLogin, navigate]);
+  // useEffect(() => {
+  //   if (!isLogin) navigate("/login");
+  // }, [isLogin, navigate]);
 
   return (
     <>

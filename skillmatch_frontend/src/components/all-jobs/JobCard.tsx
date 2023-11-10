@@ -1,4 +1,5 @@
 import {
+  Box,
   Button,
   ButtonProps,
   Card,
@@ -9,14 +10,18 @@ import {
 } from "@mui/material";
 import { Job } from "../../hooks/useJobs";
 import ActionButton from "../common/ActionButton";
+import { useLoginContext } from "../../hooks/useLoginContext";
+import { Link } from "react-router-dom";
+import ActionLinkButton from "../common/ActionLinkButtom";
 
 interface Props {
   job: Job;
-  onEdit: (title: string) => void;
   onDelete: (title: string) => void;
 }
 
-const JobCard = ({ job, onEdit, onDelete }: Props) => {
+const JobCard = ({ job, onDelete }: Props) => {
+  const { isLogin } = useLoginContext();
+
   return (
     <Card elevation={4} sx={{ mb: "15px" }}>
       <CardContent>
@@ -24,17 +29,35 @@ const JobCard = ({ job, onEdit, onDelete }: Props) => {
         <Typography>
           {job.type} - {job.location}
         </Typography>
-        <Typography variant="body2">{job.description}</Typography>
+        <Box maxHeight={"60px"} overflow="hidden" textOverflow={"ellipsis"}>
+          <Typography
+            variant="body2"
+            sx={{
+              cursor: "default",
+              overflow: "hidden",
+              textOverflow: "ellipsis",
+              height: "100%",
+            }}
+          >
+            {job.description}
+          </Typography>
+        </Box>
         <Typography></Typography>
       </CardContent>
       <CardActions>
-        <ActionButton href={"/job/" + job.jobId}>View job</ActionButton>
-        <ActionButton onClick={() => onEdit(job.jobId)}>
-          Edit posting
-        </ActionButton>
-        <ActionButton onClick={() => onDelete(job.jobId)}>
-          Delete posting
-        </ActionButton>
+        <ActionLinkButton to={"/job/" + job.jobId}>
+          View details
+        </ActionLinkButton>
+        {isLogin && (
+          <>
+            <ActionLinkButton to={"/edit-job/" + job.jobId}>
+              Edit posting
+            </ActionLinkButton>
+            <ActionButton onClick={() => onDelete(job.jobId)}>
+              Delete posting
+            </ActionButton>
+          </>
+        )}
       </CardActions>
     </Card>
   );

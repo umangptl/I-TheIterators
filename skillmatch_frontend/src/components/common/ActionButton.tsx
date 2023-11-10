@@ -1,5 +1,6 @@
 import { Button, ButtonProps } from "@mui/material";
-import { styled } from "@mui/material/styles";
+import { styled } from "@mui/system";
+import { LinkProps } from "react-router-dom";
 
 const ActionButton = styled(Button)<ButtonProps>(({ theme }) => ({
   borderRadius: 0,

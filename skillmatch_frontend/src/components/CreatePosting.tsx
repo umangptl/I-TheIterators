@@ -11,11 +11,13 @@ import {
   Typography,
 } from "@mui/material";
 import NavBar from "./common/NavBar";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { NumericFormat, NumericFormatProps } from "react-number-format";
 import React from "react";
 import { Job } from "../hooks/useJobs";
 import apiClient from "../services/api-client";
+import { useLoginContext } from "../hooks/useLoginContext";
+import { useNavigate } from "react-router-dom";
 
 const grid_xs_1 = 5;
 const grid_xs_2 = 7;
@@ -50,6 +52,13 @@ const NumericFormatCustom = React.forwardRef<NumericFormatProps, CustomProps>(
 );
 
 const CreatePosting = () => {
+  const { isLogin, setIsLogin } = useLoginContext();
+  const navigate = useNavigate();
+
+  useEffect(() => {
+    if (!isLogin) navigate("/login");
+  }, [isLogin, navigate]);
+
   const [title, setTitle] = useState("");
   const [type, setType] = useState("");
   const [deadline, setDeadline] = useState("");
@@ -107,10 +116,10 @@ const CreatePosting = () => {
         )}
         <form onSubmit={handleSubmit}>
           <Grid container rowGap={2} alignItems="center">
-            <Grid xs={grid_xs_1}>
+            <Grid item xs={grid_xs_1}>
               <Typography variant="h6">Job Title</Typography>
             </Grid>
-            <Grid xs={grid_xs_2}>
+            <Grid item xs={grid_xs_2}>
               <TextField
                 type="text"
                 placeholder="Enter job title"
@@ -120,10 +129,10 @@ const CreatePosting = () => {
                 required
               ></TextField>
             </Grid>
-            <Grid xs={grid_xs_1}>
+            <Grid item xs={grid_xs_1}>
               <Typography variant="h6">Job Type</Typography>
             </Grid>
-            <Grid xs={grid_xs_2}>
+            <Grid item xs={grid_xs_2}>
               <Select
                 value={type}
                 onChange={(e) => setType(e.target.value as string)}
@@ -134,14 +143,14 @@ const CreatePosting = () => {
                 <MenuItem value="" disabled>
                   - Choose One -
                 </MenuItem>
-                <MenuItem value="Full-time">Full-time</MenuItem>
-                <MenuItem value="Part-time">Part-time</MenuItem>
+                <MenuItem value="full-time">Full-time</MenuItem>
+                <MenuItem value="part-time">Part-time</MenuItem>
               </Select>
             </Grid>
-            <Grid xs={grid_xs_1}>
+            <Grid item xs={grid_xs_1}>
               <Typography variant="h6">Tag</Typography>
             </Grid>
-            <Grid xs={grid_xs_2}>
+            <Grid item xs={grid_xs_2}>
               <TextField
                 type="text"
                 placeholder="Enter tag"
@@ -151,10 +160,10 @@ const CreatePosting = () => {
                 required
               ></TextField>
             </Grid>
-            <Grid xs={grid_xs_1}>
+            <Grid item xs={grid_xs_1}>
               <Typography variant="h6">Location</Typography>
             </Grid>
-            <Grid xs={grid_xs_2}>
+            <Grid item xs={grid_xs_2}>
               <TextField
                 type="text"
                 placeholder="Enter location"
@@ -164,10 +173,10 @@ const CreatePosting = () => {
                 required
               ></TextField>
             </Grid>
-            <Grid xs={grid_xs_1}>
+            <Grid item xs={grid_xs_1}>
               <Typography variant="h6">Experience</Typography>
             </Grid>
-            <Grid xs={grid_xs_2}>
+            <Grid item xs={grid_xs_2}>
               <Select
                 value={experience}
                 onChange={(e) => setExperience(e.target.value as string)}
@@ -183,10 +192,10 @@ const CreatePosting = () => {
                 <MenuItem value="3+ years">3+ years</MenuItem>
               </Select>
             </Grid>
-            <Grid xs={grid_xs_1}>
+            <Grid item xs={grid_xs_1}>
               <Typography variant="h6">Skills</Typography>
             </Grid>
-            <Grid xs={grid_xs_2}>
+            <Grid item xs={grid_xs_2}>
               <Autocomplete
                 multiple
                 limitTags={3}
@@ -211,10 +220,10 @@ const CreatePosting = () => {
                 }}
               ></Autocomplete>
             </Grid>
-            <Grid xs={grid_xs_1}>
+            <Grid item xs={grid_xs_1}>
               <Typography variant="h6">Required Documents</Typography>
             </Grid>
-            <Grid xs={grid_xs_2}>
+            <Grid item xs={grid_xs_2}>
               <Autocomplete
                 multiple
                 limitTags={3}
@@ -229,10 +238,10 @@ const CreatePosting = () => {
                 }}
               ></Autocomplete>
             </Grid>
-            <Grid xs={grid_xs_1}>
+            <Grid item xs={grid_xs_1}>
               <Typography variant="h6">Salary</Typography>
             </Grid>
-            <Grid xs={grid_xs_2}>
+            <Grid item xs={grid_xs_2}>
               <TextField
                 placeholder="Enter salary"
                 onChange={(e) => setSalary(e.target.value)}
@@ -246,10 +255,10 @@ const CreatePosting = () => {
                 }}
               ></TextField>
             </Grid>
-            <Grid xs={grid_xs_1}>
+            <Grid item xs={grid_xs_1}>
               <Typography variant="h6">Application deadline</Typography>
             </Grid>
-            <Grid xs={grid_xs_2}>
+            <Grid item xs={grid_xs_2}>
               <TextField
                 type="date"
                 placeholder="Enter location"
@@ -259,10 +268,10 @@ const CreatePosting = () => {
                 required
               ></TextField>
             </Grid>
-            <Grid xs={grid_xs_1}>
+            <Grid item xs={grid_xs_1}>
               <Typography variant="h6">Description</Typography>
             </Grid>
-            <Grid xs={grid_xs_2}>
+            <Grid item xs={grid_xs_2}>
               <TextField
                 multiline
                 minRows={10}
@@ -275,7 +284,7 @@ const CreatePosting = () => {
               ></TextField>
             </Grid>
           </Grid>
-          <Grid xs={12} textAlign="center" p={5}>
+          <Grid item xs={12} textAlign="center" p={5}>
             <Button type="submit" variant="contained">
               Create new job posting
             </Button>

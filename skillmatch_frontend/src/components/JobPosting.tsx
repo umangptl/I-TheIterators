@@ -1,4 +1,3 @@
-import { Button } from "@mui/material";
 import NavBar from "./common/NavBar";
 import JobDetails from "./job-posting/JobDetails";
 
@@ -8,7 +7,6 @@ export default function JobPosting() {
     <>
       <NavBar />
       <JobDetails />
-      <Button component="a"></Button>
     </>
   );
 }

@@ -6,19 +6,28 @@ import { useParams } from "react-router";
 import { Alert, AlertTitle, Container, Typography } from "@mui/material";
 import useApplicationsByJob from "../../hooks/useApplicationsByJob";
 import ActionButton from "../common/ActionButton";
+import apiClient from "../../services/api-client";
+import { useNavigate } from "react-router-dom";
+import ActionLinkButton from "../common/ActionLinkButtom";
 
 const JobDetails = () => {
   const { jobId } = useParams();
-  const { job } = usePosting(jobId as string);
+  const { job, setJob } = usePosting(jobId as string);
   const { applications } = useApplicationsByJob(jobId as string);
   const [alert, setAlert] = useState(false);
+  const navigate = useNavigate();
 
-  if (job === null) {
+  if (job === undefined) {
     return <></>;
   }
 
-  const handleEdit = (title: string) => setAlert(true);
-  const handleDelete = (title: string) => setAlert(true);
+  const handleDelete = (jobId: string) => {
+    apiClient
+      .delete("/job/" + jobId)
+      .then(() => navigate("/jobs"))
+      .catch((err) => {});
+  };
+
   const handleShowApplications = (title: string) => setAlert(true);
 
   let postingDate: string;
@@ -49,11 +58,11 @@ const JobDetails = () => {
     <Container maxWidth="md">
       <Grid container spacing={2}>
         <Grid xs={5}>
-          <Typography variant="h4">{job?.title}</Typography>
-          <Typography variant="h6">{job?.type}</Typography>
-          <Typography variant="h6">{job?.location}</Typography>
+          <Typography variant="h4">{job.title}</Typography>
+          <Typography variant="h6">{job.type}</Typography>
+          <Typography variant="h6">{job.location}</Typography>
           {/* <Typography variant="h6">{job?.department}</Typography> */}
-          <Typography variant="h6">{job?.experience}</Typography>
+          <Typography variant="h6">Experience: {job.experience}</Typography>
         </Grid>
         <Grid xs={7} textAlign={"right"}>
           <Typography variant="h4">Applications</Typography>
@@ -63,23 +72,17 @@ const JobDetails = () => {
           <Typography variant="h6">Posting date: {postingDate}</Typography>
           <Typography variant="h6">Deadline date: {deadlineDate}</Typography>
           {/* <Typography variant="h6">{job?.department}</Typography> */}
-          <Typography variant="h6">{job?.experience}</Typography>
         </Grid>
         <Grid xs={7}>
-          <ActionButton
-            onClick={() => handleEdit(job?.title as string)}
-            sx={{ ml: 0 }}
-          >
+          <ActionLinkButton to={"/edit-job/" + job.jobId}>
             Edit posting
-          </ActionButton>
-          <ActionButton onClick={() => handleDelete(job?.title as string)}>
+          </ActionLinkButton>
+          <ActionButton onClick={() => handleDelete(job.jobId)}>
             Delete posting
           </ActionButton>
         </Grid>
         <Grid xs={5} textAlign={"right"}>
-          <ActionButton
-            onClick={() => handleShowApplications(job?.title as string)}
-          >
+          <ActionButton onClick={() => handleShowApplications(job.jobId)}>
             View Applications
           </ActionButton>
         </Grid>
@@ -94,7 +97,7 @@ const JobDetails = () => {
               Not implemented yet!
             </Alert>
           )}
-          <Typography variant="body1">{job?.description}</Typography>
+          <Typography variant="body1">{job.description}</Typography>
         </Grid>
       </Grid>
     </Container>

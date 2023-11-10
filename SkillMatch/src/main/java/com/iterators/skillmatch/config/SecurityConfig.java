@@ -13,7 +13,7 @@ import org.springframework.security.web.util.matcher.AntPathRequestMatcher;
 
 @Configuration
 @EnableMethodSecurity
-public class SecurityConfig {
+public class SecurityConfig{
 
     @Autowired
     private JWTRequestFilter jwtRequestFilter;
@@ -21,11 +21,11 @@ public class SecurityConfig {
 
     @Bean
     public SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
-        http.csrf().csrfTokenRepository(CookieCsrfTokenRepository.withHttpOnlyFalse())
-                .ignoringRequestMatchers(new AntPathRequestMatcher("/v1/oauth/login"), new AntPathRequestMatcher("/v1/oauth/keepalive"));
+        http.csrf().disable();
         http.sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS);
         http.addFilterBefore(jwtRequestFilter, UsernamePasswordAuthenticationFilter.class);
-        http.authorizeRequests().requestMatchers(new AntPathRequestMatcher("/v1/oauth/login")).permitAll()
+        http.authorizeRequests().requestMatchers(new AntPathRequestMatcher("/**", "OPTIONS")).permitAll()
+                .requestMatchers(new AntPathRequestMatcher("/v1/oauth/login")).permitAll()
                 .anyRequest().authenticated();
         return http.build();
     }

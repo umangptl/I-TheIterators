@@ -12,10 +12,21 @@ import { styled } from "@mui/material/styles";
 import { useState } from "react";
 
 import MenuIcon from "@mui/icons-material/Menu";
-import axios from "axios";
-import { Link, NavLink } from "react-router-dom";
+import { Link, LinkProps, useNavigate } from "react-router-dom";
+import { useLoginContext } from "../../hooks/useLoginContext";
+import apiClient from "../../services/api-client";
 
 const drawerWidth = 240;
+
+const NavButton = styled(Button)<ButtonProps & LinkProps>(({ theme }) => ({
+  width: 140,
+  borderRadius: 100,
+}));
+NavButton.defaultProps = {
+  variant: "contained",
+  color: "secondary",
+  component: Link,
+};
 
 const pages = [
   { path: "/", title: "Dashboard" },
@@ -23,18 +34,60 @@ const pages = [
   { path: "/jobs", title: "All Postings" },
 ];
 
-const handleLogout = () => {
-  axios
-    .get("http://localhost:8081/v1/oauth/logout", { withCredentials: true })
-    .then((res) => (window.location.href = "/login"))
-    .catch((err) => console.log(err));
-};
-
 const NavBar = () => {
   const [mobileOpen, setMobileOpen] = useState(false);
+  const { isLogin, setIsLogin } = useLoginContext();
+  const navigate = useNavigate();
+
+  const handleLogout = () => {
+    apiClient
+      .get("/v1/oauth/logout")
+      .then((res) => {
+        setIsLogin(false);
+        navigate("/jobs");
+      })
+      .catch((err) => console.log(err));
+  };
 
   const handleDrawerToggle = () => {
     setMobileOpen(!mobileOpen);
+  };
+
+  const navButtoms = () => {
+    if (isLogin) {
+      return (
+        <>
+          {pages.map((page) => (
+            <NavButton key={page.path} component={Link} to={page.path}>
+              {page.title}
+            </NavButton>
+          ))}
+        </>
+      );
+    } else {
+      const page = pages[pages.length - 1];
+      return (
+        <NavButton key={page.path} component={Link} to={page.path}>
+          {page.title}
+        </NavButton>
+      );
+    }
+  };
+
+  const logInOutButtom = () => {
+    if (isLogin) {
+      return (
+        <NavButton key="/logout" onClick={handleLogout} to="/jobs">
+          Log Out
+        </NavButton>
+      );
+    } else {
+      return (
+        <NavButton key="/login" component={Link} to="/login">
+          Log In
+        </NavButton>
+      );
+    }
   };
 
   const menuDrawer = (
@@ -45,33 +98,8 @@ const NavBar = () => {
       gap={"15px"}
       p={"10px"}
     >
-      {pages.map((page) => (
-        <Button
-          key={page.path}
-          component={Link}
-          to={page.path}
-          variant="contained"
-          color="secondary"
-          sx={{
-            width: 140,
-            borderRadius: 100,
-          }}
-        >
-          {page.title}
-        </Button>
-      ))}
-      <Button
-        key="/logout"
-        onClick={handleLogout}
-        variant="contained"
-        color="secondary"
-        sx={{
-          width: 140,
-          borderRadius: 100,
-        }}
-      >
-        Log Out
-      </Button>
+      {navButtoms()}
+      {logInOutButtom()}
     </Box>
   );
 
@@ -88,42 +116,26 @@ const NavBar = () => {
                 maxWidth: "550px",
                 mx: "auto",
                 display: "flex",
-                justifyContent: "space-between",
+                justifyContent: isLogin ? "space-between" : "end",
               }}
             >
-              {pages.map((page) => (
-                <Button
-                  key={page.path}
-                  component={Link}
-                  to={page.path}
-                  variant="contained"
-                  color="secondary"
-                  sx={{
-                    width: 140,
-                    borderRadius: 100,
-                  }}
-                >
-                  {page.title}
-                </Button>
-              ))}
+              {navButtoms()}
             </Box>
           </Box>
-          <Box sx={{ flexGrow: 1, textAlign: "right" }}>
-            <Button
-              key="/logout"
-              onClick={handleLogout}
-              variant="contained"
-              color="secondary"
-              sx={{
-                width: 140,
-                borderRadius: 100,
-              }}
-            >
-              Log Out
-            </Button>
+          <Box
+            sx={{
+              minWidth: "160px",
+              flexGrow: isLogin ? 1 : 0,
+              textAlign: "right",
+            }}
+          >
+            {logInOutButtom()}
           </Box>
         </Toolbar>
         <Toolbar sx={{ display: { sm: "none" } }}>
+          <Box sx={{ flexGrow: 1 }} textAlign="center">
+            <Typography sx={{ mx: 4 }}>LOGO</Typography>
+          </Box>
           <IconButton
             color="inherit"
             aria-label="open drawer"
@@ -133,9 +145,6 @@ const NavBar = () => {
           >
             <MenuIcon />
           </IconButton>
-          <Box sx={{ flexGrow: 1 }}>
-            <Typography sx={{ mx: 4 }}>LOGO</Typography>
-          </Box>
         </Toolbar>
       </AppBar>
       <Box marginBottom={7}></Box>

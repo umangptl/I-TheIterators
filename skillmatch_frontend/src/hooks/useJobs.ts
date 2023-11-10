@@ -12,10 +12,10 @@ export interface Job {
     location: string;
     requiredQualifications: string;
     hiringTeamInfo: string;
-    requiredDocuments: string;
+    requiredDocuments: string[];
     tag: string;
     experience: string;
-    salary: DoubleRange;
+    salary: number;
     //applicantNo: number;
     type: string;
     //department: string;
@@ -34,6 +34,7 @@ const useJobs = () => {
         .catch((err) => {
             if (err instanceof CanceledError) return;
             setError(err.message)
+            console.log(err);
         });
 
         return () => controller.abort();

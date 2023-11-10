@@ -14,15 +14,12 @@ import SelectFilter from "./SelectFilter";
 import TextFilter from "./TextFilter";
 import MultiSelectFilter from "./MultiSelectFilter";
 import FilterAltIcon from "@mui/icons-material/FilterAlt";
-// import deleteJob from "../../hooks/deleteJob";
 import apiClient from "../../services/api-client";
 
 const drawerWidth = 240;
 
 const AllJobs = () => {
-  // const [Error, setError] = useState("");
   const { jobs, setJobs, error } = useJobs();
-  // setError(error);
   const [alert, setAlert] = useState(false);
 
   let filteredJobs = jobs;
@@ -186,12 +183,7 @@ const AllJobs = () => {
             </Alert>
           )}
           {filteredJobs.map((job) => (
-            <JobCard
-              job={job}
-              key={job.jobId}
-              onEdit={handleEdit}
-              onDelete={handleDelete}
-            />
+            <JobCard job={job} key={job.jobId} onDelete={handleDelete} />
           ))}
         </Box>
       </Box>
