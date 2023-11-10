@@ -1,18 +1,14 @@
 import {
   Box,
   Button,
-  ButtonProps,
   Card,
   CardActions,
   CardContent,
+  Stack,
   Typography,
-  styled,
 } from "@mui/material";
 import { Job } from "../../hooks/useJobs";
-import ActionButton from "../common/ActionButton";
 import { useLoginContext } from "../../hooks/useLoginContext";
-import { Link } from "react-router-dom";
-import ActionLinkButton from "../common/ActionLinkButtom";
 
 interface Props {
   job: Job;
@@ -23,7 +19,7 @@ const JobCard = ({ job, onDelete }: Props) => {
   const { isLogin } = useLoginContext();
 
   return (
-    <Card elevation={4} sx={{ mb: "15px" }}>
+    <Card elevation={2} sx={{ padding:2, backgroundColor: "#fafaff" }}>
       <CardContent>
         <Typography variant="h5">{job.title}</Typography>
         <Typography>
@@ -45,19 +41,33 @@ const JobCard = ({ job, onDelete }: Props) => {
         <Typography></Typography>
       </CardContent>
       <CardActions>
-        <ActionLinkButton to={"/job/" + job.jobId}>
-          View details
-        </ActionLinkButton>
-        {isLogin && (
-          <>
-            <ActionLinkButton to={"/edit-job/" + job.jobId}>
-              Edit posting
-            </ActionLinkButton>
-            <ActionButton onClick={() => onDelete(job.jobId)}>
-              Delete posting
-            </ActionButton>
-          </>
-        )}
+        <Stack direction="row" spacing={2}>
+          <Button
+            variant="contained"
+            color="success"
+            href={"/job/" + job.jobId}
+          >
+            View details
+          </Button>
+          {isLogin && (
+            <>
+              <Button
+                variant="contained"
+                color="success"
+                href={"/edit-job/" + job.jobId}
+              >
+                Edit posting
+              </Button>
+              <Button
+                variant="outlined"
+                color="error"
+                onClick={() => onDelete(job.jobId)}
+              >
+                Delete posting
+              </Button>
+            </>
+          )}
+        </Stack>
       </CardActions>
     </Card>
   );

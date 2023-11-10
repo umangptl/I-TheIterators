@@ -3,12 +3,18 @@ import React, { useState } from "react";
 import Grid from "@mui/material/Unstable_Grid2";
 import usePosting from "../../hooks/usePosting";
 import { useParams } from "react-router";
-import { Alert, AlertTitle, Container, Typography } from "@mui/material";
+import {
+  Alert,
+  AlertTitle,
+  Button,
+  Container,
+  Typography,
+} from "@mui/material";
 import useApplicationsByJob from "../../hooks/useApplicationsByJob";
-import ActionButton from "../common/ActionButton";
 import apiClient from "../../services/api-client";
 import { useNavigate } from "react-router-dom";
-import ActionLinkButton from "../common/ActionLinkButtom";
+import { Stack } from "@mui/system";
+import { useLoginContext } from "../../hooks/useLoginContext";
 
 const JobDetails = () => {
   const { jobId } = useParams();
@@ -16,6 +22,7 @@ const JobDetails = () => {
   const { applications } = useApplicationsByJob(jobId as string);
   const [alert, setAlert] = useState(false);
   const navigate = useNavigate();
+  const { isLogin } = useLoginContext();
 
   if (job === undefined) {
     return <></>;
@@ -73,18 +80,47 @@ const JobDetails = () => {
           <Typography variant="h6">Deadline date: {deadlineDate}</Typography>
           {/* <Typography variant="h6">{job?.department}</Typography> */}
         </Grid>
+
         <Grid xs={7}>
-          <ActionLinkButton to={"/edit-job/" + job.jobId}>
-            Edit posting
-          </ActionLinkButton>
-          <ActionButton onClick={() => handleDelete(job.jobId)}>
-            Delete posting
-          </ActionButton>
+          {isLogin && (
+            <Stack direction="row" spacing={2}>
+              <Button
+                variant="contained"
+                color="success"
+                href={"/edit-job/" + job.jobId}
+              >
+                Edit posting
+              </Button>
+              <Button
+                variant="outlined"
+                color="error"
+                onClick={() => handleDelete(job.jobId)}
+              >
+                Delete posting
+              </Button>
+            </Stack>
+          )}
         </Grid>
+
         <Grid xs={5} textAlign={"right"}>
-          <ActionButton onClick={() => handleShowApplications(job.jobId)}>
-            View Applications
-          </ActionButton>
+          {isLogin && (
+            <Button
+              variant="contained"
+              color="success"
+              onClick={() => handleShowApplications(job.jobId)}
+            >
+              View Applications
+            </Button>
+          )}
+          {!isLogin && (
+            <Button
+              variant="contained"
+              color="success"
+              href={"/apply/" + job.jobId}
+            >
+              Apply
+            </Button>
+          )}
         </Grid>
         <Grid xs={12}>
           {alert && (
@@ -97,7 +133,9 @@ const JobDetails = () => {
               Not implemented yet!
             </Alert>
           )}
-          <Typography variant="body1">{job.description}</Typography>
+          <Typography sx={{ py: 2 }} variant="body1">
+            {job.description}
+          </Typography>
         </Grid>
       </Grid>
     </Container>
