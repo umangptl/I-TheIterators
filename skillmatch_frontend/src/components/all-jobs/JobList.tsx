@@ -15,8 +15,9 @@ import TextFilter from "./TextFilter";
 import MultiSelectFilter from "./MultiSelectFilter";
 import FilterAltIcon from "@mui/icons-material/FilterAlt";
 import apiClient from "../../services/api-client";
+import { Container, Stack } from "@mui/system";
 
-const drawerWidth = 240;
+const drawerWidth = "25%";
 
 const AllJobs = () => {
   const { jobs, setJobs, error } = useJobs();
@@ -85,7 +86,7 @@ const AllJobs = () => {
   };
 
   const filterDrawer = (
-    <Box sx={{ p: 3 }}>
+    <Stack direction={"column"} spacing={4} sx={{ mt: 1, p: 2 }}>
       <TextFilter
         label="Job Title"
         onChange={(text) => setTitleFilter(text)}
@@ -96,6 +97,7 @@ const AllJobs = () => {
       ></TextFilter>
       <SelectFilter
         label="Type"
+        value={typeFilter}
         options={typeOptions}
         onSelect={(selection) => {
           setTypeFilter(selection);
@@ -104,6 +106,7 @@ const AllJobs = () => {
       />
       <SelectFilter
         label="Experience"
+        value={experienceFilter}
         options={experienceOptions}
         onSelect={(selection) => {
           setExperienceFilter(selection);
@@ -118,13 +121,13 @@ const AllJobs = () => {
           console.log(selection);
         }}
       />
-    </Box>
+    </Stack>
   );
 
   return (
     <>
       <Box sx={{ display: "flex" }}>
-        <Box sx={{ width: { sm: drawerWidth } }}>
+        <Box sx={{ width: { sm: drawerWidth }, backgroundColor: "#fafaff" }}>
           <Drawer
             variant="temporary"
             open={mobileOpen}
@@ -158,9 +161,7 @@ const AllJobs = () => {
             {filterDrawer}
           </Drawer>
         </Box>
-        <Box
-          sx={{ p: 3, pt: 0, width: { sm: `calc(100% - ${drawerWidth}px)` } }}
-        >
+        <Box sx={{ p: 3, pt: 0, width: { sm: `calc(100% - ${drawerWidth})` } }}>
           <IconButton
             color="inherit"
             aria-label="open drawer"
@@ -182,9 +183,17 @@ const AllJobs = () => {
               Not implemented yet!
             </Alert>
           )}
-          {filteredJobs.map((job) => (
-            <JobCard job={job} key={job.jobId} onDelete={handleDelete} />
-          ))}
+
+          <Stack
+            spacing={3}
+            alignItems={"stretch"}
+            justifyContent={"center"}
+            sx={{ px: 1, py: 2 }}
+          >
+            {filteredJobs.map((job) => (
+              <JobCard job={job} key={job.jobId} onDelete={handleDelete} />
+            ))}
+          </Stack>
         </Box>
       </Box>
     </>

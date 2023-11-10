@@ -17,5 +17,5 @@ public class Application {
     private String applicationId;
     private ApplicationStatus status;
     private String jobId;
-    private String applicantId;
+    private Applicant applicant;
 }

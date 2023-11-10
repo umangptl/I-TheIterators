@@ -20,10 +20,9 @@ const drawerWidth = 240;
 
 const NavButton = styled(Button)<ButtonProps & LinkProps>(({ theme }) => ({
   width: 140,
-  borderRadius: 100,
+  borderRadius: 20,
 }));
 NavButton.defaultProps = {
-  variant: "contained",
   color: "secondary",
   component: Link,
 };
@@ -107,24 +106,14 @@ const NavBar = () => {
     <>
       <AppBar sx={{ zIndex: 1400 }}>
         <Toolbar sx={{ display: { xs: "none", sm: "flex" } }}>
-          <Box sx={{ flexGrow: 1 }}>
+          <Box sx={{ flexGrow: 1, textAlign: "left" }}>
             <Typography sx={{ mx: 4 }}>LOGO</Typography>
           </Box>
-          <Box sx={{ flexGrow: 2, textAlign: "right" }}>
-            <Box
-              sx={{
-                maxWidth: "550px",
-                mx: "auto",
-                display: "flex",
-                justifyContent: isLogin ? "space-between" : "end",
-              }}
-            >
-              {navButtoms()}
-            </Box>
+          <Box sx={{ flexGrow: 1, textAlign: "right" }}>
+            <Box>{navButtoms()}</Box>
           </Box>
           <Box
             sx={{
-              minWidth: "160px",
               flexGrow: isLogin ? 1 : 0,
               textAlign: "right",
             }}
