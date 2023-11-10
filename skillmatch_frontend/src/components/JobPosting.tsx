@@ -1,9 +1,12 @@
-import { Button } from "@mui/material";
+import NavBar from "./common/NavBar";
+import JobDetails from "./job-posting/JobDetails";
+
 // Gerardo
 export default function JobPosting() {
   return (
-    <div>
-      <Button href="apply">Apply</Button>
-    </div>
+    <>
+      <NavBar />
+      <JobDetails />
+    </>
   );
 }

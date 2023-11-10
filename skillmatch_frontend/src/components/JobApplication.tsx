@@ -2,7 +2,6 @@ import React, { useEffect, useState } from "react";
 import TextField from "@mui/material/TextField";
 import Button from "@mui/material/Button";
 import Container from "@mui/material/Container";
-import NavBar from "./all-jobs/NavBar";
 import {
   FormControl,
   FormControlLabel,
@@ -20,6 +19,7 @@ import { useParams } from "react-router-dom";
 import { Application } from "../models/Application";
 import { Applicant } from "../models/Applicant";
 import axios from "axios";
+import NavBar from "./common/NavBar";
 
 export default function JobApplication() {
   const [workedPreviously, setWorkedPreviously] = useState("");
@@ -37,6 +37,7 @@ export default function JobApplication() {
     coverLetter: undefined,
   });
   const [resume, setResume] = useState<File | null>(null);
+  const { jobId } = useParams();
 
   const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const { name, value } = e.target;
@@ -60,7 +61,7 @@ export default function JobApplication() {
       return;
     }
     let application: Application = {
-      jobId: "ce25fs",
+      jobId: jobId? jobId:"",
       status: "PENDING",
       applicant: applicant,
     };
@@ -158,11 +159,12 @@ export default function JobApplication() {
     <div>
       <NavBar />
       <Container
-        sx={{ padding: 4, mt: 4, background: "#fafaff" }}
+        sx={{ padding: 2, background: "#fafaff" }}
         maxWidth="md"
       >
         <form onSubmit={handleSubmit}>
           <Typography variant="h4">Apply for this Job</Typography>
+          <Typography variant="h5">Job Id: {jobId}</Typography>
 
           <TextField
             label="First Name"
