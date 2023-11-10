@@ -3,6 +3,7 @@ import {
   Box,
   Button,
   ButtonProps,
+  Container,
   Toolbar,
   Typography,
 } from "@mui/material";
@@ -11,10 +12,9 @@ import axios from "axios";
 
 const NavButton = styled(Button)<ButtonProps>(({ theme }) => ({
   width: 140,
-  borderRadius: 100,
+  borderRadius: 20,
 }));
 NavButton.defaultProps = {
-  variant: "contained",
   color: "secondary",
 };
 
@@ -26,28 +26,21 @@ const pages = [
 
 const handleLogout = () => {
   axios
-      .get("http://localhost:8081/v1/oauth/logout", { withCredentials: true })
-      .then((res) => window.location.href = '/login')
-      .catch((err) => console.log(err));
+    .get("http://localhost:8081/v1/oauth/logout", { withCredentials: true })
+    .then((res) => (window.location.href = "/login"))
+    .catch((err) => console.log(err));
 };
 
 const NavBar = () => {
   return (
-    <>
-      <AppBar>
-        <Toolbar>
-          <Box sx={{ flexGrow: 1 }}>
-            <Typography sx={{ mx: 4 }}>LOGO</Typography>
+    <AppBar>
+      <Container>
+        <Toolbar disableGutters>
+          <Box sx={{ flexGrow: 1, textAlign: "center" }}>
+            <Typography>LOGO</Typography>
           </Box>
-          <Box sx={{ flexGrow: 2, textAlign: "right" }}>
-            <Box
-              sx={{
-                maxWidth: "550px",
-                mx: "auto",
-                display: "flex",
-                justifyContent: "space-between",
-              }}
-            >
+          <Box sx={{ flexGrow: 1, textAlign: "right" }}>
+            <Box>
               {pages.map((page) => (
                 <NavButton key={page.path} href={page.path}>
                   {page.title}
@@ -61,8 +54,8 @@ const NavBar = () => {
             </NavButton>
           </Box>
         </Toolbar>
-      </AppBar>
-    </>
+      </Container>
+    </AppBar>
   );
 };
 

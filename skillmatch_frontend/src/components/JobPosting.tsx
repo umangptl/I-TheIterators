@@ -1,6 +1,9 @@
-import React from "react";
-
+import { Button } from "@mui/material";
 // Gerardo
 export default function JobPosting() {
-    return <div>JobPosting</div>;
+  return (
+    <div>
+      <Button href="apply">Apply</Button>
+    </div>
+  );
 }

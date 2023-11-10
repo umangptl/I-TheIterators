@@ -25,6 +25,8 @@ public class SecurityConfig{
         http.addFilterBefore(jwtRequestFilter, UsernamePasswordAuthenticationFilter.class);
         http.authorizeRequests().requestMatchers(new AntPathRequestMatcher("/**", "OPTIONS")).permitAll()
                 .requestMatchers(new AntPathRequestMatcher("/v1/oauth/login")).permitAll()
+                .requestMatchers(new AntPathRequestMatcher("/application", "POST")).permitAll()
+                .requestMatchers(new AntPathRequestMatcher("/job/*", "GET")).permitAll()
                 .anyRequest().authenticated();
         return http.build();
     }

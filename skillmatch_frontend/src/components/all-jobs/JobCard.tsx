@@ -1,42 +1,12 @@
 import {
   Button,
-  ButtonProps,
   Card,
   CardActions,
   CardContent,
+  Stack,
   Typography,
-  styled,
 } from "@mui/material";
-import { Link } from "react-router-dom";
-
-const ActionButton = styled(Button)<ButtonProps>(({ theme }) => ({
-  borderRadius: 0,
-  marginLeft: "8px",
-  marginBottom: "8px",
-}));
-ActionButton.defaultProps = {
-  variant: "contained",
-  color: "secondary",
-  size: "small",
-};
-
-export interface Job {
-  jobId: string;
-  title: string;
-  datePosted: string;
-  deadline: string;
-  description: string;
-  skillsRequired: string[];
-  location: string;
-  requiredQualifications: string;
-  hiringTeamInfo: string;
-  requiredDocuments: string;
-  tag: string;
-  experience: string;
-  //applicantNo: number;
-  type: string;
-  //department: string;
-}
+import { Job } from "../../models/Job";
 
 interface Props {
   job: Job;
@@ -46,7 +16,7 @@ interface Props {
 
 const JobCard = ({ job, onEdit, onDelete }: Props) => {
   return (
-    <Card elevation={6} sx={{ mb: "15px" }}>
+    <Card elevation={2} sx={{ backgroundColor: "#fafaff" }}>
       <CardContent>
         <Typography variant="h5">{job.title}</Typography>
         <Typography>
@@ -56,13 +26,25 @@ const JobCard = ({ job, onEdit, onDelete }: Props) => {
         <Typography></Typography>
       </CardContent>
       <CardActions>
-        <ActionButton href="/job">View job</ActionButton>
-        <ActionButton onClick={() => onEdit(job.title)}>
-          Edit posting
-        </ActionButton>
-        <ActionButton onClick={() => onDelete(job.title)}>
-          Delete posting
-        </ActionButton>
+        <Stack direction="row" spacing={2}>
+          <Button variant="contained" color="success" href="/job">
+            View job
+          </Button>
+          <Button
+            variant="contained"
+            color="success"
+            onClick={() => onEdit(job.title)}
+          >
+            Edit posting
+          </Button>
+          <Button
+            variant="outlined"
+            color="error"
+            onClick={() => onDelete(job.title)}
+          >
+            Delete posting
+          </Button>
+        </Stack>
       </CardActions>
     </Card>
   );

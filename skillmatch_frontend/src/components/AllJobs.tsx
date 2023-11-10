@@ -1,14 +1,11 @@
 import { useEffect, useState } from "react";
 import axios from "axios";
 import JobCard from "./all-jobs/JobCard";
-import { Job } from "./all-jobs/JobCard";
 
 import NavBar from "./all-jobs/NavBar";
-import { Alert, AlertTitle, Box, Container } from "@mui/material";
-import { setMaxIdleHTTPParsers } from "http";
-import { blue } from "@mui/material/colors";
-import zIndex from "@mui/material/styles/zIndex";
+import { Alert, AlertTitle, Container, Stack } from "@mui/material";
 import { useNavigate } from "react-router-dom";
+import { Job } from "../models/Job";
 
 const AllJobs: React.FC<{ isLogin: boolean }> = ({ isLogin }) => {
   const navigate = useNavigate();
@@ -27,29 +24,31 @@ const AllJobs: React.FC<{ isLogin: boolean }> = ({ isLogin }) => {
   const handleDelete = (title: string) => setAlert(true);
 
   return (
-    <>
-      <NavBar />
-      <Container sx={{ paddingTop: "70px" }}>
-        {alert && (
-          <Alert
-            severity="warning"
-            sx={{ position: "sticky", top: 80, zIndex: "1" }}
-            onClose={() => setAlert(false)}
-          >
-            <AlertTitle>Warning</AlertTitle>
-            Not implemented yet!
-          </Alert>
-        )}
-        {jobs.map((job) => (
-          <JobCard
-            job={job}
-            key={job.jobId}
-            onEdit={handleEdit}
-            onDelete={handleDelete}
-          />
-        ))}
+    <div >
+      <NavBar/>
+      <Container sx={{padding: "2%", mt: 5}}>
+        <Stack spacing={2} alignItems={"stretch"} justifyContent={"center"} sx={{px: 12}}>
+          {alert && (
+            <Alert
+              severity="warning"
+              sx={{ position: "sticky", top: 80, zIndex: "1" }}
+              onClose={() => setAlert(false)}
+            >
+              <AlertTitle>Warning</AlertTitle>
+              Not implemented yet!
+            </Alert>
+          )}
+          {jobs.map((job) => (
+            <JobCard
+              job={job}
+              key={job.jobId}
+              onEdit={handleEdit}
+              onDelete={handleDelete}
+            />
+          ))}
+        </Stack>
       </Container>
-    </>
+    </div>
   );
 };
 

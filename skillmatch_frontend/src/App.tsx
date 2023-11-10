@@ -7,6 +7,7 @@ import AllJobs from "./components/AllJobs";
 import Login from "./components/Login";
 import JobPosting from "./components/JobPosting";
 import axios from "axios";
+import JobApplication from "./components/JobApplication";
 
 function App() {
   const [isLogin, setIsLogin] = useState(false);
@@ -34,6 +35,7 @@ function App() {
           <Route path="/jobs" element={<AllJobs isLogin={isLogin}/>} />
           <Route path="/login" element={<Login isLogin={isLogin} setIsLogin={setIsLogin}/>} />
           <Route path="/job" element={<JobPosting />} />
+          <Route path="/apply" element={<JobApplication />} />
         </Routes>
       </Router>
     </div>
