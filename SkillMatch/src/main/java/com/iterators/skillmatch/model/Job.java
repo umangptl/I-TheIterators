@@ -37,4 +37,6 @@ public class Job {
     private String hiringTeamInfo;
     private List<Documents> requiredDocuments;
     private String tag;
+    private String experience;
+    private String type; // part-time OR full-time;
 }

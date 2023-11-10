@@ -1,4 +1,5 @@
 import {
+  Box,
   Button,
   ButtonProps,
   Card,
@@ -7,62 +8,56 @@ import {
   Typography,
   styled,
 } from "@mui/material";
+import { Job } from "../../hooks/useJobs";
+import ActionButton from "../common/ActionButton";
+import { useLoginContext } from "../../hooks/useLoginContext";
 import { Link } from "react-router-dom";
-
-const ActionButton = styled(Button)<ButtonProps>(({ theme }) => ({
-  borderRadius: 0,
-  marginLeft: "8px",
-  marginBottom: "8px",
-}));
-ActionButton.defaultProps = {
-  variant: "contained",
-  color: "secondary",
-  size: "small",
-};
-
-export interface Job {
-  jobId: string;
-  title: string;
-  datePosted: string;
-  deadline: string;
-  description: string;
-  skillsRequired: string[];
-  location: string;
-  requiredQualifications: string;
-  hiringTeamInfo: string;
-  requiredDocuments: string;
-  tag: string;
-  experience: string;
-  //applicantNo: number;
-  type: string;
-  //department: string;
-}
+import ActionLinkButton from "../common/ActionLinkButtom";
 
 interface Props {
   job: Job;
-  onEdit: (title: string) => void;
   onDelete: (title: string) => void;
 }
 
-const JobCard = ({ job, onEdit, onDelete }: Props) => {
+const JobCard = ({ job, onDelete }: Props) => {
+  const { isLogin } = useLoginContext();
+
   return (
-    <Card elevation={6} sx={{ mb: "15px" }}>
+    <Card elevation={4} sx={{ mb: "15px" }}>
       <CardContent>
         <Typography variant="h5">{job.title}</Typography>
         <Typography>
           {job.type} - {job.location}
         </Typography>
-        <Typography variant="body2">{job.description}</Typography>
+        <Box maxHeight={"60px"} overflow="hidden" textOverflow={"ellipsis"}>
+          <Typography
+            variant="body2"
+            sx={{
+              cursor: "default",
+              overflow: "hidden",
+              textOverflow: "ellipsis",
+              height: "100%",
+            }}
+          >
+            {job.description}
+          </Typography>
+        </Box>
         <Typography></Typography>
       </CardContent>
       <CardActions>
-        <ActionButton href="/job">View job</ActionButton>
-        <ActionButton onClick={() => onEdit(job.title)}>
-          Edit posting
-        </ActionButton>
-        <ActionButton onClick={() => onDelete(job.title)}>
-          Delete posting
-        </ActionButton>
+        <ActionLinkButton to={"/job/" + job.jobId}>
+          View details
+        </ActionLinkButton>
+        {isLogin && (
+          <>
+            <ActionLinkButton to={"/edit-job/" + job.jobId}>
+              Edit posting
+            </ActionLinkButton>
+            <ActionButton onClick={() => onDelete(job.jobId)}>
+              Delete posting
+            </ActionButton>
+          </>
+        )}
       </CardActions>
     </Card>
   );
