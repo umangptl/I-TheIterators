@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import { useState } from "react";
 
 import Grid from "@mui/material/Unstable_Grid2";
 import usePosting from "../../hooks/usePosting";
@@ -7,6 +7,7 @@ import {
   Alert,
   AlertTitle,
   Button,
+  Chip,
   Container,
   Typography,
 } from "@mui/material";
@@ -15,10 +16,11 @@ import apiClient from "../../services/api-client";
 import { useNavigate } from "react-router-dom";
 import { Stack } from "@mui/system";
 import { useLoginContext } from "../../hooks/useLoginContext";
+import LinkButton from "../common/LinkButton";
 
 const JobDetails = () => {
   const { jobId } = useParams();
-  const { job, setJob } = usePosting(jobId as string);
+  const { job } = usePosting(jobId as string);
   const { applications } = useApplicationsByJob(jobId as string);
   const [alert, setAlert] = useState(false);
   const navigate = useNavigate();
@@ -72,25 +74,39 @@ const JobDetails = () => {
           <Typography variant="h6">Experience: {job.experience}</Typography>
         </Grid>
         <Grid xs={7} textAlign={"right"}>
-          <Typography variant="h4">Applications</Typography>
-          <Typography variant="h6">
-            {applications?.length} applicants
-          </Typography>
-          <Typography variant="h6">Posting date: {postingDate}</Typography>
-          <Typography variant="h6">Deadline date: {deadlineDate}</Typography>
-          {/* <Typography variant="h6">{job?.department}</Typography> */}
+          {isLogin && (
+            <>
+              <Typography variant="h4">Applications</Typography>
+              <Typography variant="h6">
+                {applications?.length} applicants
+              </Typography>
+              <Typography variant="h6">Posting date: {postingDate}</Typography>
+              <Typography variant="h6">
+                Deadline date: {deadlineDate}
+              </Typography>
+              {/* <Typography variant="h6">{job?.department}</Typography> */}
+            </>
+          )}
         </Grid>
-
+        <Grid xs={12} mb={"8px"}>
+          <Typography variant="h6">Skills required</Typography>
+          {job.skillsRequired.map((skill) => (
+            <Chip
+              key={skill}
+              clickable={false}
+              label={skill}
+              variant="outlined"
+              sx={{ mr: "4px" }}
+              size="small"
+            ></Chip>
+          ))}
+        </Grid>
         <Grid xs={7}>
           {isLogin && (
             <Stack direction="row" spacing={2}>
-              <Button
-                variant="contained"
-                color="success"
-                href={"/edit-job/" + job.jobId}
-              >
+              <LinkButton to={"/edit-job/" + job.jobId}>
                 Edit posting
-              </Button>
+              </LinkButton>
               <Button
                 variant="outlined"
                 color="error"
@@ -99,6 +115,9 @@ const JobDetails = () => {
                 Delete posting
               </Button>
             </Stack>
+          )}
+          {!isLogin && (
+            <LinkButton to={"/apply/" + job.jobId}>Apply Now</LinkButton>
           )}
         </Grid>
 
@@ -110,15 +129,6 @@ const JobDetails = () => {
               onClick={() => handleShowApplications(job.jobId)}
             >
               View Applications
-            </Button>
-          )}
-          {!isLogin && (
-            <Button
-              variant="contained"
-              color="success"
-              href={"/apply/" + job.jobId}
-            >
-              Apply
             </Button>
           )}
         </Grid>
