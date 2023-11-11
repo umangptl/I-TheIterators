@@ -38,7 +38,7 @@ const usePosting = (jobId: string) => {
         });
 
         return () => controller.abort();
-    }, []);
+    }, [jobId]);
 
     return { job, setJob, error };
 }
