@@ -4,11 +4,13 @@ import {
   Card,
   CardActions,
   CardContent,
+  Chip,
   Stack,
   Typography,
 } from "@mui/material";
 import { Job } from "../../hooks/useJobs";
 import { useLoginContext } from "../../hooks/useLoginContext";
+import LinkButton from "../common/LinkButton";
 
 interface Props {
   job: Job;
@@ -19,12 +21,24 @@ const JobCard = ({ job, onDelete }: Props) => {
   const { isLogin } = useLoginContext();
 
   return (
-    <Card elevation={2} sx={{ padding:2, backgroundColor: "#fafaff" }}>
+    <Card elevation={2} sx={{ padding: 2, backgroundColor: "#fafaff" }}>
       <CardContent>
         <Typography variant="h5">{job.title}</Typography>
         <Typography>
           {job.type} - {job.location}
         </Typography>
+        <Box mt="2  px" mb="5px">
+          {job.skillsRequired.map((skill) => (
+            <Chip
+              key={skill}
+              clickable={false}
+              label={skill}
+              variant="outlined"
+              sx={{ mr: "4px" }}
+              size="small"
+            ></Chip>
+          ))}
+        </Box>
         <Box maxHeight={"60px"} overflow="hidden" textOverflow={"ellipsis"}>
           <Typography
             variant="body2"
@@ -38,26 +52,15 @@ const JobCard = ({ job, onDelete }: Props) => {
             {job.description}
           </Typography>
         </Box>
-        <Typography></Typography>
       </CardContent>
       <CardActions>
         <Stack direction="row" spacing={2}>
-          <Button
-            variant="contained"
-            color="success"
-            href={"/job/" + job.jobId}
-          >
-            View details
-          </Button>
+          <LinkButton to={"/job/" + job.jobId}>View details</LinkButton>
           {isLogin && (
             <>
-              <Button
-                variant="contained"
-                color="success"
-                href={"/edit-job/" + job.jobId}
-              >
+              <LinkButton to={"/edit-job/" + job.jobId}>
                 Edit posting
-              </Button>
+              </LinkButton>
               <Button
                 variant="outlined"
                 color="error"

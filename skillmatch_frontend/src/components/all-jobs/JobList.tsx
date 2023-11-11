@@ -15,9 +15,9 @@ import TextFilter from "./TextFilter";
 import MultiSelectFilter from "./MultiSelectFilter";
 import FilterAltIcon from "@mui/icons-material/FilterAlt";
 import apiClient from "../../services/api-client";
-import { Container, Stack } from "@mui/system";
+import { Stack } from "@mui/system";
 
-const drawerWidth = "25%";
+const drawerWidth = "240px";
 
 const AllJobs = () => {
   const { jobs, setJobs, error } = useJobs();
@@ -50,7 +50,7 @@ const AllJobs = () => {
   const experienceOptions = ["1 year", "2 years", "3+ years"];
   filteredJobs =
     experienceFilter !== "all"
-      ? filteredJobs.filter((job) => job.description === experienceFilter)
+      ? filteredJobs.filter((job) => job.experience === experienceFilter)
       : filteredJobs;
 
   const [skillsFilter, setSkillsFilter] = useState<string[]>([]);
@@ -65,8 +65,6 @@ const AllJobs = () => {
           job.skillsRequired.some((skill) => skillsFilter.includes(skill))
         )
       : filteredJobs;
-
-  const handleEdit = (title: string) => setAlert(true);
 
   const handleDelete = (jobId: string) => {
     const originalJobs = jobs;
@@ -111,6 +109,7 @@ const AllJobs = () => {
         onSelect={(selection) => {
           setExperienceFilter(selection);
           console.log(selection);
+          console.log(filteredJobs);
         }}
       />
       <MultiSelectFilter
@@ -127,7 +126,7 @@ const AllJobs = () => {
   return (
     <>
       <Box sx={{ display: "flex" }}>
-        <Box sx={{ width: { sm: drawerWidth }, backgroundColor: "#fafaff" }}>
+        <Box sx={{ width: { md: drawerWidth }, backgroundColor: "#fafaff" }}>
           <Drawer
             variant="temporary"
             open={mobileOpen}
@@ -136,7 +135,7 @@ const AllJobs = () => {
               keepMounted: true, // Better open performance on mobile.
             }}
             sx={{
-              display: { xs: "block", sm: "none" },
+              display: { xs: "block", md: "none" },
               "& .MuiDrawer-paper": {
                 boxSizing: "border-box",
                 width: drawerWidth,
@@ -149,7 +148,7 @@ const AllJobs = () => {
           <Drawer
             variant="permanent"
             sx={{
-              display: { xs: "none", sm: "block" },
+              display: { xs: "none", md: "block" },
               "& .MuiDrawer-paper": {
                 boxSizing: "border-box",
                 width: drawerWidth,
@@ -161,13 +160,13 @@ const AllJobs = () => {
             {filterDrawer}
           </Drawer>
         </Box>
-        <Box sx={{ p: 3, pt: 0, width: { sm: `calc(100% - ${drawerWidth})` } }}>
+        <Box sx={{ p: 3, pt: 0, width: { md: `calc(100% - ${drawerWidth})` } }}>
           <IconButton
             color="inherit"
             aria-label="open drawer"
             edge="start"
             onClick={handleDrawerToggle}
-            sx={{ display: { xs: "flex", sm: "none" }, alignItems: "center" }}
+            sx={{ display: { xs: "flex", md: "none" }, alignItems: "center" }}
           >
             <FilterAltIcon />
             <Typography>Filter jobs</Typography>

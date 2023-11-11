@@ -1,31 +1,40 @@
-import React from 'react';
-import ReactDOM from 'react-dom/client';
-import './index.css';
-import App from './App';
-import reportWebVitals from './reportWebVitals';
-import { ThemeProvider, createTheme } from '@mui/material/styles';
+import React from "react";
+import ReactDOM from "react-dom/client";
+import "./index.css";
+import App from "./App";
+import reportWebVitals from "./reportWebVitals";
+import { ThemeProvider, createTheme } from "@mui/material/styles";
 
 const root = ReactDOM.createRoot(
-  document.getElementById('root') as HTMLElement
+  document.getElementById("root") as HTMLElement
 );
 const theme = createTheme({
   palette: {
     primary: {
-      main: '#30343f', // Change this to your new primary color
+      main: "#30343f", // Change this to your new primary color
     },
     secondary: {
-      main: '#fafaff', // Change this to your new secondary color
+      main: "#fafaff", // Change this to your new secondary color
     },
     success: {
-      main: '#e4d9ff', // Change this to your new tertiary color
-    }
+      main: "#e4d9ff", // Change this to your new tertiary color
+    },
+  },
+  breakpoints: {
+    values: {
+      xs: 0,
+      sm: 600,
+      md: 780,
+      lg: 1200,
+      xl: 1536,
+    },
   },
 });
 root.render(
   <React.StrictMode>
     <ThemeProvider theme={theme}>
-    <App />
-  </ThemeProvider>
+      <App />
+    </ThemeProvider>
   </React.StrictMode>
 );
 
