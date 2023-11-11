@@ -3,10 +3,6 @@ import { Avatar, Grid, Container } from "@mui/material";
 import useApplicationsByJob from "../hooks/useApplicationsByJob";
 
 const ApplicantInfo = () => {
-    const { applications, setApplications, error } =
-        useApplicationsByJob("234253");
-    console.log(applications);
-
     return (
         <Container maxWidth="sm">
             <Grid container spacing={2}>
