@@ -66,28 +66,29 @@ const JobDetails = () => {
   return (
     <Container maxWidth="md">
       <Grid container spacing={2}>
-        <Grid xs={5}>
+        {/* {!isLogin && (
+          <Grid xs={12}>
+            <Typography variant="h4">{job.title}</Typography>
+          </Grid>
+        )} */}
+        <Grid xs={isLogin ? 7 : 12}>
           <Typography variant="h4">{job.title}</Typography>
           <Typography variant="h6">{job.type}</Typography>
           <Typography variant="h6">{job.location}</Typography>
           {/* <Typography variant="h6">{job?.department}</Typography> */}
           <Typography variant="h6">Experience: {job.experience}</Typography>
         </Grid>
-        <Grid xs={7} textAlign={"right"}>
-          {isLogin && (
-            <>
-              <Typography variant="h4">Applications</Typography>
-              <Typography variant="h6">
-                {applications?.length} applicants
-              </Typography>
-              <Typography variant="h6">Posting date: {postingDate}</Typography>
-              <Typography variant="h6">
-                Deadline date: {deadlineDate}
-              </Typography>
-              {/* <Typography variant="h6">{job?.department}</Typography> */}
-            </>
-          )}
-        </Grid>
+        {isLogin && (
+          <Grid xs={5} textAlign={"right"}>
+            <Typography variant="h4">Applications</Typography>
+            <Typography variant="h6">
+              {applications?.length} applicants
+            </Typography>
+            <Typography variant="h6">Posting date: {postingDate}</Typography>
+            <Typography variant="h6">Deadline date: {deadlineDate}</Typography>
+            {/* <Typography variant="h6">{job?.department}</Typography> */}
+          </Grid>
+        )}
         <Grid xs={12} mb={"8px"}>
           <Typography variant="h6">Skills required</Typography>
           {job.skillsRequired.map((skill) => (
@@ -143,7 +144,7 @@ const JobDetails = () => {
               Not implemented yet!
             </Alert>
           )}
-          <Typography sx={{ py: 2 }} variant="body1">
+          <Typography sx={{ py: 2 }} variant="body1" textAlign="justify">
             {job.description}
           </Typography>
         </Grid>

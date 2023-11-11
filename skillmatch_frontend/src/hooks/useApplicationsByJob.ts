@@ -27,7 +27,7 @@ const useApplicationsByJob = (jobId: string) => {
         });
 
         return () => controller.abort();
-    }, []);
+    }, [jobId]);
 
     return { applications, setApplications, error };
 }
