@@ -12,10 +12,12 @@ export default function GoogleLogin({
       client_id: process.env.REACT_APP_GOOGLE_CLIENT_ID,
       callback: onGoogleSignIn,
     });
-    window.google.accounts.id.renderButton(
-      googleSignInButton.current,
-      { theme: 'filled_black', size: 'small', text, width: '250px' },
-    );
+    window.google.accounts.id.renderButton(googleSignInButton.current, {
+        theme: "filled_black",
+        size: "medium",
+        text,
+        width: "275px",
+    });
   });
 
   return <div ref={googleSignInButton}></div>;
