@@ -7,13 +7,13 @@ import AllJobs from "./components/AllJobs";
 import Login from "./components/Login";
 import CreatePosting from "./components/CreatePosting";
 import JobPosting from "./components/JobPosting";
-import axios from "axios";
 
 import JobApplication from "./components/JobApplication";
 import { LoginContext } from "./hooks/useLoginContext";
 import EditPosting from "./components/EditPosting";
 import ScrollToTop from "./components/common/ScrollToTop";
 import ApplicantInfo from "./components/ApplicantInfo";
+import axios from "axios";
 
 function App() {
   const [isLogin, setIsLogin] = useState(false);
@@ -25,7 +25,7 @@ function App() {
         .get("http://localhost:8081/v1/oauth/keepalive", {
           withCredentials: true,
         })
-        .then((res) => setIsLogin(true))
+        .then(() => setIsLogin(true))
         .catch((err) => console.log(err));
     };
     initLogin();

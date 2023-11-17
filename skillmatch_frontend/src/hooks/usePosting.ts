@@ -3,24 +3,24 @@ import apiClient from "../services/api-client";
 import { CanceledError } from "axios";
 import { Job } from "./useJobs";
 
-const defaultJob: Job = {
-    jobId: "",
-    title: "",
-    datePosted: new Date(),
-    deadline: new Date(),
-    description: "",
-    skillsRequired: [],
-    location: "",
-    requiredQualifications: "",
-    hiringTeamInfo: "",
-    requiredDocuments: [],
-    tag: "",
-    experience: "",
-    salary: 0,
-    //applicantNo: number,
-    type: "",
-    //department: string,
-  }
+// const defaultJob: Job = {
+//     jobId: "",
+//     title: "",
+//     datePosted: new Date(),
+//     deadline: new Date(),
+//     description: "",
+//     skillsRequired: [],
+//     location: "",
+//     requiredQualifications: "",
+//     hiringTeamInfo: "",
+//     requiredDocuments: [],
+//     tag: "",
+//     experience: "",
+//     salary: 0,
+//     //applicantNo: number,
+//     type: "",
+//     //department: string,
+//   }
   
 const usePosting = (jobId: string) => {
     const [job, setJob] = useState<Job>();
@@ -38,7 +38,7 @@ const usePosting = (jobId: string) => {
         });
 
         return () => controller.abort();
-    }, []);
+    }, [jobId]);
 
     return { job, setJob, error };
 }

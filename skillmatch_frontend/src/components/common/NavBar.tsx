@@ -105,7 +105,7 @@ const NavBar = () => {
   return (
     <>
       <AppBar sx={{ zIndex: 1400 }}>
-        <Toolbar sx={{ display: { xs: "none", sm: "flex" } }}>
+        <Toolbar sx={{ display: { xs: "none", md: "flex" } }}>
           <Box sx={{ flexGrow: 1, textAlign: "left" }}>
             <Typography sx={{ mx: 4 }}>LOGO</Typography>
           </Box>
@@ -121,7 +121,7 @@ const NavBar = () => {
             {logInOutButtom()}
           </Box>
         </Toolbar>
-        <Toolbar sx={{ display: { sm: "none" } }}>
+        <Toolbar sx={{ display: { md: "none" } }}>
           <Box sx={{ flexGrow: 1 }} textAlign="center">
             <Typography sx={{ mx: 4 }}>LOGO</Typography>
           </Box>
@@ -130,15 +130,21 @@ const NavBar = () => {
             aria-label="open drawer"
             edge="start"
             onClick={handleDrawerToggle}
-            sx={{ display: { xs: "flex", sm: "none" }, alignItems: "center" }}
+            sx={{ display: { xs: "flex", md: "none" }, alignItems: "center" }}
           >
             <MenuIcon />
           </IconButton>
         </Toolbar>
       </AppBar>
       <Box marginBottom={7}></Box>
-      <Box sx={{ width: { sm: drawerWidth } }}>
+      <Box sx={{ width: { md: drawerWidth } }}>
         <Drawer
+          PaperProps={{
+            sx: {
+              backgroundColor: "#30343f",
+              color: "red",
+            },
+          }}
           variant="temporary"
           anchor="right"
           open={mobileOpen}
@@ -147,7 +153,7 @@ const NavBar = () => {
             keepMounted: true, // Better open performance on mobile.
           }}
           sx={{
-            display: { xs: "block", sm: "none" },
+            display: { xs: "block", md: "none" },
             "& .MuiDrawer-paper": {
               boxSizing: "border-box",
               width: drawerWidth,
