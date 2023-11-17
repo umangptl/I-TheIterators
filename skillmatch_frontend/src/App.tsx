@@ -31,29 +31,29 @@ function App() {
     initLogin();
   }, []);
   return (
-    <>
-      <LoginContext.Provider value={loginContextValue}>
-        <Router>
-          <ScrollToTop />
-          <nav className="flex items-center justify-between flex-wrap">
-            <Link className="bg-blue" to="/">
-              Home
-            </Link>
-            <Link to="/jobs">Jobs</Link>
-          </nav>
-          <Routes>
-            <Route path="/" element={<Dashboard />} />
-            <Route path="/jobs" element={<AllJobs />} />
-            <Route path="/login" element={<Login />} />
-            <Route path="/job/:jobId" element={<JobPosting />} />
-            <Route path="/new-job" element={<CreatePosting />} />
-            <Route path="/edit-job/:jobId" element={<EditPosting />} />
-            <Route path="/applicant" element={<ApplicantInfo />} />
-            <Route path="/apply/:jobId" element={<JobApplication />} />
-          </Routes>
-        </Router>
-      </LoginContext.Provider>
-    </>
+      <>
+          <LoginContext.Provider value={loginContextValue}>
+              <Router>
+                  <ScrollToTop />
+                  <Routes>
+                      <Route path="/" element={<Dashboard />} />
+                      <Route path="/jobs" element={<AllJobs />} />
+                      <Route path="/login" element={<Login />} />
+                      <Route path="/job/:jobId" element={<JobPosting />} />
+                      <Route path="/new-job" element={<CreatePosting />} />
+                      <Route
+                          path="/edit-job/:jobId"
+                          element={<EditPosting />}
+                      />
+                      <Route path="/applicant" element={<ApplicantInfo />} />
+                      <Route
+                          path="/apply/:jobId"
+                          element={<JobApplication />}
+                      />
+                  </Routes>
+              </Router>
+          </LoginContext.Provider>
+      </>
   );
 }
 
