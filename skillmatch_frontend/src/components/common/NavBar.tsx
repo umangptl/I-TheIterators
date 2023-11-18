@@ -27,10 +27,15 @@ NavButton.defaultProps = {
   component: Link,
 };
 
-const pages = [
+const loggedInPages = [
   { path: "/", title: "Dashboard" },
   { path: "/new-job", title: "New Posting" },
   { path: "/jobs", title: "All Postings" },
+];
+
+const loggedOutPages = [
+  { path: "/jobs", title: "All Postings" },
+  { path: "/my-applications", title: "View Applications" },
 ];
 
 const NavBar = () => {
@@ -56,19 +61,22 @@ const NavBar = () => {
     if (isLogin) {
       return (
         <>
-          {pages.map((page) => (
-            <NavButton key={page.path} component={Link} to={page.path}>
+          {loggedInPages.map((page) => (
+            <NavButton sx={{ width: 'auto', minWidth: 140 }} key={page.path} component={Link} to={page.path}>
               {page.title}
             </NavButton>
           ))}
         </>
       );
     } else {
-      const page = pages[pages.length - 1];
       return (
-        <NavButton key={page.path} component={Link} to={page.path}>
-          {page.title}
-        </NavButton>
+        <>
+          {loggedOutPages.map((page) => (
+            <NavButton sx={{ width: 'auto', minWidth: 140 }} key={page.path} component={Link} to={page.path}>
+              {page.title}
+            </NavButton>
+          ))}
+        </>
       );
     }
   };
@@ -112,14 +120,7 @@ const NavBar = () => {
           <Box sx={{ flexGrow: 1, textAlign: "right" }}>
             <Box>{navButtoms()}</Box>
           </Box>
-          <Box
-            sx={{
-              flexGrow: isLogin ? 1 : 0,
-              textAlign: "right",
-            }}
-          >
-            {logInOutButtom()}
-          </Box>
+          <Box sx={{ flexGrow: 1, textAlign: "right" }}>{logInOutButtom()}</Box>
         </Toolbar>
         <Toolbar sx={{ display: { md: "none" } }}>
           <Box sx={{ flexGrow: 1 }} textAlign="center">

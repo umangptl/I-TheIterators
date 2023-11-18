@@ -15,7 +15,7 @@ import {
   Stack,
   Typography,
 } from "@mui/material";
-import { useParams } from "react-router-dom";
+import { useNavigate, useParams } from "react-router-dom";
 import { Application } from "../models/Application";
 import { Applicant } from "../models/Applicant";
 import axios from "axios";
@@ -38,7 +38,7 @@ export default function JobApplication() {
   });
   const [resume, setResume] = useState<File | null>(null);
   const { jobId } = useParams();
-
+  const navigate = useNavigate();
   const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const { name, value } = e.target;
     setApplicant((prevApplicant) => ({
@@ -54,6 +54,30 @@ export default function JobApplication() {
     }
   };
 
+  const callSubmitApplication = (formData: any) => {
+    axios
+      .post("http://localhost:8081/application", formData, {
+        headers: {
+          "Content-Type": "multipart/form-data",
+        },
+      })
+      .then((res) => navigate("/confirmation/Your application has been submitted successfully. Thank you for applying!"))
+      .catch((err) => console.log(err));
+  };
+
+  async function checkIfAlreadyApplied(email: string, jobId: string): Promise<boolean> {
+    try {
+      const response = await axios.get(
+        `http://localhost:8081/application/applicant/${email}/job/${jobId}`
+      );
+      console.log(response.data);
+      console.log(response.data.applicationId);
+      return response.data.applicationId === undefined ? false : true;
+    } catch (err) {
+      return false;
+    }
+  };
+
   const handleSubmit = (e: any) => {
     e.preventDefault();
     if (!validateForm()) {
@@ -61,21 +85,23 @@ export default function JobApplication() {
       return;
     }
     let application: Application = {
-      jobId: jobId? jobId:"",
+      jobId: jobId ? jobId : "",
       status: "PENDING",
       applicant: applicant,
     };
     const formData = new FormData();
-    if(resume)
-      formData.append('file', resume);
-    formData.append('applicant', JSON.stringify(application));
-    axios
-      .post("http://localhost:8081/application", formData, {
-        headers: {
-          'Content-Type': 'multipart/form-data',
-        }})
-      .then((res) => console.log("SUCCESS"))
-      .catch((err) => console.log(err));
+    if (resume) formData.append("file", resume);
+    formData.append("applicant", JSON.stringify(application));
+    checkIfAlreadyApplied(applicant.email, jobId ? jobId : "").then((res) => {
+      if(res) {
+        navigate("/confirmation/Application submitted already !")
+      } else { 
+        callSubmitApplication(formData);
+      }
+    })
+    .catch((err) => {
+      console.log(err);
+    });
   };
 
   const [formErrors, setFormErrors] = useState({
@@ -158,10 +184,7 @@ export default function JobApplication() {
   return (
     <div>
       <NavBar />
-      <Container
-        sx={{ padding: 2, background: "#fafaff" }}
-        maxWidth="md"
-      >
+      <Container sx={{ padding: 2, background: "#fafaff" }} maxWidth="md">
         <form onSubmit={handleSubmit}>
           <Typography variant="h4">Apply for this Job</Typography>
           <Typography variant="h5">Job Id: {jobId}</Typography>
@@ -335,7 +358,9 @@ export default function JobApplication() {
           <Typography variant="h6" sx={{ mt: 2 }}>
             US Voluntary Demographic Question
           </Typography>
-          <Typography variant="body1" sx={{ mt: 2 }}>Voluntary Self-Identification</Typography>
+          <Typography variant="body1" sx={{ mt: 2 }}>
+            Voluntary Self-Identification
+          </Typography>
           <Typography variant="body2">
             Our vision at Skllmatch is to bring out the best in our team members
             by creating a sense of belonging, We are working to better
@@ -347,7 +372,9 @@ export default function JobApplication() {
             information that you choose to provide will be recorded and
             maintained in a confidential file for XX time.
           </Typography>
-          <Typography variant="body1" sx={{ mt: 2 }}>Protected Veteran</Typography>
+          <Typography variant="body1" sx={{ mt: 2 }}>
+            Protected Veteran
+          </Typography>
           <Typography variant="body2">
             You are a “protected veteran” under United States law if any of the
             following apply to you: Disabled Veteran: a veteran of the U.S.
@@ -363,7 +390,9 @@ export default function JobApplication() {
             Armed Forces Service Medal was awarded pursuant to Executive Order
             12985.
           </Typography>
-          <Typography variant="body1" sx={{ mt: 2 }}>Disability</Typography>
+          <Typography variant="body1" sx={{ mt: 2 }}>
+            Disability
+          </Typography>
           <Typography variant="body2">
             Under U.S. law, you are considered to have a disability if you have
             a physical or mental impairment or medical condition that

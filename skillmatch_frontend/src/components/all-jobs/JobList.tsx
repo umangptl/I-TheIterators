@@ -17,7 +17,7 @@ import FilterAltIcon from "@mui/icons-material/FilterAlt";
 import apiClient from "../../services/api-client";
 import { Stack } from "@mui/system";
 
-const drawerWidth = "240px";
+const drawerWidth = "300px";
 
 const AllJobs = () => {
   const { jobs, setJobs, error } = useJobs();
@@ -187,7 +187,7 @@ const AllJobs = () => {
             spacing={3}
             alignItems={"stretch"}
             justifyContent={"center"}
-            sx={{ px: 1, py: 2 }}
+            sx={{ px: 1, py: 2, mt: 2 }}
           >
             {filteredJobs.map((job) => (
               <JobCard job={job} key={job.jobId} onDelete={handleDelete} />

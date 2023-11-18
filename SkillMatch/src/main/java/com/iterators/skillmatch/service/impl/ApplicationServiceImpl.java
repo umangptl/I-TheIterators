@@ -41,31 +41,31 @@ public class ApplicationServiceImpl implements ApplicationService {
     }
 
     @Override
-    public Application viewApplicationsByApplicantIdAndJobId(String applicantId, String jobId) throws GlobalException {
+    public Application viewApplicationsByEmailIdAndJobId(String emailId, String jobId) throws GlobalException {
         try {
-            return applicationRepository.findByApplicantIdAndJobId(applicantId, jobId);
+            return applicationRepository.findByApplicant_EmailAndJobId(emailId, jobId);
         } catch (Exception exception) {
-            logger.error("Error getting application with ApplicantId: {} and JobId: {}", applicantId, jobId);
+            logger.error("Error getting application with EmailId: {} and JobId: {}", emailId, jobId);
             throw new GlobalException(exception.getMessage(), exception);
         }
     }
 
     @Override
-    public List<Application> viewApplicationsByApplicantId(String applicantId) throws GlobalException {
+    public List<Application> viewApplicationsByEmailId(String emailId) throws GlobalException {
         try {
-            return applicationRepository.findByJobId(applicantId);
+            return applicationRepository.findByApplicant_Email(emailId);
         } catch (Exception exception) {
-            logger.error("Error getting application with ApplicantId: {}", applicantId);
+            logger.error("Error getting application with email: {}", emailId);
             throw new GlobalException(exception.getMessage(), exception);
         }
     }
 
     @Override
-    public Integer countApplication(String applicantId, String jobId) {
+    public Integer countApplication(String emailId, String jobId) {
         try {
-            return applicationRepository.countApplicationsByApplicantIdAndJobId(applicantId, jobId);
+            return applicationRepository.countApplicationsByApplicant_EmailAndJobId(emailId, jobId);
         } catch (Exception exception) {
-            logger.error("Error getting count with ApplicantId: {} and JobId: {}", applicantId, jobId);
+            logger.error("Error getting count with Email: {} and JobId: {}", emailId, jobId);
         }
         return 0;
     }

@@ -14,6 +14,8 @@ import EditPosting from "./components/EditPosting";
 import ScrollToTop from "./components/common/ScrollToTop";
 import ApplicantInfo from "./components/ApplicantInfo";
 import axios from "axios";
+import Confirmation from "./components/Confirmation";
+import MyApplication from "./components/MyApplication";
 
 function App() {
   const [isLogin, setIsLogin] = useState(false);
@@ -41,6 +43,7 @@ function App() {
                       <Route path="/login" element={<Login />} />
                       <Route path="/job/:jobId" element={<JobPosting />} />
                       <Route path="/new-job" element={<CreatePosting />} />
+                      <Route path="/my-applications" element={<MyApplication />} />
                       <Route
                           path="/edit-job/:jobId"
                           element={<EditPosting />}
@@ -49,6 +52,10 @@ function App() {
                       <Route
                           path="/apply/:jobId"
                           element={<JobApplication />}
+                      />
+                      <Route
+                          path="/confirmation/:message"
+                          element={<Confirmation />}
                       />
                   </Routes>
               </Router>
