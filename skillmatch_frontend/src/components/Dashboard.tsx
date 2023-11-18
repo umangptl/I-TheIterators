@@ -1,107 +1,166 @@
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { useLoginContext } from "../hooks/useLoginContext";
+
+import {
+    Container,
+    FormControl,
+    Grid,
+    MenuItem,
+    Paper,
+    Select,
+} from "@mui/material";
+import TotalPipelineChart from "./charts/TotalPipelineChart";
+import SpecificApplicationSankeyChart from "./charts/SpecificApplicationSankeyChart";
+import NavBar from "./common/NavBar";
+import useJobs from "../hooks/useJobs";
+import useApplicants from "../hooks/useApplicants";
 import useApplicationsByJob from "../hooks/useApplicationsByJob";
 
-import ApplicationsOverTimeChart from "./charts/ApplicationsOverTimeChart";
-import { Container, Grid, Paper } from "@mui/material";
-import TotalPipelineChart from "./charts/TotalPipelineChart";
-import RecruitSourcesChart from "./charts/RecruitSourcesChart";
-import NavBar from "./common/NavBar";
-
-// Alan
 const Dashboard = () => {
-  const { isLogin, setIsLogin } = useLoginContext();
-  const hero = {
-    name: "Batman",
-    realName: "Bruce Wayne",
-  };
-  const { realName } = hero;
-  const navigate = useNavigate();
+    const { isLogin, setIsLogin } = useLoginContext();
+    const navigate = useNavigate();
+    useEffect(() => {
+        if (!isLogin) navigate("/login");
+    }, [isLogin, navigate]);
 
-  useEffect(() => {
-    if (!isLogin) navigate("/login");
-  }, [isLogin, navigate]);
+    const { jobs, setJobs, error } = useJobs();
+    const { applicants, setApplicants, applicantError } = useApplicants();
+    const {
+        applications,
+        setApplications,
+        error: applicationError,
+    } = useApplicationsByJob("-1");
+    console.log(applications);
 
-  const { applications, setApplications, error } =
-    useApplicationsByJob("234253");
+    let openApps = 0;
+    let interviewing = 0;
+    let shortListed = 0;
+    let offersSent = 0;
+    if (applications != null) {
+        openApps = applications.filter(
+            (application) => application.status == "PENDING"
+        ).length;
+        interviewing = applications.filter(
+            (application) => application.status == "INTERVIEWING"
+        ).length;
+        shortListed = applications.filter(
+            (application) => application.status == "SHORTLISTED"
+        ).length;
+        offersSent = applications.filter(
+            (application) => application.status == "SELECTED"
+        ).length;
+    }
+    console.log(jobs);
+    const [selectedJob, setSelectedJob] = useState("-1");
 
-  return (
-    <>
-      <NavBar />
-      <Container maxWidth="lg">
-        <h1>Dashboard</h1>
-        <Grid container spacing={2}>
-          <Grid item xs={8}>
-            <ApplicationsOverTimeChart />
-            <Paper elevation={3} style={{ padding: "1em", marginTop: "1em" }}>
-              <h3 style={{ marginTop: 0 }}>Candidate Sources</h3>
-              <Grid container spacing={1}>
-                <Grid item xs={7}>
-                  <p>
-                    <b>Referral: </b>2
-                  </p>
-                  <p>
-                    <b>Recruiter Contact: </b>2
-                  </p>
-                  <p>
-                    <b>Career Page: </b>3
-                  </p>
+    const handleJobDropdownChange = (e: any) => {
+        e.preventDefault();
+        setSelectedJob(e.target.value);
+    };
+
+    return (
+        <>
+            <NavBar />
+            <Container maxWidth="lg" style={{ marginTop: "6em" }}>
+                <h1>Dashboard</h1>
+                <Grid container spacing={2}>
+                    <Grid item xs={8}>
+                        {/* <ApplicationsOverTimeChart /> */}
+                        <Paper elevation={3} style={{ padding: "1em" }}>
+                            <h3 style={{ marginTop: 0 }}>
+                                Application Sankey Graph
+                            </h3>
+                            <Grid container spacing={1}>
+                                <Grid item xs={12}>
+                                    <FormControl fullWidth>
+                                        <Select
+                                            style={{ width: "100%" }}
+                                            id="job-dropdown-select"
+                                            value={selectedJob}
+                                            onChange={handleJobDropdownChange}
+                                        >
+                                            <MenuItem value={"-1"} selected>
+                                                All
+                                            </MenuItem>
+                                            {jobs.map((job, key) => (
+                                                <MenuItem
+                                                    value={job.jobId}
+                                                    key={key}
+                                                >
+                                                    {job.title} - {job.location}
+                                                </MenuItem>
+                                            ))}
+                                        </Select>
+                                    </FormControl>
+                                </Grid>
+                                <Grid item xs={12}>
+                                    <div
+                                        style={{
+                                            height: "25em",
+                                            width: "112%",
+                                        }}
+                                    >
+                                        <SpecificApplicationSankeyChart
+                                            jobID={selectedJob}
+                                        />
+                                    </div>
+                                </Grid>
+                            </Grid>
+                        </Paper>
+                    </Grid>
+                    <Grid item xs={4}>
+                        <Paper
+                            elevation={3}
+                            style={{ padding: "1em", paddingBottom: "0.5em" }}
+                        >
+                            <h3 style={{ marginTop: 0 }}>Total Pipeline</h3>
+                            <p>
+                                <b>Applications Pending: </b> {openApps}
+                            </p>
+                            <p>
+                                <b>Interviewing: </b> {interviewing}
+                            </p>
+                            <p>
+                                <b>Shortlisted: </b> {shortListed}
+                            </p>
+                            <p>
+                                <b>Offers Sent: </b> {offersSent}
+                            </p>
+                            <div style={{ height: 219 }}>
+                                <TotalPipelineChart
+                                    openApps={openApps}
+                                    interviewing={interviewing}
+                                    shortListed={shortListed}
+                                    offersSent={offersSent}
+                                />
+                            </div>
+                        </Paper>
+                        <Paper
+                            elevation={3}
+                            style={{
+                                padding: "1em",
+                                paddingBottom: "0.5em",
+                                marginTop: "1em",
+                            }}
+                        >
+                            <p style={{ marginTop: "0.5em" }}>
+                                <span style={{ fontWeight: 600 }}>
+                                    Open Positions:{" "}
+                                </span>
+                                {jobs.length}
+                            </p>
+                            <p style={{ marginTop: "0.5em" }}>
+                                <span style={{ fontWeight: 600 }}>
+                                    Total Prospective Applicants:{" "}
+                                </span>
+                                {applicants.length}
+                            </p>
+                        </Paper>
+                    </Grid>
                 </Grid>
-                <Grid item xs={5}>
-                  <div style={{ height: 200 }}>
-                    <RecruitSourcesChart />
-                  </div>
-                </Grid>
-              </Grid>
-            </Paper>
-          </Grid>
-          <Grid item xs={4}>
-            <Paper
-              elevation={3}
-              style={{ padding: "1em", paddingBottom: "0.5em" }}
-            >
-              <h3 style={{ marginTop: 0 }}>Total Prospective Applicants</h3>
-              <p>7</p>
-            </Paper>
-            <Paper
-              elevation={3}
-              style={{
-                padding: "1em",
-                paddingBottom: "0.5em",
-                marginTop: "1em",
-              }}
-            >
-              <h3 style={{ marginTop: 0 }}>Total Pipeline</h3>
-
-              <p>
-                <b>Applications Recieved: </b>3
-              </p>
-              <p>
-                <b>Interviewing: </b>2
-              </p>
-              <p>
-                <b>Offers Sent: </b>2
-              </p>
-              <div style={{ height: 200 }}>
-                <TotalPipelineChart />
-              </div>
-            </Paper>
-            <Paper
-              elevation={3}
-              style={{
-                padding: "1em",
-                paddingBottom: "0.5em",
-                marginTop: "1em",
-              }}
-            >
-              <h3 style={{ marginTop: 0 }}>Open Positions</h3>
-              <p>10</p>
-            </Paper>
-          </Grid>
-        </Grid>
-      </Container>
-    </>
-  );
+            </Container>
+        </>
+    );
 };
 export default Dashboard;
