@@ -20,19 +20,24 @@ public class ApplicationController {
     @Autowired
     ApplicationService applicationService;
 
+    @GetMapping
+    public List<Application> getAllApplications() throws GlobalException {
+        return applicationService.getAllApplications();
+    }
+
     @GetMapping("/{applicationId}")
     public Application getApplicationById(@PathVariable String applicationId) throws GlobalException {
         return applicationService.viewApplication(applicationId);
     }
 
-    @GetMapping("/applicant/{applicantId}")
-    public List<Application> getApplicationByApplicantId(@PathVariable String applicantId) throws GlobalException {
-        return applicationService.viewApplicationsByApplicantId(applicantId);
+    @GetMapping("/applicant/{emailId}")
+    public List<Application> getApplicationByApplicantId(@PathVariable String emailId) throws GlobalException {
+        return applicationService.viewApplicationsByEmailId(emailId);
     }
 
-    @GetMapping("/applicant/{applicantId}/job/{jobId}")
-    public List<Application> getApplicationByApplicantIdAndJobId(@PathVariable String applicantId, @PathVariable String jobId) throws GlobalException {
-        return applicationService.viewApplicationsByApplicantId(applicantId);
+    @GetMapping("/applicant/{emailId}/job/{jobId}")
+    public Application getApplicationByApplicantIdAndJobId(@PathVariable String emailId, @PathVariable String jobId) throws GlobalException {
+        return applicationService.viewApplicationsByEmailIdAndJobId(emailId, jobId);
     }
 
     @GetMapping("/job/{jobId}")
