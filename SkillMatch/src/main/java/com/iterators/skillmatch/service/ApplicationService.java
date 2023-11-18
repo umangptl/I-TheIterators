@@ -13,6 +13,7 @@ public interface ApplicationService {
     Application viewApplicationsByEmailIdAndJobId(String applicantId, String jobId) throws GlobalException;
     List<Application> viewApplicationsByEmailId(String applicantId) throws GlobalException;
     Integer countApplication(String applicantId, String jobId);
+    List<Application> getAllApplications() throws GlobalException;
     void updateApplication(String applicationId, ApplicationStatus applicationStatus) throws GlobalException;
     void updateApplicationsByJobId(String jobId, ApplicationStatus applicationStatus) throws GlobalException;
     void addApplication(Application application) throws GlobalException;

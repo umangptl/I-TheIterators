@@ -20,6 +20,11 @@ public class ApplicationController {
     @Autowired
     ApplicationService applicationService;
 
+    @GetMapping
+    public List<Application> getAllApplications() throws GlobalException {
+        return applicationService.getAllApplications();
+    }
+
     @GetMapping("/{applicationId}")
     public Application getApplicationById(@PathVariable String applicationId) throws GlobalException {
         return applicationService.viewApplication(applicationId);

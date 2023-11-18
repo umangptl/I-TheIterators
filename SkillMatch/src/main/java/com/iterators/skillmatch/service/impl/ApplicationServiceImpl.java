@@ -21,6 +21,16 @@ public class ApplicationServiceImpl implements ApplicationService {
     Logger logger = LoggerFactory.getLogger(ApplicationServiceImpl.class);
 
     @Override
+    public List<Application> getAllApplications() throws GlobalException {
+        try {
+            return applicationRepository.findAll();
+        } catch (Exception exception) {
+            logger.error("Error getting applications");
+            throw new GlobalException(exception.getMessage(), exception);
+        }
+    }
+
+    @Override
     public Application viewApplication(String applicationId) throws GlobalException {
         try {
             return applicationRepository.findById(applicationId).get();

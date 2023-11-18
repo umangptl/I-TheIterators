@@ -1,24 +1,37 @@
 import React from "react";
 import { ResponsivePie } from "@nivo/pie";
 
-export default function TotalPipelineChart() {
+type applicationsData = {
+    openApps: number;
+    interviewing: number;
+    shortListed: number;
+    offersSent: number;
+};
+
+const TotalPipelineChart = (props: applicationsData) => {
     const data = [
         {
             id: "ApplicationsRecieved",
             label: "Applications Recieved",
-            value: 3,
+            value: props.openApps,
             color: "hsl(81, 70%, 50%)",
         },
         {
             id: "ApplicantsInterviewing",
             label: "Interviewing",
-            value: 2,
+            value: props.interviewing,
             color: "hsl(154, 70%, 50%)",
+        },
+        {
+            id: "ApplicantsShortlisted",
+            label: "Shortlisted",
+            value: props.shortListed,
+            color: "hsl(200, 70%, 50%)",
         },
         {
             id: "OffersSent",
             label: "Offers Sent",
-            value: 2,
+            value: props.offersSent,
             color: "hsl(140, 70%, 50%)",
         },
     ];
@@ -31,7 +44,7 @@ export default function TotalPipelineChart() {
             cornerRadius={3}
             startAngle={-120}
             activeOuterRadiusOffset={8}
-            colors={["#AAA", "#FAFAFF", "#E4D9FF"]}
+            colors={["#1f76b4", "#ff7e0e", "#9f97b2", "#3ec755"]}
             borderWidth={1}
             borderColor={{
                 from: "color",
@@ -70,4 +83,5 @@ export default function TotalPipelineChart() {
             enableArcLinkLabels={false}
         />
     );
-}
+};
+export default TotalPipelineChart;
