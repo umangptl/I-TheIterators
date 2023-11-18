@@ -1,3 +1,4 @@
 .DS_Store
 skillmatch_frontend/node_modules
+skillmatch_frontend/build
 .idea
