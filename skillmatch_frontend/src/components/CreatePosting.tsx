@@ -103,7 +103,7 @@ const CreatePosting = () => {
   return (
     <>
       <NavBar />
-      <Container maxWidth="sm">
+      <Container maxWidth="md" sx={{padding:"32px", background: "#fafaff"}}>
         {alert && (
           <Alert
             severity="warning"
@@ -114,12 +114,13 @@ const CreatePosting = () => {
             Not implemented yet!
           </Alert>
         )}
-        <form onSubmit={handleSubmit}>
+        <Typography variant="h4" color={"#30343f"}>Create a Job Posting</Typography>
+        <form onSubmit={handleSubmit} style={{padding:"16px"}}>
           <Grid container rowGap={2} alignItems="center">
             <Grid item xs={grid_xs_1}>
               <Typography variant="h6">Job Title</Typography>
             </Grid>
-            <Grid item xs={grid_xs_2}>
+            <Grid item sm={grid_xs_2}>
               <TextField
                 type="text"
                 placeholder="Enter job title"

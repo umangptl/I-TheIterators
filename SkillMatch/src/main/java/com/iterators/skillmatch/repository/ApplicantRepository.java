@@ -9,8 +9,6 @@ public interface ApplicantRepository extends MongoRepository<Applicant, String>{
 
     List<Applicant> findByFirstNameIgnoreCaseContaining(String filterString);
     List<Applicant> findByLastNameIgnoreCaseContaining(String filterString);
-
-
     List<Applicant> findByEmailContaining(String filterString);
 
 }

@@ -10,8 +10,8 @@ public interface ApplicationService {
 
     Application viewApplication(String applicationId) throws GlobalException;
     List<Application> viewApplicationsByJobId(String jobId) throws GlobalException;
-    Application viewApplicationsByApplicantIdAndJobId(String applicantId, String jobId) throws GlobalException;
-    List<Application> viewApplicationsByApplicantId(String applicantId) throws GlobalException;
+    Application viewApplicationsByEmailIdAndJobId(String applicantId, String jobId) throws GlobalException;
+    List<Application> viewApplicationsByEmailId(String applicantId) throws GlobalException;
     Integer countApplication(String applicantId, String jobId);
     void updateApplication(String applicationId, ApplicationStatus applicationStatus) throws GlobalException;
     void updateApplicationsByJobId(String jobId, ApplicationStatus applicationStatus) throws GlobalException;
