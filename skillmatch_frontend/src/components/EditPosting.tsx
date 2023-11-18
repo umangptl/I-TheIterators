@@ -129,7 +129,7 @@ const EditPosting = () => {
     <>
       <NavBar />
       {!isLoading && (
-        <Container maxWidth="sm">
+        <Container maxWidth="md" sx={{ padding: "32px", background: "#fafaff" }}>
           {alert && (
             <Alert
               severity="success"
@@ -140,7 +140,9 @@ const EditPosting = () => {
               Changes to job posting were succesfull!
             </Alert>
           )}
-          <form onSubmit={handleSubmit}>
+          <Typography variant="h4" color={"#30343f"}>Edit Posting</Typography>
+
+          <form onSubmit={handleSubmit} style={{padding:"16px"}}>
             <Grid container rowGap={2} alignItems="center">
               <Grid item xs={grid_xs_1}>
                 <Typography variant="h6">Job Title</Typography>

@@ -14,6 +14,8 @@ import EditPosting from "./components/EditPosting";
 import ScrollToTop from "./components/common/ScrollToTop";
 import ApplicantInfo from "./components/ApplicantInfo";
 import axios from "axios";
+import Confirmation from "./components/Confirmation";
+import MyApplication from "./components/MyApplication";
 
 function App() {
   const [isLogin, setIsLogin] = useState(false);
@@ -31,29 +33,34 @@ function App() {
     initLogin();
   }, []);
   return (
-    <>
-      <LoginContext.Provider value={loginContextValue}>
-        <Router>
-          <ScrollToTop />
-          <nav className="flex items-center justify-between flex-wrap">
-            <Link className="bg-blue" to="/">
-              Home
-            </Link>
-            <Link to="/jobs">Jobs</Link>
-          </nav>
-          <Routes>
-            <Route path="/" element={<Dashboard />} />
-            <Route path="/jobs" element={<AllJobs />} />
-            <Route path="/login" element={<Login />} />
-            <Route path="/job/:jobId" element={<JobPosting />} />
-            <Route path="/new-job" element={<CreatePosting />} />
-            <Route path="/edit-job/:jobId" element={<EditPosting />} />
-            <Route path="/applicant" element={<ApplicantInfo />} />
-            <Route path="/apply/:jobId" element={<JobApplication />} />
-          </Routes>
-        </Router>
-      </LoginContext.Provider>
-    </>
+      <>
+          <LoginContext.Provider value={loginContextValue}>
+              <Router>
+                  <ScrollToTop />
+                  <Routes>
+                      <Route path="/" element={<Dashboard />} />
+                      <Route path="/jobs" element={<AllJobs />} />
+                      <Route path="/login" element={<Login />} />
+                      <Route path="/job/:jobId" element={<JobPosting />} />
+                      <Route path="/new-job" element={<CreatePosting />} />
+                      <Route path="/my-applications" element={<MyApplication />} />
+                      <Route
+                          path="/edit-job/:jobId"
+                          element={<EditPosting />}
+                      />
+                      <Route path="/applicant" element={<ApplicantInfo />} />
+                      <Route
+                          path="/apply/:jobId"
+                          element={<JobApplication />}
+                      />
+                      <Route
+                          path="/confirmation/:message"
+                          element={<Confirmation />}
+                      />
+                  </Routes>
+              </Router>
+          </LoginContext.Provider>
+      </>
   );
 }
 

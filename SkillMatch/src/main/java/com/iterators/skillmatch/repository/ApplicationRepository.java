@@ -9,8 +9,8 @@ import java.util.List;
 
 public interface ApplicationRepository extends MongoRepository<Application, String> {
 
-    List<Application> findByApplicantId(String applicantId);
+    List<Application> findByApplicant_Email(String emailId);
     List<Application> findByJobId(String jobId);
-    Application findByApplicantIdAndJobId(String applicantId, String jobId);
-    Integer countApplicationsByApplicantIdAndJobId(String applicantId, String jobId);
+    Application findByApplicant_EmailAndJobId(String emailId, String jobId);
+    Integer countApplicationsByApplicant_EmailAndJobId(String emailId, String jobId);
 }

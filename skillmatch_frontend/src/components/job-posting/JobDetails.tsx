@@ -64,7 +64,7 @@ const JobDetails = () => {
   }
 
   return (
-    <Container maxWidth="md">
+    <Container maxWidth="md" sx={{padding: 4, background: "#fafaff"}}>
       <Grid container spacing={2}>
         {/* {!isLogin && (
           <Grid xs={12}>

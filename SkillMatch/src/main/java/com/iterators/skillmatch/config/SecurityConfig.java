@@ -30,7 +30,8 @@ public class SecurityConfig{
                 .requestMatchers(new AntPathRequestMatcher("/application", "POST")).permitAll()
                 .requestMatchers(new AntPathRequestMatcher("/job", "GET")).permitAll()
                 .requestMatchers(new AntPathRequestMatcher("/job/*", "GET")).permitAll()
-                .anyRequest().authenticated());
+                .requestMatchers(new AntPathRequestMatcher("/application/applicant/**", "GET")).permitAll()
+                .anyRequest().authenticated();
         return http.build();
     }
 }
