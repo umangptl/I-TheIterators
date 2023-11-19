@@ -44,9 +44,6 @@ class JobServiceImpl_Test {
     @Autowired
     private JobServiceImpl jobServiceImpl;
 
-    /**
-     * Method under test: {@link JobServiceImpl#getJob(String)}
-     */
     @Test
     void testGetJob() throws GlobalException {
         Job job = new Job();
@@ -71,9 +68,6 @@ class JobServiceImpl_Test {
         assertSame(job, actualJob);
     }
 
-    /**
-     * Method under test: {@link JobServiceImpl#getJob(String)}
-     */
     @Test
     void testGetJob2() throws GlobalException {
         Optional<Job> emptyResult = Optional.empty();
@@ -82,9 +76,6 @@ class JobServiceImpl_Test {
         verify(jobRepository).findById(Mockito.<String>any());
     }
 
-    /**
-     * Method under test: {@link JobServiceImpl#getAllJob()}
-     */
     @Test
     void testGetAllJob() throws GlobalException {
         ArrayList<Job> jobList = new ArrayList<>();
@@ -95,9 +86,6 @@ class JobServiceImpl_Test {
         assertSame(jobList, actualAllJob);
     }
 
-    /**
-     * Method under test: {@link JobServiceImpl#addJob(Job)}
-     */
     @Test
     void testAddJob() throws GlobalException {
         Job job = new Job();
@@ -155,9 +143,6 @@ class JobServiceImpl_Test {
         assertEquals(requiredDocuments, job2.getSkillsRequired());
     }
 
-    /**
-     * Method under test: {@link JobServiceImpl#updateJob(Job)}
-     */
     @Test
     void testUpdateJob() throws GlobalException {
         Job job = new Job();
@@ -215,9 +200,6 @@ class JobServiceImpl_Test {
         assertEquals(requiredDocuments, job2.getSkillsRequired());
     }
 
-    /**
-     * Method under test: {@link JobServiceImpl#deleteJob(String)}
-     */
     @Test
     void testDeleteJob() throws GlobalException {
         doNothing().when(applicationService)
@@ -230,9 +212,6 @@ class JobServiceImpl_Test {
         assertTrue(jobServiceImpl.getAllJob().isEmpty());
     }
 
-    /**
-     * Method under test: {@link JobServiceImpl#deleteJob(String)}
-     */
     @Test
     void testDeleteJob2() throws GlobalException {
         doThrow(new GlobalException("An error occurred", new Throwable())).when(applicationService)
@@ -243,9 +222,6 @@ class JobServiceImpl_Test {
         verify(jobRepository).deleteById(Mockito.<String>any());
     }
 
-    /**
-     * Method under test: {@link JobServiceImpl#filterJobOnTitle(String)}
-     */
     @Test
     void testFilterJobOnTitle() throws GlobalException {
         ArrayList<Job> jobList = new ArrayList<>();
@@ -256,9 +232,6 @@ class JobServiceImpl_Test {
         assertSame(jobList, actualFilterJobOnTitleResult);
     }
 
-    /**
-     * Method under test: {@link JobServiceImpl#filterJobOnDatePosted(Date, Date)}
-     */
     @Test
     void testFilterJobOnDatePosted() throws GlobalException {
         ArrayList<Job> jobList = new ArrayList<>();
@@ -271,9 +244,6 @@ class JobServiceImpl_Test {
         assertSame(jobList, actualFilterJobOnDatePostedResult);
     }
 
-    /**
-     * Method under test: {@link JobServiceImpl#filterJobOnDeadline(Date)}
-     */
     @Test
     void testFilterJobOnDeadline() throws GlobalException {
         ArrayList<Job> jobList = new ArrayList<>();
