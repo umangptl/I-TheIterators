@@ -25,7 +25,7 @@ import org.springframework.test.context.junit.jupiter.SpringExtension;
 
 @ContextConfiguration(classes = {RoleServiceImpl.class})
 @ExtendWith(SpringExtension.class)
-class RoleServiceImplDiffblueTest {
+class RoleServiceImpl_Test {
     @MockBean
     private RoleRepository roleRepository;
 
