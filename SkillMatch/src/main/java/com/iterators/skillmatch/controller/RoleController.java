@@ -30,7 +30,7 @@ public class RoleController {
     }
 
     @GetMapping("/getAllRoles")
-    public List<Role> getAllRoles() {
+    public List<Role> getAllRoles() throws GlobalException{
         return roleService.getAllRoles();
     }
 
