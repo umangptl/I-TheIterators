@@ -14,7 +14,7 @@ public interface RoleService {
 
     void deleteRole(String email) throws GlobalException;
 
-    List<Role> getAllRoles();
+    List<Role> getAllRoles()throws GlobalException;
 
     Role getRole(String email) throws GlobalException;
 }
