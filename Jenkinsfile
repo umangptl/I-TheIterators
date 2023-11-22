@@ -8,15 +8,23 @@ pipeline {
     stages {
         stage('Build') {
             steps {
-                bat "mvn -f SkillMatch/pom.xml clean install package"
+                bat "mvn -f SkillMatch/pom.xml clean install -DSkipTests"
+            }
+        }
+        stage('Tests') {
+            steps {
+                bat "mvn -f SkillMatch/pom.xml test"
+            }
+        }
+        stage('Package') {
+            steps {
+                bat "mvn -f SkillMatch/pom.xml package"
             }
 
             post {
-                // If Maven was able to run the tests, even if some of the test
-                // failed, record the test results and archive the jar file.
                 success {
                     junit '**/target/surefire-reports/TEST-*.xml'
-                    archiveArtifacts 'target/*.jar'
+                    archiveArtifacts 'SkillMatch/target/*.jar'
                 }
             }
         }
