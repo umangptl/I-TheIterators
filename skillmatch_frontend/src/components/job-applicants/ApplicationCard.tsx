@@ -5,6 +5,7 @@ import {
   CardActions,
   CardContent,
   Chip,
+  Grid,
   Stack,
   Typography,
 } from "@mui/material";
@@ -29,13 +30,20 @@ const ApplicationCard = ({ application, job }: Props) => {
   return (
     <Card elevation={2} sx={{ padding: 2, backgroundColor: "#fafaff" }}>
       <CardContent>
-        <Typography variant="h5">
-          {applicant.firstName} {applicant.lastName}
-        </Typography>
-        <Typography>
-          {applicant.actualJobTitle} at {applicant.actualEmployer}
-        </Typography>
-        <Typography>{job.title}</Typography>
+        <Grid container spacing={2}>
+          <Grid item xs={7}>
+            <Typography variant="h5">
+              {applicant.firstName} {applicant.lastName}
+            </Typography>
+            <Typography>
+              {applicant.actualJobTitle} at {applicant.actualEmployer}
+            </Typography>
+          </Grid>
+          <Grid item xs={5}>
+            <Typography variant="h5">{job.title}</Typography>
+            <Typography>{application.status}</Typography>
+          </Grid>
+        </Grid>
       </CardContent>
       <CardActions>
         <Stack direction="row" spacing={2}>

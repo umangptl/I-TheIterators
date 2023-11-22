@@ -76,6 +76,22 @@ const JobApplicants = () => {
       )
     : filteredApplications;
 
+  const [statusFilter, setStatusFilter] = useState("all");
+  const statusOptions = [
+    "PENDING",
+    "WITHDRAWN",
+    "REJECTED",
+    "INTERVIEWING",
+    "SHORTLISTED",
+    "SELECTED",
+  ];
+  filteredApplications =
+    statusFilter !== "all"
+      ? filteredApplications.filter(
+          (application) => application.status === statusFilter
+        )
+      : filteredApplications;
+
   const [mobileOpen, setMobileOpen] = useState(false);
 
   const handleDrawerToggle = () => {
@@ -96,10 +112,19 @@ const JobApplicants = () => {
         label="Actual Employer"
         onChange={(text) => setActualEmployerFilter(text)}
       ></TextFilter>
-      <TextFilter
+      {/* <TextFilter
         label="Address"
         onChange={(text) => setAddressFilter(text)}
-      ></TextFilter>
+      ></TextFilter> */}
+      <SelectFilter
+        label="Status"
+        value={statusFilter}
+        options={statusOptions}
+        onSelect={(selection) => {
+          setStatusFilter(selection);
+          console.log(selection);
+        }}
+      />
     </Stack>
   );
 
