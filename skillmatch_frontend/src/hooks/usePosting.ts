@@ -1,26 +1,26 @@
 import { useEffect, useState } from "react";
 import apiClient from "../services/api-client";
 import { CanceledError } from "axios";
-import { Job } from "./useJobs";
+import { Job } from "../models/Job";
 
-// const defaultJob: Job = {
-//     jobId: "",
-//     title: "",
-//     datePosted: new Date(),
-//     deadline: new Date(),
-//     description: "",
-//     skillsRequired: [],
-//     location: "",
-//     requiredQualifications: "",
-//     hiringTeamInfo: "",
-//     requiredDocuments: [],
-//     tag: "",
-//     experience: "",
-//     salary: 0,
-//     //applicantNo: number,
-//     type: "",
-//     //department: string,
-//   }
+export const defaultJob: Job = {
+    jobId: "",
+    title: "",
+    datePosted: new Date(),
+    deadline: new Date(),
+    description: "",
+    skillsRequired: [],
+    location: "",
+    requiredQualifications: "",
+    hiringTeamInfo: "",
+    requiredDocuments: [],
+    tag: "",
+    experience: "",
+    salary: 0,
+    //applicantNo: number,
+    type: "",
+    //department: string,
+  }
   
 const usePosting = (jobId: string) => {
     const [job, setJob] = useState<Job>();

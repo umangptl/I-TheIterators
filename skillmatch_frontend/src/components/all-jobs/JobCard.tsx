@@ -8,9 +8,9 @@ import {
   Stack,
   Typography,
 } from "@mui/material";
-import { Job } from "../../hooks/useJobs";
 import { useLoginContext } from "../../hooks/useLoginContext";
 import LinkButton from "../common/LinkButton";
+import { Job } from "../../models/Job";
 
 interface Props {
   job: Job;

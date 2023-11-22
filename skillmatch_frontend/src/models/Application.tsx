@@ -1,7 +1,7 @@
 import { Applicant } from "./Applicant";
 
 export interface Application {
-    status: string;
-    applicant: Applicant | undefined;
-    jobId: string;
+  status: string;
+  applicant: Applicant;
+  jobId: string;
 }

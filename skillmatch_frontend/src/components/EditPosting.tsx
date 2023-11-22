@@ -18,7 +18,6 @@ import apiClient from "../services/api-client";
 import usePosting from "../hooks/usePosting";
 import { useNavigate, useParams } from "react-router-dom";
 import { useLoginContext } from "../hooks/useLoginContext";
-import { Job } from "../hooks/useJobs";
 
 const grid_xs_1 = 5;
 const grid_xs_2 = 7;
@@ -129,7 +128,10 @@ const EditPosting = () => {
     <>
       <NavBar />
       {!isLoading && (
-        <Container maxWidth="md" sx={{ padding: "32px", background: "#fafaff" }}>
+        <Container
+          maxWidth="md"
+          sx={{ padding: "32px", background: "#fafaff" }}
+        >
           {alert && (
             <Alert
               severity="success"
@@ -140,9 +142,11 @@ const EditPosting = () => {
               Changes to job posting were succesfull!
             </Alert>
           )}
-          <Typography variant="h4" color={"#30343f"}>Edit Posting</Typography>
+          <Typography variant="h4" color={"#30343f"}>
+            Edit Posting
+          </Typography>
 
-          <form onSubmit={handleSubmit} style={{padding:"16px"}}>
+          <form onSubmit={handleSubmit} style={{ padding: "16px" }}>
             <Grid container rowGap={2} alignItems="center">
               <Grid item xs={grid_xs_1}>
                 <Typography variant="h6">Job Title</Typography>
