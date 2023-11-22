@@ -99,7 +99,7 @@ const JobApplicants = () => {
   };
 
   const filterDrawer = (
-    <Stack direction={"column"} spacing={4} sx={{ mt: 1, p: 2 }}>
+    <Stack direction={"column"} spacing={4} sx={{ mt: 4, p: 2 }}>
       <TextFilter
         label="Applicant Name"
         onChange={(text) => setNameFilter(text)}

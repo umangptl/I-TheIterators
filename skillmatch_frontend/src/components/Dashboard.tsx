@@ -62,7 +62,7 @@ const Dashboard = () => {
     return (
         <>
             <NavBar />
-            <Container maxWidth="lg" style={{ marginTop: "6em" }}>
+            <Container maxWidth="lg" style={{ marginTop: "8em" }}>
                 <h1>Dashboard</h1>
                 <Grid container spacing={2}>
                     <Grid item xs={8}>
