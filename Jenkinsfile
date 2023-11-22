@@ -3,6 +3,7 @@ pipeline {
 
     tools {
         maven "Mven"
+        nodejs "Node"
     }
 
     stages {
@@ -25,6 +26,20 @@ pipeline {
                 success {
                     junit '**/target/surefire-reports/TEST-*.xml'
                     archiveArtifacts 'SkillMatch/target/*.jar'
+                }
+            }
+        }
+        stage('Node Install') {
+            steps {
+                dir('skillmatch_frontend') {
+                    bat 'npm install'
+                }
+            }
+        }
+        stage('React Build') {
+            steps {
+                dir('skillmatch_frontend') {
+                    bat 'npm run build'
                 }
             }
         }
