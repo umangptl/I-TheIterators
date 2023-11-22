@@ -8,7 +8,6 @@ pipeline {
     stages {
         stage('Build') {
             steps {
-                git 'https://github.com/umangptl/I-TheIterators.git'
                 bat "mvn -f SkillMatch/pom.xml clean install package"
             }
 
