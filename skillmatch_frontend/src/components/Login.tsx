@@ -4,7 +4,7 @@ import GoogleLogin from "../components/GoogleLogin";
 import { postLoginToken } from "../api/postLoginToken";
 import { useLoginContext } from "../hooks/useLoginContext";
 import { Grid } from "@mui/material";
-import leafImage from "../imgs/annie-spratt-hX_hf2lPpUU-unsplash.jpg";
+import leafImage from "../imgs/plant.jpg";
 
 export const Login = () => {
     const navigate = useNavigate();

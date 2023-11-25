@@ -21,4 +21,6 @@ public class Applicant {
     private Binary resume;
     private Binary coverLetter;
     private Provider provider;
+    private String actualJobTitle;
+    private String actualEmployer;
 }

@@ -34,7 +34,6 @@ const JobApplicants = () => {
 
   const { applications } = useApplicationsByJob(jobId as string);
   const { job } = usePosting(jobId as string);
-  console.log(applications);
 
   let filteredApplications = applications;
 
@@ -122,7 +121,6 @@ const JobApplicants = () => {
         options={statusOptions}
         onSelect={(selection) => {
           setStatusFilter(selection);
-          console.log(selection);
         }}
       />
     </Stack>
