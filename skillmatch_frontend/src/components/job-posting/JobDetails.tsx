@@ -64,7 +64,7 @@ const JobDetails = () => {
   }
 
   return (
-    <Container maxWidth="md" sx={{padding: 4, background: "#fafaff"}}>
+    <Container maxWidth="md" sx={{ padding: 4, background: "#fafaff" }}>
       <Grid container spacing={2}>
         {/* {!isLogin && (
           <Grid xs={12}>
@@ -124,13 +124,9 @@ const JobDetails = () => {
 
         <Grid xs={5} textAlign={"right"}>
           {isLogin && (
-            <Button
-              variant="contained"
-              color="success"
-              onClick={() => handleShowApplications(job.jobId)}
-            >
+            <LinkButton to={"/applicants/" + job.jobId}>
               View Applications
-            </Button>
+            </LinkButton>
           )}
         </Grid>
         <Grid xs={12}>

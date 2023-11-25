@@ -11,7 +11,7 @@ import Button from "@mui/material/Button";
 import axios from "axios";
 import NavBar from "./common/NavBar";
 import { Application } from "../hooks/useApplicationsByJob";
-import { Job } from "../hooks/useJobs";
+import { Job } from "../models/Job";
 
 export default function MyApplication() {
   const [email, setEmail] = useState("");

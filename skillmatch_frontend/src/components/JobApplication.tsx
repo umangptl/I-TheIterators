@@ -35,6 +35,8 @@ export default function JobApplication() {
     address: "",
     resume: undefined,
     coverLetter: undefined,
+    actualEmployer: "",
+    actualJobTitle: "",
   });
   const [resume, setResume] = useState<File | null>(null);
   const { jobId } = useParams();
@@ -61,11 +63,18 @@ export default function JobApplication() {
           "Content-Type": "multipart/form-data",
         },
       })
-      .then((res) => navigate("/confirmation/Your application has been submitted successfully. Thank you for applying!"))
+      .then((res) =>
+        navigate(
+          "/confirmation/Your application has been submitted successfully. Thank you for applying!"
+        )
+      )
       .catch((err) => console.log(err));
   };
 
-  async function checkIfAlreadyApplied(email: string, jobId: string): Promise<boolean> {
+  async function checkIfAlreadyApplied(
+    email: string,
+    jobId: string
+  ): Promise<boolean> {
     try {
       const response = await axios.get(
         `http://localhost:8081/application/applicant/${email}/job/${jobId}`
@@ -76,7 +85,7 @@ export default function JobApplication() {
     } catch (err) {
       return false;
     }
-  };
+  }
 
   const handleSubmit = (e: any) => {
     e.preventDefault();
@@ -92,16 +101,17 @@ export default function JobApplication() {
     const formData = new FormData();
     if (resume) formData.append("file", resume);
     formData.append("applicant", JSON.stringify(application));
-    checkIfAlreadyApplied(applicant.email, jobId ? jobId : "").then((res) => {
-      if(res) {
-        navigate("/confirmation/Application submitted already !")
-      } else { 
-        callSubmitApplication(formData);
-      }
-    })
-    .catch((err) => {
-      console.log(err);
-    });
+    checkIfAlreadyApplied(applicant.email, jobId ? jobId : "")
+      .then((res) => {
+        if (res) {
+          navigate("/confirmation/Application submitted already !");
+        } else {
+          callSubmitApplication(formData);
+        }
+      })
+      .catch((err) => {
+        console.log(err);
+      });
   };
 
   const [formErrors, setFormErrors] = useState({
