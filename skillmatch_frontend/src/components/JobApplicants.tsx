@@ -1,7 +1,7 @@
 import { useNavigate, useParams } from "react-router-dom";
 import useApplicationsByJob from "../hooks/useApplicationsByJob";
 import NavBar from "./common/NavBar";
-import { useEffect, useState } from "react";
+import { CSSProperties, useEffect, useState } from "react";
 import {
   Alert,
   AlertTitle,
@@ -14,14 +14,17 @@ import {
 import FilterAltIcon from "@mui/icons-material/FilterAlt";
 import TextFilter from "./all-jobs/TextFilter";
 import SelectFilter from "./all-jobs/SelectFilter";
-import MultiSelectFilter from "./all-jobs/MultiSelectFilter";
 import { useLoginContext } from "../hooks/useLoginContext";
-import usePosting, { defaultJob } from "../hooks/usePosting";
 import ApplicationCard from "./job-applicants/ApplicationCard";
+import useJobs from "../hooks/useJobs";
+import { FixedSizeList as List } from "react-window";
+import AutoSizer from "react-virtualized-auto-sizer";
+
+import "./job-applicants/styles.css";
 
 const drawerWidth = "300px";
 
-const JobApplicants = () => {
+const JobApplicantsX = () => {
   const { isLogin, setIsLogin } = useLoginContext();
   const navigate = useNavigate();
   const [alert, setAlert] = useState(false);
@@ -32,10 +35,23 @@ const JobApplicants = () => {
 
   const { jobId } = useParams();
 
-  const { applications } = useApplicationsByJob(jobId as string);
-  const { job } = usePosting(jobId as string);
+  const { applications, setApplications } = useApplicationsByJob("-1");
+  const { jobs } = useJobs();
 
   let filteredApplications = applications;
+
+  const [positionFilter, setPositionFilter] = useState("");
+  filteredApplications = positionFilter
+    ? filteredApplications.filter((application) => {
+        const position = jobs
+          .find((job) => job.jobId === application.jobId)
+          ?.title.toLowerCase();
+        if (position === undefined) {
+          return false;
+        }
+        return position.includes(positionFilter.toLowerCase());
+      })
+    : filteredApplications;
 
   const [nameFilter, setNameFilter] = useState("");
   filteredApplications = nameFilter
@@ -100,6 +116,10 @@ const JobApplicants = () => {
   const filterDrawer = (
     <Stack direction={"column"} spacing={4} sx={{ mt: 4, p: 2 }}>
       <TextFilter
+        label="Job Position"
+        onChange={(text) => setPositionFilter(text)}
+      ></TextFilter>
+      <TextFilter
         label="Applicant Name"
         onChange={(text) => setNameFilter(text)}
       ></TextFilter>
@@ -111,10 +131,6 @@ const JobApplicants = () => {
         label="Actual Employer"
         onChange={(text) => setActualEmployerFilter(text)}
       ></TextFilter>
-      {/* <TextFilter
-        label="Address"
-        onChange={(text) => setAddressFilter(text)}
-      ></TextFilter> */}
       <SelectFilter
         label="Status"
         value={statusFilter}
@@ -129,7 +145,13 @@ const JobApplicants = () => {
   return (
     <>
       <NavBar />
-      <Box sx={{ display: "flex" }}>
+      <Box
+        sx={{
+          display: "flex",
+          alignItems: "stretch",
+          height: "calc(100% - 95px)",
+        }}
+      >
         <Box sx={{ width: { md: drawerWidth }, backgroundColor: "#fafaff" }}>
           <Drawer
             variant="temporary"
@@ -164,7 +186,13 @@ const JobApplicants = () => {
             {filterDrawer}
           </Drawer>
         </Box>
-        <Box sx={{ p: 3, pt: 0, width: { md: `calc(100% - ${drawerWidth})` } }}>
+        <Box
+          sx={{
+            width: { md: `calc(100% - ${drawerWidth})` },
+            p: "15px",
+            pr: 0,
+          }}
+        >
           <IconButton
             color="inherit"
             aria-label="open drawer"
@@ -185,25 +213,38 @@ const JobApplicants = () => {
               Not implemented yet!
             </Alert>
           )}
-
-          <Stack
-            spacing={3}
-            alignItems={"stretch"}
-            justifyContent={"center"}
-            sx={{ px: 1, py: 2, mt: 2 }}
-          >
-            {filteredApplications.map((application) => (
-              <ApplicationCard
-                application={application}
-                job={job !== undefined ? job : defaultJob}
-                key={application.applicationId}
-              />
-            ))}
-          </Stack>
+          <AutoSizer>
+            {({ height, width }: { height: number; width: number }) => (
+              <List
+                className="List"
+                height={height}
+                itemCount={filteredApplications.length}
+                itemSize={185}
+                width={width}
+              >
+                {({
+                  index,
+                  style,
+                }: {
+                  index: number;
+                  style: CSSProperties;
+                }) => (
+                  <Box style={style}>
+                    <ApplicationCard
+                      application={filteredApplications[index]}
+                      job={jobs.find(
+                        (job) => job.jobId === filteredApplications[index].jobId
+                      )}
+                    />
+                  </Box>
+                )}
+              </List>
+            )}
+          </AutoSizer>
         </Box>
       </Box>
     </>
   );
 };
 
-export default JobApplicants;
+export default JobApplicantsX;

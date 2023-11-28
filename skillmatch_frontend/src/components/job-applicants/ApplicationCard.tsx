@@ -16,16 +16,15 @@ import { Job } from "../../models/Job";
 
 interface Props {
   application: Application;
-  job: Job;
-  //   onDelete: (title: string) => void;
+  job: Job | undefined;
 }
 
 const ApplicationCard = ({ application, job }: Props) => {
   const { isLogin } = useLoginContext();
-  const applicant = application.applicant;
-  if (applicant === undefined) {
+  if (application === undefined) {
     return <></>;
   }
+  const applicant = application.applicant;
 
   return (
     <Card elevation={2} sx={{ padding: 2, backgroundColor: "#fafaff" }}>
@@ -40,7 +39,7 @@ const ApplicationCard = ({ application, job }: Props) => {
             </Typography>
           </Grid>
           <Grid item xs={5}>
-            <Typography variant="h5">{job.title}</Typography>
+            <Typography variant="h5">{job?.title}</Typography>
             <Typography>{application.status}</Typography>
           </Grid>
         </Grid>
