@@ -11,12 +11,20 @@ import {
 } from "@mui/material";
 import { useLoginContext } from "../../hooks/useLoginContext";
 import LinkButton from "../common/LinkButton";
-import { Application } from "../../models/Application";
 import { Job } from "../../models/Job";
+import { Applicant } from "../../models/Applicant";
 
 interface Props {
   application: Application;
   job: Job | undefined;
+}
+
+export interface Application {
+  applicationId: string;
+  status: string;
+  jobId: string;
+  applicantId: string;
+  applicant: Applicant;
 }
 
 const ApplicationCard = ({ application, job }: Props) => {
@@ -35,10 +43,14 @@ const ApplicationCard = ({ application, job }: Props) => {
               {applicant.firstName} {applicant.lastName}
             </Typography>
             <Typography>
-              {applicant.actualJobTitle !== "" && applicant.actualJobTitle !== null?
-              <>
-                {applicant.actualJobTitle} at {applicant.actualEmployer}
-              </> : "Unemployed"}
+              {applicant.actualJobTitle !== "" &&
+              applicant.actualJobTitle !== null ? (
+                <>
+                  {applicant.actualJobTitle} at {applicant.actualEmployer}
+                </>
+              ) : (
+                "Unemployed"
+              )}
             </Typography>
             <Typography>
               {applicant.phoneNumber} | {applicant.email}
@@ -52,7 +64,9 @@ const ApplicationCard = ({ application, job }: Props) => {
       </CardContent>
       <CardActions>
         <Stack direction="row" spacing={2}>
-          <LinkButton to={"/applicant/"}>View details</LinkButton>
+          <LinkButton to={"/applicant/" + application.applicationId}>
+            View details
+          </LinkButton>
         </Stack>
       </CardActions>
     </Card>
