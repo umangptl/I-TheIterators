@@ -119,6 +119,6 @@ class ApplicantController_Test {
                 .andExpect(MockMvcResultMatchers.content()
                         .string(
                                 "{\"id\":null,\"email\":null,\"firstName\":null,\"lastName\":null,\"phoneNumber\":null,\"address\":null,\"resume\""
-                                        + ":null,\"coverLetter\":null,\"provider\":null}"));
+                                        + ":null,\"coverLetter\":null,\"provider\":null,\"actualJobTitle\":null,\"actualEmployer\":null}"));
     }
 }
