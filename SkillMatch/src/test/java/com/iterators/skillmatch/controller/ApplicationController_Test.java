@@ -12,7 +12,6 @@ import java.io.InputStream;
 import java.util.ArrayList;
 
 import org.bson.types.Binary;
-import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.Mockito;
@@ -21,13 +20,10 @@ import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.mock.web.MockMultipartFile;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit.jupiter.SpringExtension;
-import org.springframework.test.web.servlet.MockMvc;
-import org.springframework.test.web.servlet.ResultActions;
 import org.springframework.test.web.servlet.request.MockHttpServletRequestBuilder;
 import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
 import org.springframework.test.web.servlet.result.MockMvcResultMatchers;
 import org.springframework.test.web.servlet.setup.MockMvcBuilders;
-import org.springframework.web.multipart.MultipartFile;
 
 @ContextConfiguration(classes = {ApplicationController.class})
 @ExtendWith(SpringExtension.class)
@@ -84,8 +80,8 @@ class ApplicationController_Test {
                 .andExpect(MockMvcResultMatchers.content()
                         .string(
                                 "[{\"applicationId\":\"42\",\"status\":\"PENDING\",\"jobId\":\"42\",\"applicant\":{\"id\":null,\"email\":null,\"firstName"
-                                        + "\":null,\"lastName\":null,\"phoneNumber\":null,\"address\":null,\"resume\":null,\"coverLetter\":null,\"provider"
-                                        + "\":null}}]"));
+                                        + "\":null,\"lastName\":null,\"phoneNumber\":null,\"address\":null,\"resume\":null,\"coverLetter\":null,\"provider\""
+                                        + ":null,\"actualJobTitle\":null,\"actualEmployer\":null}}]"));
     }
 
     @Test
@@ -116,9 +112,10 @@ class ApplicationController_Test {
                         .string(
                                 "[{\"applicationId\":\"Application Id\",\"status\":\"REJECTED\",\"jobId\":\"Job Id\",\"applicant\":{\"id\":null,\"email"
                                         + "\":null,\"firstName\":null,\"lastName\":null,\"phoneNumber\":null,\"address\":null,\"resume\":null,\"coverLetter"
-                                        + "\":null,\"provider\":null}},{\"applicationId\":\"42\",\"status\":\"PENDING\",\"jobId\":\"42\",\"applicant\":{\"id\":null"
-                                        + ",\"email\":null,\"firstName\":null,\"lastName\":null,\"phoneNumber\":null,\"address\":null,\"resume\":null,"
-                                        + "\"coverLetter\":null,\"provider\":null}}]"));
+                                        + "\":null,\"provider\":null,\"actualJobTitle\":null,\"actualEmployer\":null}},{\"applicationId\":\"42\",\"status\":"
+                                        + "\"PENDING\",\"jobId\":\"42\",\"applicant\":{\"id\":null,\"email\":null,\"firstName\":null,\"lastName\":null,\"phoneNumber"
+                                        + "\":null,\"address\":null,\"resume\":null,\"coverLetter\":null,\"provider\":null,\"actualJobTitle\":null,"
+                                        + "\"actualEmployer\":null}}]"));
     }
 
     @Test
@@ -143,8 +140,8 @@ class ApplicationController_Test {
                 .andExpect(MockMvcResultMatchers.content()
                         .string(
                                 "[{\"applicationId\":\"42\",\"status\":\"PENDING\",\"jobId\":\"42\",\"applicant\":{\"id\":null,\"email\":null,\"firstName"
-                                        + "\":null,\"lastName\":null,\"phoneNumber\":null,\"address\":null,\"resume\":null,\"coverLetter\":null,\"provider"
-                                        + "\":null}}]"));
+                                        + "\":null,\"lastName\":null,\"phoneNumber\":null,\"address\":null,\"resume\":null,\"coverLetter\":null,\"provider\""
+                                        + ":null,\"actualJobTitle\":null,\"actualEmployer\":null}}]"));
     }
 
     @Test
@@ -177,9 +174,10 @@ class ApplicationController_Test {
                         .string(
                                 "[{\"applicationId\":\"Application Id\",\"status\":\"REJECTED\",\"jobId\":\"Job Id\",\"applicant\":{\"id\":null,\"email"
                                         + "\":null,\"firstName\":null,\"lastName\":null,\"phoneNumber\":null,\"address\":null,\"resume\":null,\"coverLetter"
-                                        + "\":null,\"provider\":null}},{\"applicationId\":\"42\",\"status\":\"PENDING\",\"jobId\":\"42\",\"applicant\":{\"id\":null"
-                                        + ",\"email\":null,\"firstName\":null,\"lastName\":null,\"phoneNumber\":null,\"address\":null,\"resume\":null,"
-                                        + "\"coverLetter\":null,\"provider\":null}}]"));
+                                        + "\":null,\"provider\":null,\"actualJobTitle\":null,\"actualEmployer\":null}},{\"applicationId\":\"42\",\"status\":"
+                                        + "\"PENDING\",\"jobId\":\"42\",\"applicant\":{\"id\":null,\"email\":null,\"firstName\":null,\"lastName\":null,\"phoneNumber"
+                                        + "\":null,\"address\":null,\"resume\":null,\"coverLetter\":null,\"provider\":null,\"actualJobTitle\":null,"
+                                        + "\"actualEmployer\":null}}]"));
     }
 
     @Test
@@ -214,8 +212,8 @@ class ApplicationController_Test {
                 .andExpect(MockMvcResultMatchers.content()
                         .string(
                                 "[{\"applicationId\":\"42\",\"status\":\"PENDING\",\"jobId\":\"42\",\"applicant\":{\"id\":null,\"email\":null,\"firstName"
-                                        + "\":null,\"lastName\":null,\"phoneNumber\":null,\"address\":null,\"resume\":null,\"coverLetter\":null,\"provider"
-                                        + "\":null}}]"));
+                                        + "\":null,\"lastName\":null,\"phoneNumber\":null,\"address\":null,\"resume\":null,\"coverLetter\":null,\"provider\""
+                                        + ":null,\"actualJobTitle\":null,\"actualEmployer\":null}}]"));
     }
 
     @Test
@@ -246,9 +244,10 @@ class ApplicationController_Test {
                         .string(
                                 "[{\"applicationId\":\"Application Id\",\"status\":\"REJECTED\",\"jobId\":\"Job Id\",\"applicant\":{\"id\":null,\"email"
                                         + "\":null,\"firstName\":null,\"lastName\":null,\"phoneNumber\":null,\"address\":null,\"resume\":null,\"coverLetter"
-                                        + "\":null,\"provider\":null}},{\"applicationId\":\"42\",\"status\":\"PENDING\",\"jobId\":\"42\",\"applicant\":{\"id\":null"
-                                        + ",\"email\":null,\"firstName\":null,\"lastName\":null,\"phoneNumber\":null,\"address\":null,\"resume\":null,"
-                                        + "\"coverLetter\":null,\"provider\":null}}]"));
+                                        + "\":null,\"provider\":null,\"actualJobTitle\":null,\"actualEmployer\":null}},{\"applicationId\":\"42\",\"status\":"
+                                        + "\"PENDING\",\"jobId\":\"42\",\"applicant\":{\"id\":null,\"email\":null,\"firstName\":null,\"lastName\":null,\"phoneNumber"
+                                        + "\":null,\"address\":null,\"resume\":null,\"coverLetter\":null,\"provider\":null,\"actualJobTitle\":null,"
+                                        + "\"actualEmployer\":null}}]"));
     }
 
     @Test
@@ -270,8 +269,8 @@ class ApplicationController_Test {
                 .andExpect(MockMvcResultMatchers.content()
                         .string(
                                 "{\"applicationId\":\"42\",\"status\":\"PENDING\",\"jobId\":\"42\",\"applicant\":{\"id\":null,\"email\":null,\"firstName"
-                                        + "\":null,\"lastName\":null,\"phoneNumber\":null,\"address\":null,\"resume\":null,\"coverLetter\":null,\"provider"
-                                        + "\":null}}"));
+                                        + "\":null,\"lastName\":null,\"phoneNumber\":null,\"address\":null,\"resume\":null,\"coverLetter\":null,\"provider\""
+                                        + ":null,\"actualJobTitle\":null,\"actualEmployer\":null}}"));
     }
 
     @Test
@@ -279,7 +278,7 @@ class ApplicationController_Test {
         Application application = new Application();
         Binary resume = new Binary("AXAXAXAX".getBytes("UTF-8"));
         application.setApplicant(new Applicant("42", "jane.doe@example.org", "Jane", "Doe", "6625550144", "42 Main St",
-                resume, new Binary("AXAXAXAX".getBytes("UTF-8")), Provider.LOCAL));
+                resume, new Binary("AXAXAXAX".getBytes("UTF-8")), Provider.LOCAL, "Dr", "Actual Employer"));
         application.setApplicationId("42");
         application.setJobId("42");
         application.setStatus(ApplicationStatus.PENDING);
@@ -294,10 +293,10 @@ class ApplicationController_Test {
                 .andExpect(MockMvcResultMatchers.content().contentType("application/json"))
                 .andExpect(MockMvcResultMatchers.content()
                         .string(
-                                "{\"applicationId\":\"42\",\"status\":\"PENDING\",\"jobId\":\"42\",\"applicant\":{\"id\":\"42\",\"email\":\"jane.doe"
-                                        + "@example.org\",\"firstName\":\"Jane\",\"lastName\":\"Doe\",\"phoneNumber\":\"6625550144\",\"address\":\"42 Main"
-                                        + " St\",\"resume\":{\"type\":0,\"data\":\"QVhBWEFYQVg=\"},\"coverLetter\":{\"type\":0,\"data\":\"QVhBWEFYQVg=\"},"
-                                        + "\"provider\":\"LOCAL\"}}"));
+                                "{\"applicationId\":\"42\",\"status\":\"PENDING\",\"jobId\":\"42\",\"applicant\":{\"id\":\"42\",\"email\":\"jane.doe@example"
+                                        + ".org\",\"firstName\":\"Jane\",\"lastName\":\"Doe\",\"phoneNumber\":\"6625550144\",\"address\":\"42 Main St\",\"resume\""
+                                        + ":{\"type\":0,\"data\":\"QVhBWEFYQVg=\"},\"coverLetter\":{\"type\":0,\"data\":\"QVhBWEFYQVg=\"},\"provider\":\"LOCAL\","
+                                        + "\"actualJobTitle\":\"Dr\",\"actualEmployer\":\"Actual Employer\"}}"));
     }
 
     @Test
@@ -317,8 +316,8 @@ class ApplicationController_Test {
                 .andExpect(MockMvcResultMatchers.content()
                         .string(
                                 "{\"applicationId\":\"42\",\"status\":\"PENDING\",\"jobId\":\"42\",\"applicant\":{\"id\":null,\"email\":null,\"firstName"
-                                        + "\":null,\"lastName\":null,\"phoneNumber\":null,\"address\":null,\"resume\":null,\"coverLetter\":null,\"provider"
-                                        + "\":null}}"));
+                                        + "\":null,\"lastName\":null,\"phoneNumber\":null,\"address\":null,\"resume\":null,\"coverLetter\":null,\"provider\""
+                                        + ":null,\"actualJobTitle\":null,\"actualEmployer\":null}}"));
     }
 
     @Test
@@ -326,7 +325,7 @@ class ApplicationController_Test {
         Application application = new Application();
         Binary resume = new Binary("AXAXAXAX".getBytes("UTF-8"));
         application.setApplicant(new Applicant("42", "jane.doe@example.org", "Jane", "Doe", "6625550144", "42 Main St",
-                resume, new Binary("AXAXAXAX".getBytes("UTF-8")), Provider.LOCAL));
+                resume, new Binary("AXAXAXAX".getBytes("UTF-8")), Provider.LOCAL, "Dr", "Actual Employer"));
         application.setApplicationId("42");
         application.setJobId("42");
         application.setStatus(ApplicationStatus.PENDING);
@@ -339,10 +338,10 @@ class ApplicationController_Test {
                 .andExpect(MockMvcResultMatchers.content().contentType("application/json"))
                 .andExpect(MockMvcResultMatchers.content()
                         .string(
-                                "{\"applicationId\":\"42\",\"status\":\"PENDING\",\"jobId\":\"42\",\"applicant\":{\"id\":\"42\",\"email\":\"jane.doe"
-                                        + "@example.org\",\"firstName\":\"Jane\",\"lastName\":\"Doe\",\"phoneNumber\":\"6625550144\",\"address\":\"42 Main"
-                                        + " St\",\"resume\":{\"type\":0,\"data\":\"QVhBWEFYQVg=\"},\"coverLetter\":{\"type\":0,\"data\":\"QVhBWEFYQVg=\"},"
-                                        + "\"provider\":\"LOCAL\"}}"));
+                                "{\"applicationId\":\"42\",\"status\":\"PENDING\",\"jobId\":\"42\",\"applicant\":{\"id\":\"42\",\"email\":\"jane.doe@example"
+                                        + ".org\",\"firstName\":\"Jane\",\"lastName\":\"Doe\",\"phoneNumber\":\"6625550144\",\"address\":\"42 Main St\",\"resume\""
+                                        + ":{\"type\":0,\"data\":\"QVhBWEFYQVg=\"},\"coverLetter\":{\"type\":0,\"data\":\"QVhBWEFYQVg=\"},\"provider\":\"LOCAL\","
+                                        + "\"actualJobTitle\":\"Dr\",\"actualEmployer\":\"Actual Employer\"}}"));
     }
 
     @Test
@@ -377,8 +376,8 @@ class ApplicationController_Test {
                 .andExpect(MockMvcResultMatchers.content()
                         .string(
                                 "[{\"applicationId\":\"42\",\"status\":\"PENDING\",\"jobId\":\"42\",\"applicant\":{\"id\":null,\"email\":null,\"firstName"
-                                        + "\":null,\"lastName\":null,\"phoneNumber\":null,\"address\":null,\"resume\":null,\"coverLetter\":null,\"provider"
-                                        + "\":null}}]"));
+                                        + "\":null,\"lastName\":null,\"phoneNumber\":null,\"address\":null,\"resume\":null,\"coverLetter\":null,\"provider\""
+                                        + ":null,\"actualJobTitle\":null,\"actualEmployer\":null}}]"));
     }
 
     @Test
@@ -409,9 +408,10 @@ class ApplicationController_Test {
                         .string(
                                 "[{\"applicationId\":\"Application Id\",\"status\":\"REJECTED\",\"jobId\":\"Job Id\",\"applicant\":{\"id\":null,\"email"
                                         + "\":null,\"firstName\":null,\"lastName\":null,\"phoneNumber\":null,\"address\":null,\"resume\":null,\"coverLetter"
-                                        + "\":null,\"provider\":null}},{\"applicationId\":\"42\",\"status\":\"PENDING\",\"jobId\":\"42\",\"applicant\":{\"id\":null"
-                                        + ",\"email\":null,\"firstName\":null,\"lastName\":null,\"phoneNumber\":null,\"address\":null,\"resume\":null,"
-                                        + "\"coverLetter\":null,\"provider\":null}}]"));
+                                        + "\":null,\"provider\":null,\"actualJobTitle\":null,\"actualEmployer\":null}},{\"applicationId\":\"42\",\"status\":"
+                                        + "\"PENDING\",\"jobId\":\"42\",\"applicant\":{\"id\":null,\"email\":null,\"firstName\":null,\"lastName\":null,\"phoneNumber"
+                                        + "\":null,\"address\":null,\"resume\":null,\"coverLetter\":null,\"provider\":null,\"actualJobTitle\":null,"
+                                        + "\"actualEmployer\":null}}]"));
     }
 
 }
