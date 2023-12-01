@@ -9,6 +9,7 @@ import {
   Drawer,
   IconButton,
   Stack,
+  TextField,
   Typography,
 } from "@mui/material";
 import FilterAltIcon from "@mui/icons-material/FilterAlt";
@@ -24,7 +25,7 @@ import "./job-applicants/styles.css";
 
 const drawerWidth = "300px";
 
-const JobApplicantsX = () => {
+const JobApplicants = () => {
   const { isLogin, setIsLogin } = useLoginContext();
   const navigate = useNavigate();
   const [alert, setAlert] = useState(false);
@@ -34,13 +35,21 @@ const JobApplicantsX = () => {
   }, [isLogin, navigate]);
 
   const { jobId } = useParams();
-
   const { applications, setApplications } = useApplicationsByJob("-1");
   const { jobs } = useJobs();
 
   let filteredApplications = applications;
 
   const [positionFilter, setPositionFilter] = useState("");
+
+  useEffect(() => {
+    if (jobs.length !== 0 && jobId !== undefined) {
+      const initialJob = jobs.find((job) => job.jobId === jobId)
+        ?.title as string;
+      setPositionFilter(initialJob);
+    }
+  }, [jobs, jobId]);
+
   filteredApplications = positionFilter
     ? filteredApplications.filter((application) => {
         const position = jobs
@@ -115,16 +124,17 @@ const JobApplicantsX = () => {
 
   const filterDrawer = (
     <Stack direction={"column"} spacing={4} sx={{ mt: 4, p: 2 }}>
-      <TextFilter
-        label="Job Position"
-        onChange={(text) => setPositionFilter(text)}
-      ></TextFilter>
+      <TextField
+        label="Job Posting Title"
+        onChange={(e) => setPositionFilter(e.target.value)}
+        value={positionFilter}
+      ></TextField>
       <TextFilter
         label="Applicant Name"
         onChange={(text) => setNameFilter(text)}
       ></TextFilter>
       <TextFilter
-        label="Actual Job Title"
+        label="Actual Job Position"
         onChange={(text) => setJobTitleFilter(text)}
       ></TextFilter>
       <TextFilter
@@ -247,4 +257,4 @@ const JobApplicantsX = () => {
   );
 };
 
-export default JobApplicantsX;
+export default JobApplicants;
