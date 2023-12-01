@@ -30,6 +30,7 @@ NavButton.defaultProps = {
 
 const loggedInPages = [
   { path: "/", title: "Dashboard" },
+  { path: "/applicants", title: "Applicants" },
   { path: "/new-job", title: "New Posting" },
   { path: "/jobs", title: "All Postings" },
 ];
@@ -157,7 +158,7 @@ const NavBar = () => {
           </IconButton>
         </Toolbar>
       </AppBar>
-      <Box marginBottom={10}></Box>
+      <Box marginBottom={"95px"}></Box>
       <Box sx={{ width: { md: drawerWidth } }}>
         <Drawer
           PaperProps={{
