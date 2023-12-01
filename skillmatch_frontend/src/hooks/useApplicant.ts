@@ -2,7 +2,6 @@ import { useEffect, useState } from "react";
 import apiClient from "../services/api-client";
 import { CanceledError } from "axios";
 import { Applicant } from "../models/Applicant";
-import { Resume } from "../models/Resume";
 
 export interface Application {
     applicationId: string;
