@@ -1,0 +1,34 @@
+name: Docker Image CI
+
+on:
+  push:
+    branches: [ "main" ]
+
+jobs:
+
+  build:
+    name: Build and Push Docker image
+    runs-on: ubuntu-latest
+    steps:
+    - name: Checkout
+    - uses: actions/checkout@v3
+    
+    - name: Login to Docker
+      uses: docker/login-action@v3.0.0
+      with:
+        username: tayadeabhilash
+        password: dckr_pat_h4oVh9x-WlQabbDvHZOpT7zeaxg
+
+    - name: Extract tags for docker
+      id: meta
+      uses: docker/metadata-action@v5.2.0
+      with:
+        images: tayadeabhilash/skillmatch
+
+    - name: Build and Push image
+      uses: docker/build-push-action@v5.1.0
+      with:
+        context: ./SkillMatch
+        push: true
+        tags: ${{ steps:meta:outputs/tags }}
+        labels: ${{ steps.meta.output.labels }}
