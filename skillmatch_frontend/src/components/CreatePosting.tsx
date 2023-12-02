@@ -14,7 +14,6 @@ import NavBar from "./common/NavBar";
 import { useEffect, useState } from "react";
 import { NumericFormat, NumericFormatProps } from "react-number-format";
 import React from "react";
-import { Job } from "../hooks/useJobs";
 import apiClient from "../services/api-client";
 import { useLoginContext } from "../hooks/useLoginContext";
 import { useNavigate } from "react-router-dom";
@@ -103,7 +102,7 @@ const CreatePosting = () => {
   return (
     <>
       <NavBar />
-      <Container maxWidth="md" sx={{padding:"32px", background: "#fafaff"}}>
+      <Container maxWidth="md" sx={{ padding: "32px", background: "#fafaff" }}>
         {alert && (
           <Alert
             severity="warning"
@@ -114,8 +113,10 @@ const CreatePosting = () => {
             Not implemented yet!
           </Alert>
         )}
-        <Typography variant="h4" color={"#30343f"}>Create a Job Posting</Typography>
-        <form onSubmit={handleSubmit} style={{padding:"16px"}}>
+        <Typography variant="h4" color={"#30343f"}>
+          Create a Job Posting
+        </Typography>
+        <form onSubmit={handleSubmit} style={{ padding: "16px" }}>
           <Grid container rowGap={2} alignItems="center">
             <Grid item xs={grid_xs_1}>
               <Typography variant="h6">Job Title</Typography>

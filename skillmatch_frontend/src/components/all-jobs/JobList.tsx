@@ -84,7 +84,7 @@ const AllJobs = () => {
   };
 
   const filterDrawer = (
-    <Stack direction={"column"} spacing={4} sx={{ mt: 1, p: 2 }}>
+    <Stack direction={"column"} spacing={4} sx={{ mt: 4, p: 2 }}>
       <TextFilter
         label="Job Title"
         onChange={(text) => setTitleFilter(text)}

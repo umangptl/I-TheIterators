@@ -15,6 +15,7 @@ import MenuIcon from "@mui/icons-material/Menu";
 import { Link, LinkProps, useNavigate } from "react-router-dom";
 import { useLoginContext } from "../../hooks/useLoginContext";
 import apiClient from "../../services/api-client";
+import logo from "../../imgs/logo.png";
 
 const drawerWidth = 240;
 
@@ -29,6 +30,7 @@ NavButton.defaultProps = {
 
 const loggedInPages = [
   { path: "/", title: "Dashboard" },
+  { path: "/applicants", title: "Applicants" },
   { path: "/new-job", title: "New Posting" },
   { path: "/jobs", title: "All Postings" },
 ];
@@ -62,7 +64,12 @@ const NavBar = () => {
       return (
         <>
           {loggedInPages.map((page) => (
-            <NavButton sx={{ width: 'auto', minWidth: 140 }} key={page.path} component={Link} to={page.path}>
+            <NavButton
+              sx={{ width: "auto", minWidth: 140 }}
+              key={page.path}
+              component={Link}
+              to={page.path}
+            >
               {page.title}
             </NavButton>
           ))}
@@ -72,7 +79,12 @@ const NavBar = () => {
       return (
         <>
           {loggedOutPages.map((page) => (
-            <NavButton sx={{ width: 'auto', minWidth: 140 }} key={page.path} component={Link} to={page.path}>
+            <NavButton
+              sx={{ width: "auto", minWidth: 140 }}
+              key={page.path}
+              component={Link}
+              to={page.path}
+            >
               {page.title}
             </NavButton>
           ))}
@@ -115,7 +127,16 @@ const NavBar = () => {
       <AppBar sx={{ zIndex: 1400 }}>
         <Toolbar sx={{ display: { xs: "none", md: "flex" } }}>
           <Box sx={{ flexGrow: 1, textAlign: "left" }}>
-            <Typography sx={{ mx: 4 }}>LOGO</Typography>
+            <img
+              src={logo}
+              alt="Skillmatch Logo"
+              style={{
+                width: "200px",
+                maxHeight: "100vh",
+                overflow: "hidden",
+                objectFit: "cover",
+              }}
+            />
           </Box>
           <Box sx={{ flexGrow: 1, textAlign: "right" }}>
             <Box>{navButtoms()}</Box>
@@ -137,7 +158,7 @@ const NavBar = () => {
           </IconButton>
         </Toolbar>
       </AppBar>
-      <Box marginBottom={7}></Box>
+      <Box marginBottom={"95px"}></Box>
       <Box sx={{ width: { md: drawerWidth } }}>
         <Drawer
           PaperProps={{
