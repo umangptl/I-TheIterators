@@ -16,6 +16,7 @@ import { Link, LinkProps, useNavigate } from "react-router-dom";
 import { useLoginContext } from "../../hooks/useLoginContext";
 import apiClient from "../../services/api-client";
 import logo from "../../imgs/logo.png";
+import { navbar_height } from "../../constants";
 
 const drawerWidth = 240;
 
@@ -158,7 +159,7 @@ const NavBar = () => {
           </IconButton>
         </Toolbar>
       </AppBar>
-      <Box marginBottom={"95px"}></Box>
+      <Box position={"sticky"} height={navbar_height} width="100%"></Box>
       <Box sx={{ width: { md: drawerWidth } }}>
         <Drawer
           PaperProps={{

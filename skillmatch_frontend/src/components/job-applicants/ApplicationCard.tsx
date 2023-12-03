@@ -35,7 +35,13 @@ const ApplicationCard = ({ application, job }: Props) => {
               {applicant.firstName} {applicant.lastName}
             </Typography>
             <Typography>
-              {applicant.actualJobTitle} at {applicant.actualEmployer}
+              {applicant.actualJobTitle !== "" && applicant.actualJobTitle !== null?
+              <>
+                {applicant.actualJobTitle} at {applicant.actualEmployer}
+              </> : "Unemployed"}
+            </Typography>
+            <Typography>
+              {applicant.phoneNumber} | {applicant.email}
             </Typography>
           </Grid>
           <Grid item xs={5}>

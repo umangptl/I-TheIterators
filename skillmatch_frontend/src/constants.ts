@@ -1,0 +1,1 @@
+export const navbar_height: string = "95px"; 

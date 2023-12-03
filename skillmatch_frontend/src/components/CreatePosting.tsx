@@ -2,6 +2,7 @@ import {
   Alert,
   AlertTitle,
   Autocomplete,
+  Box,
   Button,
   Container,
   Grid,
@@ -72,6 +73,8 @@ const CreatePosting = () => {
   // const _class = "com.iterators.skillmatch.model.Job";
 
   const [alert, setAlert] = useState(false);
+  const [alertMsg, setAlertMsg] = useState("");
+  const alertStatus = alertMsg.includes("fail") ? "Warning" : "Success";
 
   const handleSubmit = (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
@@ -95,22 +98,33 @@ const CreatePosting = () => {
 
     apiClient
       .post("/job", newJob)
-      .then(() => setAlert(true))
-      .catch((err) => {});
+      .then(() => setAlertMsg("Job posting created successfully"))
+      .catch((err) => setAlertMsg("Job posting created failure"))
+      .finally(() => setAlert(true));
   };
 
   return (
     <>
       <NavBar />
       <Container maxWidth="md" sx={{ padding: "32px", background: "#fafaff" }}>
-        {alert && (
+        {(alert && alertStatus==="Warning") && (
           <Alert
             severity="warning"
             sx={{ position: "sticky", top: 80, zIndex: "1" }}
             onClose={() => setAlert(false)}
           >
-            <AlertTitle>Warning</AlertTitle>
-            Not implemented yet!
+            <AlertTitle>{alertStatus}</AlertTitle>
+            {alertMsg}
+          </Alert>
+        )}
+        {(alert && alertStatus==="Success") && (
+          <Alert
+            severity="info"
+            sx={{ position: "sticky", top: 80, zIndex: "1" }}
+            onClose={() => setAlert(false)}
+          >
+            <AlertTitle>{alertStatus}</AlertTitle>
+            {alertMsg}
           </Alert>
         )}
         <Typography variant="h4" color={"#30343f"}>

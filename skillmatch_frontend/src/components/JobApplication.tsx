@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useRef, useState } from "react";
 import TextField from "@mui/material/TextField";
 import Button from "@mui/material/Button";
 import Container from "@mui/material/Container";
@@ -20,6 +20,7 @@ import { Application } from "../models/Application";
 import { Applicant } from "../models/Applicant";
 import axios from "axios";
 import NavBar from "./common/NavBar";
+import usePosting from "../hooks/usePosting";
 
 export default function JobApplication() {
   const [workedPreviously, setWorkedPreviously] = useState("");
@@ -38,8 +39,12 @@ export default function JobApplication() {
     actualEmployer: "",
     actualJobTitle: "",
   });
+  
+  const emailInputRef = useRef<HTMLInputElement>(null);
+  const phoneInputRef = useRef<HTMLInputElement>(null);
   const [resume, setResume] = useState<File | null>(null);
   const { jobId } = useParams();
+  const { job, setJob } = usePosting(jobId as string);
   const navigate = useNavigate();
   const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const { name, value } = e.target;
@@ -121,6 +126,7 @@ export default function JobApplication() {
     authorizedToWork: "",
     requireSponsorship: "",
     needRelocationAssistance: "",
+    resume: "",
   });
 
   const validateForm = () => {
@@ -131,6 +137,7 @@ export default function JobApplication() {
       authorizedToWork: "",
       requireSponsorship: "",
       needRelocationAssistance: "",
+      resume: "",
     };
 
     let isValid = true;
@@ -146,16 +153,21 @@ export default function JobApplication() {
     }
 
     // Validate email format
-    if (applicant.email && !isValidEmail(applicant.email)) {
+    if (applicant.email && !isValidEmail(applicant.email) && emailInputRef.current) {
       errors.email = "Invalid email format";
       isValid = false;
+      emailInputRef.current.focus();
+      emailInputRef.current.scrollIntoView({ behavior: 'smooth' });
     }
-
+    console.log(applicant.phoneNumber)
+    console.log(isValidPhoneNumber(applicant.phoneNumber))
     // Validate mobile number format
-    if (applicant.phoneNumber && !isValidPhoneNumber(applicant.phoneNumber)) {
+    if (applicant.phoneNumber && !isValidPhoneNumber(applicant.phoneNumber) && phoneInputRef.current) {
       errors.phoneNumber =
-        "Invalid phone number format. Number should start with +1";
+        "Invalid phone number. Format should be '+1 (XXX) XXX-XXXX'";
       isValid = false;
+      phoneInputRef.current.focus();
+      phoneInputRef.current.scrollIntoView({ behavior: 'smooth' });
     }
 
     if (!workedPreviously) {
@@ -174,6 +186,10 @@ export default function JobApplication() {
       errors.needRelocationAssistance = "This field is mandatory";
       isValid = false;
     }
+    if (resume === null) {
+      errors.resume = "Please upload your resume";
+      isValid = false;
+    }
     setFormErrors(errors);
 
     return isValid;
@@ -187,7 +203,7 @@ export default function JobApplication() {
 
   const isValidPhoneNumber = (phoneNumber: string) => {
     // Replace with your phone number validation logic
-    const phoneRegex = /^\+\d{1,3}\d{10}$/;
+    const phoneRegex = /^\+\d{1,3} \(\d{3}\) \d{3}-\d{4}$/;
     return phoneRegex.test(phoneNumber);
   };
 
@@ -197,7 +213,7 @@ export default function JobApplication() {
       <Container sx={{ padding: 2, background: "#fafaff" }} maxWidth="md">
         <form onSubmit={handleSubmit}>
           <Typography variant="h4">Apply for this Job</Typography>
-          <Typography variant="h5">Job Id: {jobId}</Typography>
+          <Typography variant="h5">{job?.title}</Typography>
 
           <TextField
             label="First Name"
@@ -231,6 +247,7 @@ export default function JobApplication() {
             onChange={handleInputChange}
             required
             error={Boolean(formErrors.phoneNumber)}
+            inputRef={phoneInputRef}
           />
           {formErrors.phoneNumber && (
             <FormHelperText error>{formErrors.phoneNumber}</FormHelperText>
@@ -246,6 +263,7 @@ export default function JobApplication() {
             onChange={handleInputChange}
             required
             error={Boolean(formErrors.phoneNumber)}
+            inputRef={emailInputRef}
           />
           {formErrors.email && (
             <FormHelperText error>{formErrors.email}</FormHelperText>
@@ -261,6 +279,26 @@ export default function JobApplication() {
             onChange={handleInputChange}
           />
 
+          <TextField
+            label="Enter current job position / Student"
+            name="actualJobTitle"
+            fullWidth
+            margin="normal"
+            variant="outlined"
+            value={applicant?.actualJobTitle}
+            onChange={handleInputChange}
+          />
+
+          <TextField
+            label="Current Employeer / School"
+            name="actualEmployer"
+            fullWidth
+            margin="normal"
+            variant="outlined"
+            value={applicant?.actualEmployer}
+            onChange={handleInputChange}
+          />
+
           <FormControl
             fullWidth
             margin="normal"
@@ -271,6 +309,7 @@ export default function JobApplication() {
               Have you ever worked for our company previously
             </InputLabel>
             <Select
+              required
               value={workedPreviously}
               onChange={(e) => setWorkedPreviously(e.target.value)}
               label="Have you ever worked for our company previously?"
@@ -296,6 +335,7 @@ export default function JobApplication() {
               Are you authorized to work in the United States?
             </InputLabel>
             <Select
+              required
               value={authorizedToWork}
               onChange={(e) => setAuthorizedToWork(e.target.value)}
               label="Are you authorized to work in the United States?"
@@ -322,6 +362,7 @@ export default function JobApplication() {
               United States?
             </InputLabel>
             <Select
+              required
               value={requireSponsorship}
               onChange={(e) => setRequireSponsorship(e.target.value)}
               label="Will you now, or in the future, require sponsorship to work in the
@@ -349,6 +390,7 @@ export default function JobApplication() {
               specified location?
             </InputLabel>
             <Select
+              required
               value={needRelocationAssistance}
               onChange={(e) => setNeedRelocationAssistance(e.target.value)}
               label="Will you need relocation assistance to work at this role's
@@ -532,12 +574,16 @@ export default function JobApplication() {
           </FormControl>
 
           <input
+            required
             type="file"
             accept=".pdf"
             onChange={handleResumeChange}
             style={{ display: "none" }}
             id="resume-upload"
           />
+          {formErrors.resume && (
+            <FormHelperText error>{formErrors.resume}</FormHelperText>
+          )}
           <Stack direction="row" sx={{ mt: "16px" }} spacing={2}>
             {resume?.name && (
               <Typography variant="body2">Resume: {resume.name}</Typography>
