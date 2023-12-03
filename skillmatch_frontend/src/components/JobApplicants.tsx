@@ -231,7 +231,7 @@ const JobApplicants = () => {
                 className="List"
                 height={height}
                 itemCount={filteredApplications.length}
-                itemSize={185}
+                itemSize={205}
                 width={width}
               >
                 {({
