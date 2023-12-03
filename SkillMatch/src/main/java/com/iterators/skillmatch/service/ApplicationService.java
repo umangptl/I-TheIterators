@@ -17,5 +17,5 @@ public interface ApplicationService {
     void updateApplication(String applicationId, ApplicationStatus applicationStatus) throws GlobalException;
     void updateApplicationsByJobId(String jobId, ApplicationStatus applicationStatus) throws GlobalException;
     void addApplication(Application application) throws GlobalException;
-
+    byte[] viewResume(String applicationId) throws GlobalException;
 }

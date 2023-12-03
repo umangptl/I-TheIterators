@@ -7,6 +7,10 @@ import com.iterators.skillmatch.model.enums.ApplicationStatus;
 import com.iterators.skillmatch.service.ApplicationService;
 import org.bson.types.Binary;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.core.io.ByteArrayResource;
+import org.springframework.http.HttpHeaders;
+import org.springframework.http.MediaType;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
@@ -28,6 +32,15 @@ public class ApplicationController {
     @GetMapping("/{applicationId}")
     public Application getApplicationById(@PathVariable String applicationId) throws GlobalException {
         return applicationService.viewApplication(applicationId);
+    }
+
+    @GetMapping("/{applicationId}/resume")
+    public ResponseEntity<ByteArrayResource> getResumeById(@PathVariable String applicationId) throws GlobalException {
+
+        return ResponseEntity.ok()
+                .contentType(MediaType.MULTIPART_FORM_DATA)
+                .header(HttpHeaders.CONTENT_DISPOSITION, "attachment; filename=\"" + "resume.pdf" + "\"")
+                .body(new ByteArrayResource(applicationService.viewResume(applicationId)));
     }
 
     @GetMapping("/applicant/{emailId}")

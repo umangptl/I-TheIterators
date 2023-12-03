@@ -5,6 +5,7 @@ import com.iterators.skillmatch.model.Application;
 import com.iterators.skillmatch.model.enums.ApplicationStatus;
 import com.iterators.skillmatch.repository.ApplicationRepository;
 import com.iterators.skillmatch.service.ApplicationService;
+import org.bson.types.Binary;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -23,7 +24,8 @@ public class ApplicationServiceImpl implements ApplicationService {
     @Override
     public List<Application> getAllApplications() throws GlobalException {
         try {
-            return applicationRepository.findAll();
+            List<Application> applications = applicationRepository.findAllWithoutResume();
+            return applications;
         } catch (Exception exception) {
             logger.error("Error getting applications");
             throw new GlobalException(exception.getMessage(), exception);
@@ -113,6 +115,17 @@ public class ApplicationServiceImpl implements ApplicationService {
             applicationRepository.insert(application);
         } catch (Exception exception) {
             logger.error("Error adding application: {}", application.toString());
+            throw new GlobalException(exception.getMessage(), exception);
+        }
+    }
+
+    @Override
+    public byte[] viewResume(String applicationId) throws GlobalException {
+        try {
+            Binary binaryResume = applicationRepository.findById(applicationId).get().getApplicant().getResume();
+            return binaryResume.getData();
+        } catch (Exception exception) {
+            logger.error("Error getting resume for application id : {}", applicationId);
             throw new GlobalException(exception.getMessage(), exception);
         }
     }
