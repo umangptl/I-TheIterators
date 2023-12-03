@@ -37,6 +37,9 @@ const ApplicationCard = ({ application, job }: Props) => {
             <Typography>
               {applicant.actualJobTitle} at {applicant.actualEmployer}
             </Typography>
+            <Typography>
+              {applicant.phoneNumber} | {applicant.email}
+            </Typography>
           </Grid>
           <Grid item xs={5}>
             <Typography variant="h5">{job?.title}</Typography>

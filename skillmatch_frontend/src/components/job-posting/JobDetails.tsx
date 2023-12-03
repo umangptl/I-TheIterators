@@ -140,9 +140,13 @@ const JobDetails = () => {
               Not implemented yet!
             </Alert>
           )}
-          <Typography sx={{ py: 2 }} variant="body1" textAlign="justify">
-            {job.description}
-          </Typography>
+          {/* Split the job description based on the occurrence of the word "Key" */}
+          {job.description.split('~').map((line, index) => (
+            <Typography key={index} sx={{ py: 2 }} variant="body1" textAlign="justify">
+              {line.trim()}
+            </Typography>
+          ))}
+
         </Grid>
       </Grid>
     </Container>

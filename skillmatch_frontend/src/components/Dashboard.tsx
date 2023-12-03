@@ -152,9 +152,9 @@ const Dashboard = () => {
                             </p>
                             <p style={{ marginTop: "0.5em" }}>
                                 <span style={{ fontWeight: 600 }}>
-                                    Total Prospective Applicants:{" "}
+                                    Total Applicants:{" "}
                                 </span>
-                                {applicants.length}
+                                {openApps+interviewing+shortListed+offersSent}
                             </p>
                         </Paper>
                     </Grid>
