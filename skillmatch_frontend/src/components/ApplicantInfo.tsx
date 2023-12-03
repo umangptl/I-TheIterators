@@ -23,6 +23,7 @@ import { useJobsContext } from "../hooks/JobsContext";
 import CurrentStageChip from "./common/CurrentStageChip";
 import CurrentStageChipOverview from "./common/CurrentStageChipOverview";
 import usePutApplicationsByJob from "../hooks/usePutApplication";
+import useResume from "../hooks/useResume";
 
 const ApplicantInfo = () => {
   // const { isLogin, setIsLogin } = useLoginContext();
@@ -34,13 +35,9 @@ const ApplicantInfo = () => {
   // }, [isLogin, navigate]);
 
   const { applicationId } = useParams<{ applicationId: string }>();
-
-  // const { application, setApplication, applicationError } =
-  //   useApplicant(applicantId);
-
-  // const { job, setJob, error: jobError } = useJob(application?.jobId);
-
-  const { applications, setApplications, error } = useApplicationsContext();
+  const { resume } = useResume(applicationId);
+  console.log(resume);
+  const { applications } = useApplicationsContext();
   const { jobs } = useJobsContext();
 
   let filteredApplications: any = [];
@@ -63,10 +60,6 @@ const ApplicantInfo = () => {
     index: number;
     value: number;
   }
-
-  type skillForMap = {
-    skill: any;
-  };
 
   function CustomTabPanel(props: TabPanelProps) {
     const { children, value, index, ...other } = props;
@@ -130,8 +123,7 @@ const ApplicantInfo = () => {
     await updateApplicationStatus(applicationId, newStatus);
   };
 
-  // const [loadingClick, setLoadingClick] = useState(false);
-  let loadingClick = false;
+  const [loadingClick, setLoadingClick] = useState(false);
 
   if (filteredJobs.length > 0 && filteredApplications.length > 0) {
     let activeChipClass = "";
@@ -166,9 +158,7 @@ const ApplicantInfo = () => {
 
     const handleRejectButton = async (e: any) => {
       e.preventDefault();
-      // setLoadingClick(true);
-      loadingClick = true;
-      console.log("Rejected!");
+      setLoadingClick(true);
       let applicationIDToUpdate: string = filteredApplications[0].applicationId;
       await handleUpdateApplicationStatus(applicationIDToUpdate, "REJECTED");
       window.location.reload();
@@ -176,9 +166,7 @@ const ApplicantInfo = () => {
 
     const handleMoveForwardButton = async (e: any) => {
       e.preventDefault();
-      // setLoadingClick(true);
-      loadingClick = true;
-      console.log("Moved Forward!");
+      setLoadingClick(true);
       let applicationIDToUpdate: string = filteredApplications[0].applicationId;
       let nextStatus: ApplicationStatus;
       switch (filteredApplications[0].status) {
@@ -223,7 +211,7 @@ const ApplicantInfo = () => {
     return (
       <>
         <NavBar />
-        <Container maxWidth="xl" style={{ marginTop: "7.5em" }}>
+        <Container maxWidth="xl" style={{ marginTop: "5em" }}>
           <Grid container spacing={1}>
             <Grid item xs={5}>
               <Paper
@@ -430,9 +418,7 @@ const ApplicantInfo = () => {
                   </CustomTabPanel>
                   <CustomTabPanel value={value} index={1}>
                     {filteredApplications?.[0].applicant.resume ? (
-                      <ApplicantResume
-                        base64={filteredApplications?.[0].applicant.resume.data}
-                      />
+                      <ApplicantResume base64={resume} />
                     ) : (
                       <p>No Resume provided</p>
                     )}
