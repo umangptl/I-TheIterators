@@ -1,4 +1,5 @@
-import React, { useCallback, useReducer, useRef, useState } from "react";
+import React, { useState, useEffect } from "react";
+import { useNavigate } from "react-router-dom";
 import {
   Grid,
   Container,
@@ -9,7 +10,6 @@ import {
   Button,
   CircularProgress,
 } from "@mui/material";
-import ExpandMoreIcon from "@mui/icons-material/ExpandMore";
 import NavBar from "./common/NavBar";
 import { useLoginContext } from "../hooks/useLoginContext";
 import { useParams } from "react-router-dom";
@@ -26,13 +26,12 @@ import usePutApplicationsByJob from "../hooks/usePutApplication";
 import useResume from "../hooks/useResume";
 
 const ApplicantInfo = () => {
-  // const { isLogin, setIsLogin } = useLoginContext();
-  // const navigate = useNavigate();
-  // const [alert, setAlert] = useState(false);
+  const { isLogin, setIsLogin } = useLoginContext();
+  const navigate = useNavigate();
 
-  // useEffect(() => {
-  //     if (!isLogin) navigate("/login");
-  // }, [isLogin, navigate]);
+  useEffect(() => {
+    if (!isLogin) navigate("/login");
+  }, [isLogin, navigate]);
 
   const { applicationId } = useParams<{ applicationId: string }>();
   const { resume } = useResume(applicationId);
