@@ -21,7 +21,7 @@ import useJobs from "../hooks/useJobs";
 import { FixedSizeList as List } from "react-window";
 import AutoSizer from "react-virtualized-auto-sizer";
 
-import "./job-applicants/styles.css";
+import { navbar_height } from "../constants";
 
 const drawerWidth = "300px";
 
@@ -199,8 +199,10 @@ const JobApplicants = () => {
         <Box
           sx={{
             width: { md: `calc(100% - ${drawerWidth})` },
+            height: `calc(100vh - ${navbar_height} - 20px)`,
             p: "15px",
             pr: 0,
+            pb: 0,
           }}
         >
           <IconButton
