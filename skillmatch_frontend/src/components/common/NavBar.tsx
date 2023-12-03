@@ -30,13 +30,14 @@ NavButton.defaultProps = {
 };
 
 const loggedInPages = [
-  { path: "/", title: "Dashboard" },
+  { path: "/dashboard", title: "Dashboard" },
   { path: "/applicants", title: "Applicants" },
   { path: "/new-job", title: "New Posting" },
   { path: "/jobs", title: "All Postings" },
 ];
 
 const loggedOutPages = [
+  { path: "/", title: "Home" },
   { path: "/jobs", title: "All Postings" },
   { path: "/my-applications", title: "View Applications" },
 ];

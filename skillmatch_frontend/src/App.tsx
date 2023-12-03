@@ -17,6 +17,8 @@ import axios from "axios";
 import Confirmation from "./components/Confirmation";
 import MyApplication from "./components/MyApplication";
 import JobApplicants from "./components/JobApplicants";
+import Home from "./components/Home";
+
 import { ApplicationsProvider } from "./hooks/ApplicationsContext";
 import { JobsProvider } from "./hooks/JobsContext";
 import { ApplicantsProvider } from "./hooks/ApplicantsContext";
@@ -45,7 +47,8 @@ function App() {
               <Router>
                 <ScrollToTop />
                 <Routes>
-                  <Route path="/" element={<Dashboard />} />
+                  <Route path="/" element={<Home />} />
+                  <Route path="/dashboard" element={<Dashboard />} />
                   <Route path="/jobs" element={<AllJobs />} />
                   <Route path="/login" element={<Login />} />
                   <Route path="/job/:jobId" element={<JobPosting />} />
