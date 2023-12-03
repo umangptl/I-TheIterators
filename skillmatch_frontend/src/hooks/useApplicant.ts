@@ -4,12 +4,10 @@ import { CanceledError } from "axios";
 import { Applicant } from "../models/Applicant";
 
 export interface Application {
-    applicationId: string;
-    status: string;
-    jobId: string;
-    applicantId: string;
-    applicant: Applicant;
-    resume: any;
+  applicationId: string;
+  status: string;
+  jobId: string;
+  applicant: Applicant;
 }
 
 const useApplicant = (applicantionId: any) => {

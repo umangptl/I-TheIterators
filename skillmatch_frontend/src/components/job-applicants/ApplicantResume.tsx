@@ -9,7 +9,7 @@ const ApplicantResume = ({ base64 }: Props) => {
 
     useEffect(() => {
         // Create a URL from the Blob
-        const url = `data:application/pdf;base64,${atob(base64)}`;
+        const url = `data:application/pdf;base64,${base64}`;
         setPdfUrl(url);
 
         // Clean up the URL when the component is unmounted
