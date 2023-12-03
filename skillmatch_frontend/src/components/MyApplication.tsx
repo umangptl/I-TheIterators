@@ -6,12 +6,24 @@ import {
   Card,
   CardContent,
   Stack,
+  Grid,
+  Paper,
+  Divider,
+  Chip,
+  Box,
+
 } from "@mui/material";
 import Button from "@mui/material/Button";
 import axios from "axios";
 import NavBar from "./common/NavBar";
 import { Application } from "../hooks/useApplicationsByJob";
 import { Job } from "../models/Job";
+import EmailIcon from "@mui/icons-material/Email";
+import CheckCircleIcon from "@mui/icons-material/CheckCircle";
+import ErrorIcon from "@mui/icons-material/Error";
+import HourglassEmptyIcon from "@mui/icons-material/HourglassEmpty";
+import PlaylistAddCheckIcon from "@mui/icons-material/PlaylistAddCheck";
+
 
 export default function MyApplication() {
   const [email, setEmail] = useState("");
@@ -50,25 +62,48 @@ export default function MyApplication() {
       setError("Error getting applications");
     }
   };
+
+  const getStatusIcon = (status: any) => {
+    switch (status) {
+      case "SELECTED":
+        return <CheckCircleIcon color="primary" />;
+      case "REJECTED":
+        return <ErrorIcon color="error" />;
+      case "PENDING":
+        return <HourglassEmptyIcon color="info" />;
+      case "SHORTLISTED":
+        return <PlaylistAddCheckIcon color="warning" />;
+      default:
+        return <PlaylistAddCheckIcon color="warning" />;
+    }
+  };
+
   return (
     <>
       <NavBar />
       <div>
-        <Container sx={{ padding: 2, mt: "100px" }} maxWidth="md">
+        <Container sx={{ padding: 2, mt: "20px" }} maxWidth="md">
           <Typography variant="h4">Please enter you email</Typography>
           <form onSubmit={handleSubmit}>
-            <TextField
-              id="email"
-              label="Email"
-              variant="outlined"
-              fullWidth
-              margin="normal"
-              value={email}
-              onChange={(e) => setEmail(e.target.value)}
-            />
+            <Grid container spacing={4} alignItems="center">
+              <Grid item>
+                <EmailIcon color="primary" />
+              </Grid>
+              <Grid item xs={11}>
+                <TextField
+                  id="email"
+                  label="Email"
+                  variant="outlined"
+                  fullWidth
+                  margin="normal"
+                  value={email}
+                  onChange={(e) => setEmail(e.target.value)}
+                />
+              </Grid>
+            </Grid>
             {error && <p>{error}</p>}
 
-            <Button type="submit" variant="contained" color="primary">
+            <Button type="submit" variant="contained" color="primary" sx={{mt: 2}}>
               Submit
             </Button>
           </form>
@@ -79,32 +114,31 @@ export default function MyApplication() {
           ) : (
             <Stack direction="column" spacing={3}>
               {applications.map((application) => (
-                <Card elevation={1} style={{ background: "#fafaff" }}>
-                  <CardContent
-                    style={{
-                      display: "flex",
-                      justifyContent: "space-between",
-                      padding: "16px",
-                    }}
-                  >
-                    <div>
-                      <Typography variant="h5">Job ID:</Typography>
-                      <Typography variant="h6">{application.jobId}</Typography>
-                      <Typography variant="subtitle1">
-                        Job Title: {jobs.get(application.jobId)}
-                      </Typography>
-                    </div>
-                    <div style={{ textAlign: "right" }}>
-                      <Typography variant="h5">Application ID:</Typography>
-                      <Typography variant="h6">
-                        {application.applicationId}
-                      </Typography>
-                      <Typography variant="subtitle1">
-                        Status: {application.status}
-                      </Typography>
-                    </div>
-                  </CardContent>
-                </Card>
+                <Paper elevation={3} style={{ background: "#fafaff", borderRadius: 10 }}>
+                <CardContent>
+                  <Box display="flex" flexDirection="column">
+                    <Typography variant="h6" color="primary">
+                    {jobs.get(application.jobId)}
+                    </Typography>
+                    <Typography variant="body1" color="textSecondary">
+                      Job ID: {application.jobId}
+                    </Typography>
+                    <Divider />
+                    <Typography variant="subtitle1">
+                      Application ID: {application.applicationId}
+                    </Typography>
+                    <Typography variant="subtitle1">
+                      Status: {application.status}
+                    </Typography>
+                    <Chip
+                      label={application.status.toUpperCase()}
+                      color="primary"
+                      size="small"
+                      icon={getStatusIcon(application.status)}
+                    />
+                  </Box>
+                </CardContent>
+              </Paper>
               ))}
             </Stack>
           )}
