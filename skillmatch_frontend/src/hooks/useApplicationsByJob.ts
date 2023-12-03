@@ -4,11 +4,11 @@ import { CanceledError } from "axios";
 import { Applicant } from "../models/Applicant";
 
 export interface Application {
-  applicationId: string,
-  status: string,
-  jobId: string,
-  applicantId: string
-  applicant: Applicant
+    applicationId: string;
+    status: string;
+    jobId: string;
+    applicantId: string;
+    applicant: Applicant;
 }
 
 //jobId: "234253",
