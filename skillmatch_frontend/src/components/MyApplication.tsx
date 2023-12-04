@@ -11,7 +11,6 @@ import {
   Divider,
   Chip,
   Box,
-
 } from "@mui/material";
 import Button from "@mui/material/Button";
 import axios from "axios";
@@ -25,7 +24,7 @@ import HourglassEmptyIcon from "@mui/icons-material/HourglassEmpty";
 import PlaylistAddCheckIcon from "@mui/icons-material/PlaylistAddCheck";
 import { Link } from "react-router-dom";
 import LinkButton from "./common/LinkButton";
-
+import apiClient from "../services/api-client";
 
 export default function MyApplication() {
   const [email, setEmail] = useState("");
@@ -43,11 +42,9 @@ export default function MyApplication() {
     }
 
     try {
-      const response = await axios.get(
-        `http://localhost:8081/application/applicant/${email}`
-      );
+      const response = await apiClient.get(`/application/applicant/${email}`);
 
-      const jobsResponse = await axios.get(`http://localhost:8081/job`);
+      const jobsResponse = await apiClient.get("/job");
 
       setAppplications(response.data);
 
@@ -105,7 +102,12 @@ export default function MyApplication() {
             </Grid>
             {error && <p>{error}</p>}
 
-            <Button type="submit" variant="contained" color="primary" sx={{mt: 2}}>
+            <Button
+              type="submit"
+              variant="contained"
+              color="primary"
+              sx={{ mt: 2 }}
+            >
               Submit
             </Button>
           </form>
@@ -116,38 +118,50 @@ export default function MyApplication() {
           ) : (
             <Stack direction="column" spacing={3}>
               {applications.map((application) => (
-                <Paper elevation={3} style={{ background: "#fafaff", borderRadius: 10 }}>
-                <CardContent>
-                  <Box display="flex" flexDirection="column"><Grid container>
-                      <Grid item xs={8}>
-                        <Typography variant="h6" color="primary">
-                        {jobs.get(application.jobId)}
-                        </Typography>
-                        <Typography variant="body1" color="textSecondary">
-                          Job ID: {application.jobId}
-                        </Typography>
+                <Paper
+                  elevation={3}
+                  style={{ background: "#fafaff", borderRadius: 10 }}
+                >
+                  <CardContent>
+                    <Box display="flex" flexDirection="column">
+                      <Grid container>
+                        <Grid item xs={8}>
+                          <Typography variant="h6" color="primary">
+                            {jobs.get(application.jobId)}
+                          </Typography>
+                          <Typography variant="body1" color="textSecondary">
+                            Job ID: {application.jobId}
+                          </Typography>
+                        </Grid>
+                        <Grid item xs={4} display="flex">
+                          <Box m="auto">
+                            <LinkButton
+                              color="primary"
+                              size="medium"
+                              to={"/job/" + application.jobId}
+                            >
+                              {" "}
+                              Go to job posting
+                            </LinkButton>
+                          </Box>
+                        </Grid>
                       </Grid>
-                      <Grid item xs={4} display="flex">
-                        <Box m="auto">
-                          <LinkButton color="primary" size="medium" to={"/job/" + application.jobId}> Go to job posting</LinkButton>
-                        </Box>
-                      </Grid>
-                    </Grid>
-                    <Divider />
-                    <Typography variant="subtitle1">
-                      Application ID: {application.applicationId}
-                    </Typography>
-                    <Typography variant="subtitle1">
-                      Status: <Chip
-                      label={application.status.toUpperCase()}
-                      color="primary"
-                      size="small"
-                      icon={getStatusIcon(application.status)}
-                    />
-                    </Typography>
-                  </Box>
-                </CardContent>
-              </Paper>
+                      <Divider />
+                      <Typography variant="subtitle1">
+                        Application ID: {application.applicationId}
+                      </Typography>
+                      <Typography variant="subtitle1">
+                        Status:{" "}
+                        <Chip
+                          label={application.status.toUpperCase()}
+                          color="primary"
+                          size="small"
+                          icon={getStatusIcon(application.status)}
+                        />
+                      </Typography>
+                    </Box>
+                  </CardContent>
+                </Paper>
               ))}
             </Stack>
           )}

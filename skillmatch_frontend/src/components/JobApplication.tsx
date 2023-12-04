@@ -21,6 +21,7 @@ import { Applicant } from "../models/Applicant";
 import axios from "axios";
 import NavBar from "./common/NavBar";
 import usePosting from "../hooks/usePosting";
+import apiClient from "../services/api-client";
 
 export default function JobApplication() {
   const [workedPreviously, setWorkedPreviously] = useState("");
@@ -39,7 +40,7 @@ export default function JobApplication() {
     actualEmployer: "",
     actualJobTitle: "",
   });
-  
+
   const emailInputRef = useRef<HTMLInputElement>(null);
   const phoneInputRef = useRef<HTMLInputElement>(null);
   const [resume, setResume] = useState<File | null>(null);
@@ -62,8 +63,8 @@ export default function JobApplication() {
   };
 
   const callSubmitApplication = (formData: any) => {
-    axios
-      .post("http://localhost:8081/application", formData, {
+    apiClient
+      .post("application", formData, {
         headers: {
           "Content-Type": "multipart/form-data",
         },
@@ -81,9 +82,7 @@ export default function JobApplication() {
     jobId: string
   ): Promise<boolean> {
     try {
-      const response = await axios.get(
-        `http://localhost:8081/application/applicant/${email}/job/${jobId}`
-      );
+      const response = await apiClient.get(`/application/applicant/${email}/job/${jobId}`);
       console.log(response.data);
       console.log(response.data.applicationId);
       return response.data.applicationId === undefined ? false : true;
@@ -153,21 +152,29 @@ export default function JobApplication() {
     }
 
     // Validate email format
-    if (applicant.email && !isValidEmail(applicant.email) && emailInputRef.current) {
+    if (
+      applicant.email &&
+      !isValidEmail(applicant.email) &&
+      emailInputRef.current
+    ) {
       errors.email = "Invalid email format";
       isValid = false;
       emailInputRef.current.focus();
-      emailInputRef.current.scrollIntoView({ behavior: 'smooth' });
+      emailInputRef.current.scrollIntoView({ behavior: "smooth" });
     }
-    console.log(applicant.phoneNumber)
-    console.log(isValidPhoneNumber(applicant.phoneNumber))
+    console.log(applicant.phoneNumber);
+    console.log(isValidPhoneNumber(applicant.phoneNumber));
     // Validate mobile number format
-    if (applicant.phoneNumber && !isValidPhoneNumber(applicant.phoneNumber) && phoneInputRef.current) {
+    if (
+      applicant.phoneNumber &&
+      !isValidPhoneNumber(applicant.phoneNumber) &&
+      phoneInputRef.current
+    ) {
       errors.phoneNumber =
         "Invalid phone number. Format should be '+1 (XXX) XXX-XXXX'";
       isValid = false;
       phoneInputRef.current.focus();
-      phoneInputRef.current.scrollIntoView({ behavior: 'smooth' });
+      phoneInputRef.current.scrollIntoView({ behavior: "smooth" });
     }
 
     if (!workedPreviously) {

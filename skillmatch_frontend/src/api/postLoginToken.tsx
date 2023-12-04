@@ -1,21 +1,19 @@
+import apiClient from "../services/api-client";
+
 export const postLoginToken = async (idToken: string) => {
-  const API_URL = "http://localhost:8081";
-  const path = '/v1/oauth/login';
+  const path = "/v1/oauth/login";
 
   try {
-    const response = await fetch(`${API_URL}${path}`, {
-      method: 'POST',
-      credentials: 'include', // include, *same-origin, omit
+    const response: any = await apiClient.post(path, JSON.stringify(idToken), {
       headers: {
-        Accept: 'application/json',
-        'Content-Type': 'application/json',
+        Accept: "application/json",
+        "Content-Type": "application/json",
       },
-      body: JSON.stringify(idToken), 
     });
-    if (!response.ok) throw new Error('bad server condition');
+    if (response.status !== 200) throw new Error("bad server condition");
     return true;
   } catch (e: any) {
-    console.error('postLoginToken Error: ', e.message);
+    console.error("postLoginToken Error: ", e.message);
     return false;
   }
 };
