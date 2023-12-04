@@ -23,6 +23,8 @@ import CheckCircleIcon from "@mui/icons-material/CheckCircle";
 import ErrorIcon from "@mui/icons-material/Error";
 import HourglassEmptyIcon from "@mui/icons-material/HourglassEmpty";
 import PlaylistAddCheckIcon from "@mui/icons-material/PlaylistAddCheck";
+import { Link } from "react-router-dom";
+import LinkButton from "./common/LinkButton";
 
 
 export default function MyApplication() {
@@ -116,26 +118,33 @@ export default function MyApplication() {
               {applications.map((application) => (
                 <Paper elevation={3} style={{ background: "#fafaff", borderRadius: 10 }}>
                 <CardContent>
-                  <Box display="flex" flexDirection="column">
-                    <Typography variant="h6" color="primary">
-                    {jobs.get(application.jobId)}
-                    </Typography>
-                    <Typography variant="body1" color="textSecondary">
-                      Job ID: {application.jobId}
-                    </Typography>
+                  <Box display="flex" flexDirection="column"><Grid container>
+                      <Grid item xs={8}>
+                        <Typography variant="h6" color="primary">
+                        {jobs.get(application.jobId)}
+                        </Typography>
+                        <Typography variant="body1" color="textSecondary">
+                          Job ID: {application.jobId}
+                        </Typography>
+                      </Grid>
+                      <Grid item xs={4} display="flex">
+                        <Box m="auto">
+                          <LinkButton color="primary" size="medium" to={"/job/" + application.jobId}> Go to job posting</LinkButton>
+                        </Box>
+                      </Grid>
+                    </Grid>
                     <Divider />
                     <Typography variant="subtitle1">
                       Application ID: {application.applicationId}
                     </Typography>
                     <Typography variant="subtitle1">
-                      Status: {application.status}
-                    </Typography>
-                    <Chip
+                      Status: <Chip
                       label={application.status.toUpperCase()}
                       color="primary"
                       size="small"
                       icon={getStatusIcon(application.status)}
                     />
+                    </Typography>
                   </Box>
                 </CardContent>
               </Paper>
