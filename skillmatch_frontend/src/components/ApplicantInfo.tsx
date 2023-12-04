@@ -400,9 +400,6 @@ const ApplicantInfo = () => {
                       </Grid>
                     </Grid>
                     <br />
-                    <Divider />
-                    <br />
-                    <h3>Notes</h3>
                   </CustomTabPanel>
                   <CustomTabPanel value={value} index={1}>
                     {resume ? (
