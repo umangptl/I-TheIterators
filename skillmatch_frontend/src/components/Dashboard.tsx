@@ -3,6 +3,7 @@ import { useNavigate } from "react-router-dom";
 import { useLoginContext } from "../hooks/useLoginContext";
 import {
   Container,
+  Divider,
   FormControl,
   Grid,
   MenuItem,
@@ -16,6 +17,10 @@ import NavBar from "./common/NavBar";
 import { useApplicationsContext } from "../hooks/ApplicationsContext";
 import { useJobsContext } from "../hooks/JobsContext";
 import { useApplicantsContext } from "../hooks/ApplicantsContext";
+import SpecificJobTimeLeftChart from "./charts/SpecificJobTimeLeftChart";
+import GetJobName from "./common/GetJobName";
+import { Link } from "react-router-dom";
+import ApplicantTable from "./charts/ApplicantTable";
 
 const Dashboard = () => {
   const [isLoading, setIsLoading] = useState(true);
@@ -60,6 +65,12 @@ const Dashboard = () => {
     setSelectedJob(e.target.value);
   }, []);
 
+  const [selectedStatus, setSelectedStatus] = useState("-1");
+  const handleStatusDropdownChange = useCallback((e: any) => {
+    e.preventDefault();
+    setSelectedStatus(e.target.value);
+  }, []);
+
   useEffect(() => {
     if (
       applications?.length > 0 &&
@@ -69,6 +80,8 @@ const Dashboard = () => {
       setIsLoading(false);
     }
   }, [applications, jobs, applicants]);
+
+  // const userName
 
   if (isLoading) {
     return (
@@ -83,54 +96,124 @@ const Dashboard = () => {
     return (
       <>
         <NavBar />
-        <Container maxWidth="xl" style={{ marginTop: "8em" }}>
+        <Container maxWidth="xl" style={{ marginTop: "3em" }}>
           <h1>Dashboard</h1>
+          <p style={{ fontWeight: 300, fontSize: 20 }}>Welcome back!</p>
+          <Divider />
+          <br />
           <Grid container spacing={2}>
             <Grid item xs={2}>
-              <p>Filters</p>
+              <Grid item xs={12}>
+                <p style={{ fontWeight: 500, marginTop: "1em" }}>Filters:</p>
+                <FormControl fullWidth>
+                  <Select
+                    style={{ width: "100%" }}
+                    id="job-dropdown-select"
+                    value={selectedJob}
+                    onChange={handleJobDropdownChange}
+                  >
+                    <MenuItem value={"-1"} selected>
+                      All Jobs
+                    </MenuItem>
+                    {jobs.map((job, key) => (
+                      <MenuItem value={job.jobId} key={key}>
+                        {job.title} - {job.location}
+                      </MenuItem>
+                    ))}
+                  </Select>
+                </FormControl>
+                <FormControl fullWidth style={{ marginTop: "1em" }}>
+                  <Select
+                    style={{ width: "100%" }}
+                    id="status-dropdown-select"
+                    value={selectedStatus}
+                    onChange={handleStatusDropdownChange}
+                  >
+                    <MenuItem value={"-1"} selected>
+                      All Statuses
+                    </MenuItem>
+                    <MenuItem value={"PENDING"}>Application Pending</MenuItem>
+                    <MenuItem value={"INTERVIEWING"}>Interviewing</MenuItem>
+                    <MenuItem value={"SHORTLISTED"}>Shortlisted</MenuItem>
+                    <MenuItem value={"SELECTED"}>Selected</MenuItem>
+                  </Select>
+                </FormControl>
+              </Grid>
             </Grid>
-            <Grid item xs={6}>
-              <Paper elevation={3} style={{ padding: "1em" }}>
-                <h3 style={{ marginTop: 0 }}>Application Sankey Graph</h3>
-                <Grid container spacing={1}>
-                  <Grid item xs={12}>
-                    <FormControl fullWidth>
-                      <Select
-                        style={{ width: "100%" }}
-                        id="job-dropdown-select"
-                        value={selectedJob}
-                        onChange={handleJobDropdownChange}
+            <Grid item xs={7}>
+              <Paper elevation={3} style={{ marginTop: "1em", padding: "1em" }}>
+                <h3 style={{ marginTop: "0.25em" }}>
+                  Sankey Graph{" "}
+                  {selectedJob != "-1" ? (
+                    <>
+                      <GetJobName jobId={selectedJob} />
+                      <Link
+                        style={{
+                          float: "right",
+                          fontWeight: 300,
+                          textDecoration: "none",
+                        }}
+                        to={"/job/" + selectedJob}
                       >
-                        <MenuItem value={"-1"} selected>
-                          All
-                        </MenuItem>
-                        {jobs.map((job, key) => (
-                          <MenuItem value={job.jobId} key={key}>
-                            {job.title} - {job.location}
-                          </MenuItem>
-                        ))}
-                      </Select>
-                    </FormControl>
-                  </Grid>
+                        Go to Job
+                      </Link>
+                    </>
+                  ) : (
+                    <span> For All Applications</span>
+                  )}
+                </h3>
+                <Grid container spacing={1}>
                   <Grid item xs={12}>
                     <div
                       style={{
-                        height: "25em",
                         width: "112%",
                       }}
                     >
-                      <SpecificApplicationSankeyChart jobID={selectedJob} />
+                      {selectedJob != "-1" ? (
+                        <div style={{ height: "4em", width: "88%" }}>
+                          <SpecificJobTimeLeftChart jobId={selectedJob} />
+                        </div>
+                      ) : null}
+
+                      <div style={{ height: "25em" }}>
+                        <SpecificApplicationSankeyChart jobID={selectedJob} />
+                      </div>
                     </div>
                   </Grid>
                 </Grid>
               </Paper>
-            </Grid>
-            <Grid item xs={4}>
               <Paper
                 elevation={3}
-                style={{ padding: "1em", paddingBottom: "0.5em" }}
+                style={{
+                  marginTop: "1em",
+                  padding: "1em",
+                  marginBottom: "5em",
+                }}
               >
-                <h3 style={{ marginTop: 0 }}>Total Pipeline</h3>
+                <h3>
+                  Applicants{" "}
+                  {selectedJob != "-1" ? (
+                    <GetJobName jobId={selectedJob} />
+                  ) : null}
+                </h3>
+                <Divider />
+                <br />
+                <ApplicantTable
+                  jobId={selectedJob}
+                  statusSelected={selectedStatus}
+                />
+              </Paper>
+            </Grid>
+            <Grid item xs={3}>
+              <Paper
+                elevation={3}
+                style={{
+                  marginTop: "1em",
+                  padding: "1em",
+                  paddingBottom: "0.5em",
+                }}
+              >
+                <h3 style={{ marginTop: "0.25em" }}>All Jobs Pipeline</h3>
                 <p>
                   <b>Applications Pending: </b> {openApps}
                 </p>
