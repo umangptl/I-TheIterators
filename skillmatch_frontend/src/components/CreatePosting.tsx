@@ -91,6 +91,7 @@ const CreatePosting = () => {
       location: location,
       requiredQualifications: requiredQualifications,
       requiredDocuments: requiredDocuments,
+      salary: salary,
       tag: tag,
       experience: experience,
       type: type,
