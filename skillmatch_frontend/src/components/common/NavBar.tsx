@@ -30,13 +30,14 @@ NavButton.defaultProps = {
 };
 
 const loggedInPages = [
-  { path: "/", title: "Dashboard" },
+  { path: "/dashboard", title: "Dashboard" },
   { path: "/applicants", title: "Applicants" },
   { path: "/new-job", title: "New Posting" },
   { path: "/jobs", title: "All Postings" },
 ];
 
 const loggedOutPages = [
+  { path: "/", title: "Home" },
   { path: "/jobs", title: "All Postings" },
   { path: "/my-applications", title: "View Applications" },
 ];
@@ -139,14 +140,23 @@ const NavBar = () => {
               }}
             />
           </Box>
-          <Box sx={{ flexGrow: 1, textAlign: "right" }}>
+          <Box sx={{ flexGrow: 1, textAlign: "center" }}>
             <Box>{navButtoms()}</Box>
           </Box>
           <Box sx={{ flexGrow: 1, textAlign: "right" }}>{logInOutButtom()}</Box>
         </Toolbar>
         <Toolbar sx={{ display: { md: "none" } }}>
           <Box sx={{ flexGrow: 1 }} textAlign="center">
-            <Typography sx={{ mx: 4 }}>LOGO</Typography>
+          <img
+              src={logo}
+              alt="Skillmatch Logo"
+              style={{
+                width: "200px",
+                maxHeight: "100vh",
+                overflow: "hidden",
+                objectFit: "cover",
+              }}
+            />
           </Box>
           <IconButton
             color="inherit"

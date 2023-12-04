@@ -1,0 +1,55 @@
+.progressBox {
+    border: "1px solid gray"!important;
+}
+
+.MuiChip-label, .MuiChip-labelMedium, .css-6od3lo-MuiChip-label {
+    padding: 2em!important;
+}
+
+.css-1uoe7wy-MuiChip-root {
+    border-radius: 2px!important;
+}
+
+.css-1uoe7wy-MuiChip-root {
+    width: 90%;
+}
+
+.currentStageOverview {
+    width: 30%!important;
+    border-radius: 25px!important;
+}
+
+.stageSelectedPending {
+    background-color: #DFCCFB!important;
+}
+
+.stageSelectedRejected {
+    background-color: #DF2E38!important;
+}
+
+.stageSelectedInterviewing {
+    background-color: #FFD966!important;
+}
+
+.stageSelectedShortlisted {
+    background-color: #8EA7E9!important;
+}
+
+.stageSelectedSent {
+    background-color: #9ED2BE!important;
+}
+
+.stageSelectedWithdrawn {
+    background-color: #9A8194!important;
+}
+
+.contactInfoHeader {
+    color: slategray;
+    font-weight: 350;
+}
+
+.loadingInvisible {
+    visibility: hidden;
+    position: absolute;
+    margin-left: 1.5em;
+}
