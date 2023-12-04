@@ -12,13 +12,21 @@ jobs:
 
     steps:
     - uses: actions/checkout@v3
+    - name: Set up JDK
+      uses: actions/setup-java@v4.0.0
+      with:
+        java-version: '17'
+        distribution: 'adopt'
+        cache: maven
+    - name: Build
+      run: mvn -f SkillMatch/pom.xml clean install -DskipTests
     - name: Login Dockerhub
       env:
-        DOCKER_USERNAME: ${{ DOCKER_USERNAME }}
-        DOCKER_PASSWORD: ${{ DOCKER_PASSWORD }}
+        DOCKER_USERNAME: ${{ secrets.DOCKER_USERNAME }}
+        DOCKER_PASSWORD: ${{ secrets.DOCKER_PASSWORD }}
       run: docker login -u $DOCKER_USERNAME -p $DOCKER_PASSWORD
       
     - name: Build the Docker image
-      run: docker build -t tayadeabhilash/skillmatch .
+      run: docker build -t tayadeabhilash/skillmatch ./SkillMatch
     - name: Push to Dockerhub
       run: docker push tayadeabhilash/skillmatch:latest
