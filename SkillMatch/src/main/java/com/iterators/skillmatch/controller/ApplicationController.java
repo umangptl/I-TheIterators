@@ -37,6 +37,7 @@ public class ApplicationController {
     @GetMapping("/{applicationId}/resume")
     public Binary getResumeById(@PathVariable String applicationId) throws GlobalException {
         return applicationService.viewResume(applicationId);
+
     }
 
     @GetMapping("/applicant/{emailId}")

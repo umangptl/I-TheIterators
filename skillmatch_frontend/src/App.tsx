@@ -18,7 +18,6 @@ import Confirmation from "./components/Confirmation";
 import MyApplication from "./components/MyApplication";
 import JobApplicants from "./components/JobApplicants";
 import Home from "./components/Home";
-
 import { ApplicationsProvider } from "./hooks/ApplicationsContext";
 import { JobsProvider } from "./hooks/JobsContext";
 import { ApplicantsProvider } from "./hooks/ApplicantsContext";
