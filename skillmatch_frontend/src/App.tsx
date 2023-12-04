@@ -21,6 +21,7 @@ import Home from "./components/Home";
 import { ApplicationsProvider } from "./hooks/ApplicationsContext";
 import { JobsProvider } from "./hooks/JobsContext";
 import { ApplicantsProvider } from "./hooks/ApplicantsContext";
+import apiClient from "./services/api-client";
 
 function App() {
   const [isLogin, setIsLogin] = useState(false);
@@ -28,10 +29,8 @@ function App() {
 
   useEffect(() => {
     const initLogin = async () => {
-      axios
-        .get("http://localhost:8081/v1/oauth/keepalive", {
-          withCredentials: true,
-        })
+      apiClient
+        .get("/v1/oauth/keepalive")
         .then(() => setIsLogin(true))
         .catch((err) => console.log(err));
     };
