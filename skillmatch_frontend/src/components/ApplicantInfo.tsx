@@ -26,12 +26,12 @@ import usePutApplicationsByJob from "../hooks/usePutApplication";
 import useResume from "../hooks/useResume";
 
 const ApplicantInfo = () => {
-  const { isLogin, setIsLogin } = useLoginContext();
-  const navigate = useNavigate();
+  // const { isLogin, setIsLogin } = useLoginContext();
+  // const navigate = useNavigate();
 
-  useEffect(() => {
-    if (!isLogin) navigate("/login");
-  }, [isLogin, navigate]);
+  // useEffect(() => {
+  //   if (!isLogin) navigate("/login");
+  // }, [isLogin, navigate]);
 
   const { applicationId } = useParams<{ applicationId: string }>();
   const { resume } = useResume(applicationId);
