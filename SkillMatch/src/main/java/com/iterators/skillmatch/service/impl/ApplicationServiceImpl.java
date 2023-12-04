@@ -120,10 +120,10 @@ public class ApplicationServiceImpl implements ApplicationService {
     }
 
     @Override
-    public byte[] viewResume(String applicationId) throws GlobalException {
+    public Binary viewResume(String applicationId) throws GlobalException {
         try {
-            Binary binaryResume = applicationRepository.findById(applicationId).get().getApplicant().getResume();
-            return binaryResume.getData();
+            return applicationRepository.findById(applicationId).get().getApplicant().getResume();
+
         } catch (Exception exception) {
             logger.error("Error getting resume for application id : {}", applicationId);
             throw new GlobalException(exception.getMessage(), exception);

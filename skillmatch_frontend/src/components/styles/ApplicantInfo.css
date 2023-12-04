@@ -49,6 +49,7 @@
 }
 
 .loadingInvisible {
-    /* visibility: hidden; */
+    visibility: hidden;
     position: absolute;
+    margin-left: 1.5em;
 }

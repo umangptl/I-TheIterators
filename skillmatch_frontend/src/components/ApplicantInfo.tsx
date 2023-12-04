@@ -1,4 +1,5 @@
-import React, { useCallback, useReducer, useRef, useState } from "react";
+import React, { useState, useEffect } from "react";
+import { useNavigate } from "react-router-dom";
 import {
   Grid,
   Container,
@@ -9,7 +10,6 @@ import {
   Button,
   CircularProgress,
 } from "@mui/material";
-import ExpandMoreIcon from "@mui/icons-material/ExpandMore";
 import NavBar from "./common/NavBar";
 import { useLoginContext } from "../hooks/useLoginContext";
 import { useParams } from "react-router-dom";
@@ -23,24 +23,19 @@ import { useJobsContext } from "../hooks/JobsContext";
 import CurrentStageChip from "./common/CurrentStageChip";
 import CurrentStageChipOverview from "./common/CurrentStageChipOverview";
 import usePutApplicationsByJob from "../hooks/usePutApplication";
+import useResume from "../hooks/useResume";
 
 const ApplicantInfo = () => {
-  // const { isLogin, setIsLogin } = useLoginContext();
-  // const navigate = useNavigate();
-  // const [alert, setAlert] = useState(false);
+  const { isLogin, setIsLogin } = useLoginContext();
+  const navigate = useNavigate();
 
-  // useEffect(() => {
-  //     if (!isLogin) navigate("/login");
-  // }, [isLogin, navigate]);
+  useEffect(() => {
+    if (!isLogin) navigate("/login");
+  }, [isLogin, navigate]);
 
   const { applicationId } = useParams<{ applicationId: string }>();
-
-  // const { application, setApplication, applicationError } =
-  //   useApplicant(applicantId);
-
-  // const { job, setJob, error: jobError } = useJob(application?.jobId);
-
-  const { applications, setApplications, error } = useApplicationsContext();
+  const { resume } = useResume(applicationId);
+  const { applications } = useApplicationsContext();
   const { jobs } = useJobsContext();
 
   let filteredApplications: any = [];
@@ -55,7 +50,6 @@ const ApplicantInfo = () => {
     filteredJobs = jobs.filter(
       (job) => job.jobId == filteredApplications[0].jobId
     );
-    console.log("Filtering jobs");
   }
 
   interface TabPanelProps {
@@ -63,10 +57,6 @@ const ApplicantInfo = () => {
     index: number;
     value: number;
   }
-
-  type skillForMap = {
-    skill: any;
-  };
 
   function CustomTabPanel(props: TabPanelProps) {
     const { children, value, index, ...other } = props;
@@ -101,15 +91,6 @@ const ApplicantInfo = () => {
     setValue(newValue);
   };
 
-  console.log("Applications: ");
-  console.log(applications);
-  console.log("Filtered: ");
-  console.log(filteredApplications?.[0]);
-  console.log("Jobs: ");
-  console.log(jobs);
-  console.log("Filtered Jobs: ");
-  console.log(filteredJobs?.[0]);
-
   const {
     updateApplicationStatus,
     isLoading,
@@ -130,8 +111,7 @@ const ApplicantInfo = () => {
     await updateApplicationStatus(applicationId, newStatus);
   };
 
-  // const [loadingClick, setLoadingClick] = useState(false);
-  let loadingClick = false;
+  const [loadingClick, setLoadingClick] = useState(false);
 
   if (filteredJobs.length > 0 && filteredApplications.length > 0) {
     let activeChipClass = "";
@@ -166,9 +146,7 @@ const ApplicantInfo = () => {
 
     const handleRejectButton = async (e: any) => {
       e.preventDefault();
-      // setLoadingClick(true);
-      loadingClick = true;
-      console.log("Rejected!");
+      setLoadingClick(true);
       let applicationIDToUpdate: string = filteredApplications[0].applicationId;
       await handleUpdateApplicationStatus(applicationIDToUpdate, "REJECTED");
       window.location.reload();
@@ -176,9 +154,7 @@ const ApplicantInfo = () => {
 
     const handleMoveForwardButton = async (e: any) => {
       e.preventDefault();
-      // setLoadingClick(true);
-      loadingClick = true;
-      console.log("Moved Forward!");
+      setLoadingClick(true);
       let applicationIDToUpdate: string = filteredApplications[0].applicationId;
       let nextStatus: ApplicationStatus;
       switch (filteredApplications[0].status) {
@@ -223,7 +199,7 @@ const ApplicantInfo = () => {
     return (
       <>
         <NavBar />
-        <Container maxWidth="xl" style={{ marginTop: "7.5em" }}>
+        <Container maxWidth="xl" style={{ marginTop: "5em" }}>
           <Grid container spacing={1}>
             <Grid item xs={5}>
               <Paper
@@ -429,10 +405,8 @@ const ApplicantInfo = () => {
                     <h3>Notes</h3>
                   </CustomTabPanel>
                   <CustomTabPanel value={value} index={1}>
-                    {filteredApplications?.[0].applicant.resume ? (
-                      <ApplicantResume
-                        base64={filteredApplications?.[0].applicant.resume.data}
-                      />
+                    {resume ? (
+                      <ApplicantResume base64={resume?.data} />
                     ) : (
                       <p>No Resume provided</p>
                     )}
@@ -486,7 +460,6 @@ const ApplicantInfo = () => {
                     </p>
                     <p>
                       <span style={{ fontWeight: 600 }}>Skills: </span>
-                      {console.log(filteredJobs?.[0].skillsRequired)}
                       {filteredJobs?.[0].skillsRequired.map((skill: any) => {
                         return <span>{skill} </span>;
                       })}

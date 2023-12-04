@@ -3,6 +3,7 @@ package com.iterators.skillmatch.service;
 import com.iterators.skillmatch.exception.GlobalException;
 import com.iterators.skillmatch.model.Application;
 import com.iterators.skillmatch.model.enums.ApplicationStatus;
+import org.bson.types.Binary;
 
 import java.util.List;
 
@@ -17,5 +18,5 @@ public interface ApplicationService {
     void updateApplication(String applicationId, ApplicationStatus applicationStatus) throws GlobalException;
     void updateApplicationsByJobId(String jobId, ApplicationStatus applicationStatus) throws GlobalException;
     void addApplication(Application application) throws GlobalException;
-    byte[] viewResume(String applicationId) throws GlobalException;
+    Binary viewResume(String applicationId) throws GlobalException;
 }
