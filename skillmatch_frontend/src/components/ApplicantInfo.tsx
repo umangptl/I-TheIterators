@@ -35,7 +35,6 @@ const ApplicantInfo = () => {
 
   const { applicationId } = useParams<{ applicationId: string }>();
   const { resume } = useResume(applicationId);
-  console.log(resume);
   const { applications } = useApplicationsContext();
   const { jobs } = useJobsContext();
 
@@ -51,7 +50,6 @@ const ApplicantInfo = () => {
     filteredJobs = jobs.filter(
       (job) => job.jobId == filteredApplications[0].jobId
     );
-    console.log("Filtering jobs");
   }
 
   interface TabPanelProps {
@@ -92,15 +90,6 @@ const ApplicantInfo = () => {
   const handleChange = (event: React.SyntheticEvent, newValue: number) => {
     setValue(newValue);
   };
-
-  console.log("Applications: ");
-  console.log(applications);
-  console.log("Filtered: ");
-  console.log(filteredApplications?.[0]);
-  console.log("Jobs: ");
-  console.log(jobs);
-  console.log("Filtered Jobs: ");
-  console.log(filteredJobs?.[0]);
 
   const {
     updateApplicationStatus,
@@ -416,8 +405,8 @@ const ApplicantInfo = () => {
                     <h3>Notes</h3>
                   </CustomTabPanel>
                   <CustomTabPanel value={value} index={1}>
-                    {filteredApplications?.[0].applicant.resume ? (
-                      <ApplicantResume base64={resume} />
+                    {resume ? (
+                      <ApplicantResume base64={resume?.data} />
                     ) : (
                       <p>No Resume provided</p>
                     )}
@@ -471,7 +460,6 @@ const ApplicantInfo = () => {
                     </p>
                     <p>
                       <span style={{ fontWeight: 600 }}>Skills: </span>
-                      {console.log(filteredJobs?.[0].skillsRequired)}
                       {filteredJobs?.[0].skillsRequired.map((skill: any) => {
                         return <span>{skill} </span>;
                       })}
