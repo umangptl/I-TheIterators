@@ -13,6 +13,10 @@ import { useLoginContext } from "../../hooks/useLoginContext";
 import LinkButton from "../common/LinkButton";
 import { Job } from "../../models/Job";
 import { Applicant } from "../../models/Applicant";
+import CheckCircleIcon from "@mui/icons-material/CheckCircle";
+import ErrorIcon from "@mui/icons-material/Error";
+import HourglassEmptyIcon from "@mui/icons-material/HourglassEmpty";
+import PlaylistAddCheckIcon from "@mui/icons-material/PlaylistAddCheck";
 
 interface Props {
   application: Application;
@@ -34,6 +38,21 @@ const ApplicationCard = ({ application, job }: Props) => {
   }
   const applicant = application.applicant;
 
+  const getStatusIcon = (status: any) => {
+    switch (status) {
+      case "SELECTED":
+        return <CheckCircleIcon color="primary" />;
+      case "REJECTED":
+        return <ErrorIcon color="error" />;
+      case "PENDING":
+        return <HourglassEmptyIcon color="info" />;
+      case "SHORTLISTED":
+        return <PlaylistAddCheckIcon color="warning" />;
+      default:
+        return <PlaylistAddCheckIcon color="warning" />;
+    }
+  };
+
   return (
     <Card elevation={2} sx={{ padding: 2, backgroundColor: "#fafaff" }}>
       <CardContent>
@@ -44,7 +63,8 @@ const ApplicationCard = ({ application, job }: Props) => {
             </Typography>
             <Typography>
               {applicant.actualJobTitle !== "" &&
-              applicant.actualJobTitle !== null ? (
+              applicant.actualJobTitle !== null &&
+              applicant.actualJobTitle.toLowerCase() !== "unemployed" ? (
                 <>
                   {applicant.actualJobTitle} at {applicant.actualEmployer}
                 </>
@@ -58,7 +78,14 @@ const ApplicationCard = ({ application, job }: Props) => {
           </Grid>
           <Grid item xs={5}>
             <Typography variant="h5">{job?.title}</Typography>
-            <Typography>{application.status}</Typography>
+            <Chip
+                label={application.status.toUpperCase()}
+                color="primary"
+                size="medium"
+                icon={getStatusIcon(application.status)}
+                sx={{mt:1.5}}
+              />
+            {/* <Typography>{application.status}</Typography> */}
           </Grid>
         </Grid>
       </CardContent>
