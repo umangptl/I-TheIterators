@@ -182,7 +182,14 @@ const Dashboard = () => {
                   </Grid>
                 </Grid>
               </Paper>
-              <Paper elevation={3} style={{ marginTop: "1em", padding: "1em" }}>
+              <Paper
+                elevation={3}
+                style={{
+                  marginTop: "1em",
+                  padding: "1em",
+                  marginBottom: "5em",
+                }}
+              >
                 <h3>
                   Applicants{" "}
                   {selectedJob != "-1" ? (
