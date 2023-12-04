@@ -4,8 +4,8 @@ export interface Applicant {
   lastName: string;
   phoneNumber: string;
   address: string;
-  resume: Uint32Array | undefined;
-  coverLetter: Uint32Array | undefined;
+  resume: any;
+  coverLetter: any;
   actualJobTitle: string;
   actualEmployer: string;
 }

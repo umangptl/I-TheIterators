@@ -35,12 +35,9 @@ public class ApplicationController {
     }
 
     @GetMapping("/{applicationId}/resume")
-    public ResponseEntity<ByteArrayResource> getResumeById(@PathVariable String applicationId) throws GlobalException {
+    public Binary getResumeById(@PathVariable String applicationId) throws GlobalException {
+        return applicationService.viewResume(applicationId);
 
-        return ResponseEntity.ok()
-                .contentType(MediaType.MULTIPART_FORM_DATA)
-                .header(HttpHeaders.CONTENT_DISPOSITION, "attachment; filename=\"" + "resume.pdf" + "\"")
-                .body(new ByteArrayResource(applicationService.viewResume(applicationId)));
     }
 
     @GetMapping("/applicant/{emailId}")

@@ -84,4 +84,4 @@ const TotalPipelineChart = (props: applicationsData) => {
         />
     );
 };
-export default TotalPipelineChart;
+export default React.memo(TotalPipelineChart);
