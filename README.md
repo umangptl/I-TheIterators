@@ -27,3 +27,17 @@ Java Spring Boot: A Java-based framework used for building robust and scalable b
 Database Management:
 MongoDB: A NoSQL database used for efficient and scalable data storage. MongoDB is chosen for its flexibility and ability to handle large datasets. 
 
+### Screenshots
+
+**note**❗These might not be the end product screenshots but while in development 
+
+<img src="https://github.com/umangptl/I-TheIterators/blob/main/pictures/image%20(2).png" width="80%" alt="Home-Page">
+<img src="https://github.com/umangptl/I-TheIterators/blob/main/pictures/image%20(7).png" width="80%" alt="Home-Page">
+<img src="https://github.com/umangptl/I-TheIterators/blob/main/pictures/Image%20(5).png" width="80%" alt="Home-Page">
+<img src="https://github.com/umangptl/I-TheIterators/blob/main/pictures/image%20(1).png" width="80%" alt="Home-Page">
+<img src="https://github.com/umangptl/I-TheIterators/blob/main/pictures/image%20(3).png" width="80%" alt="Home-Page">
+<img src="https://github.com/umangptl/I-TheIterators/blob/main/pictures/Image%20(4).png" width="80%" alt="Home-Page">
+<img src="https://github.com/umangptl/I-TheIterators/blob/main/pictures/image%20(6).png" width="80%" alt="Home-Page">
+
+**note**❗These might not be the end product screenshots but while in development 
+
